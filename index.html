@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aethel 4 · Ligas ELO & Feed</title>
+  <title>Aethel 4 · Ligas ELO & Admin</title>
   <style>
     /* ===== RESET Y ESTILOS BASE ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -138,7 +138,7 @@
     .rango-info { display: flex; flex-direction: column; }
     .rango-info .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #8A8F9A; }
     .rango-info .imc { font-size: 12px; color: #8A8F9A; margin-top: 4px; }
-    .rango-badge { font-size: 28px; font-weight: 700; line-height: 1; display: flex; align-items: center; gap: 6px; }
+    .rango-badge { font-size: 24px; font-weight: 700; line-height: 1; display: flex; align-items: center; gap: 6px; }
 
     .puntos { background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 18px 20px; margin-bottom: 28px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;}
     .puntos-label { font-size: 13px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; }
@@ -248,9 +248,11 @@
     .stat-box .val { font-size: 20px; color: #E8E6E3; font-weight: 300; }
     .stat-box .val span { font-size: 12px; color: #5A6070; }
     
-    /* MODAL EDITAR */
+    /* MODAL EDITAR & ADMIN */
     .input-group { margin-bottom: 22px; transition: all 0.3s ease; }
-    
+    .admin-panel { background: rgba(231, 76, 60, 0.1); border: 1px dashed #E74C3C; padding: 16px; border-radius: 12px; margin-top: 20px; }
+    .admin-panel h3 { color: #E74C3C; font-size: 14px; margin-bottom: 10px; letter-spacing: 1px; }
+
     /* CONSOLA SECRETA */
     .btn-secreto { position: absolute; bottom: 5px; right: 20px; color: rgba(255,255,255,0.1); cursor: pointer; font-size: 12px; font-family: monospace; z-index: 50; }
     .modal-consola { background: #000; border: 1px solid #E74C3C; box-shadow: 0 0 40px rgba(231, 76, 60, 0.2); }
@@ -260,7 +262,17 @@
     @media (max-width: 520px) {
       .card { padding: 24px 16px 16px; }
       .header h1 { font-size: 22px; letter-spacing: 6px; }
-      .rango-container { flex-direction: row; padding: 14px 16px; }
+      
+      .rango-container { 
+        flex-direction: column; 
+        text-align: center; 
+        gap: 8px; 
+        padding: 16px; 
+      }
+      .rango-info { align-items: center; }
+      .rango-badge { font-size: 20px; justify-content: center; text-align: center; }
+      
+      .puntos-valor { font-size: 36px; }
       .drawer { width: 85%; }
     }
   </style>
@@ -434,6 +446,25 @@
                 <div class="barra"><div id="friendSuenoBarra" style="width: 0%;"></div></div>
               </div>
             </div>
+
+            <!-- PANEL ADMIN VISIBLE SOLO PARA TU CORREO -->
+            <div id="adminControlPanel" class="admin-panel hidden">
+              <h3>🛡️ PANEL DE GUILD MASTER (ADMIN)</h3>
+              <div class="input-group" style="margin-bottom:12px;">
+                <label>Ajustar Entrenamientos aprobados:</label>
+                <input type="number" id="adminInputAct" style="padding:8px;" />
+              </div>
+              <div class="input-group" style="margin-bottom:12px;">
+                <label>Ajustar Pruebas de Sueño válidas:</label>
+                <input type="number" id="adminInputSueno" step="0.5" style="padding:8px;" />
+              </div>
+              <div class="input-group" style="margin-bottom:12px;">
+                <label>Ajustar Kilos (Ej: 2.5 o -1.0):</label>
+                <input type="number" id="adminInputKilos" step="0.1" style="padding:8px;" />
+              </div>
+              <button class="btn-base primario" id="btnGuardarAdmin" style="padding:10px; font-size:14px; letter-spacing:1px;">Aplicar Cambios Admin</button>
+            </div>
+
           </div>
 
           <div id="friendFeedSection" class="hidden">
@@ -586,6 +617,7 @@
     const db = window.fbDb;
 
     const IMGBB_API_KEY = "37e78e69061e8c13a2e7a9c8e50503de";
+    const ADMIN_EMAIL = "noctiansa@gmail.com"; // Llave Maestra del Guild Master
 
     let usuarioActualUid = null;
     let usuario = { 
@@ -685,7 +717,7 @@
       if(confirm(`¿Desvincular a ${nombreAmigo} de tu Alianza?`)) { usuario.amigos = usuario.amigos.filter(n => n !== nombreAmigo); await guardarDatosUsuario(); renderizarAmigos(); }
     };
 
-    // VISITA AMIGO EN TIEMPO REAL CON PERFIL COMPLETO
+    // VISITA AMIGO EN TIEMPO REAL CON PERFIL COMPLETO Y PANEL ADMIN
     window.abrirVisitaAmigo = function(amigoData, ptsTotales, amigoUid) {
       const rango = obtenerRango(ptsTotales);
       currentAmigoView = { data: amigoData, rango: rango, uid: amigoUid };
@@ -732,6 +764,17 @@
       document.getElementById('friendSuenoPromedio').textContent = `Promedio: ${prom}h`;
       let pctSueno = (fSueno / 30) * 100; if (pctSueno > 100) pctSueno = 100;
 
+      // VALIDACIÓN ADMIN SUPREMO (noctiansa@gmail.com)
+      const panelAdmin = document.getElementById('adminControlPanel');
+      if (auth.currentUser && auth.currentUser.email === ADMIN_EMAIL) {
+          panelAdmin.classList.remove('hidden');
+          document.getElementById('adminInputAct').value = fAct;
+          document.getElementById('adminInputSueno').value = fSueno;
+          document.getElementById('adminInputKilos').value = amigoData.kilos || 0;
+      } else {
+          panelAdmin.classList.add('hidden');
+      }
+
       setTimeout(() => {
         document.getElementById('friendActividadBarra').style.width = pctAct + '%';
         document.getElementById('friendSuenoBarra').style.width = pctSueno + '%';
@@ -769,6 +812,19 @@
         });
       });
     };
+
+    // BOTÓN DE APLICAR CAMBIOS ADMIN (ENTRENAMIENTO, SUEÑO Y KILOS)
+    document.getElementById('btnGuardarAdmin').addEventListener('click', async () => {
+      if(!currentAmigoView) return;
+      const nuevoAct = parseInt(document.getElementById('adminInputAct').value) || 0;
+      const nuevoSueno = parseFloat(document.getElementById('adminInputSueno').value) || 0;
+      const nuevoKilos = parseFloat(document.getElementById('adminInputKilos').value) || 0;
+
+      const amigoRef = doc(db, "usuarios", currentAmigoView.uid);
+      await updateDoc(amigoRef, { actividad: nuevoAct, suenoPruebas: nuevoSueno, kilos: nuevoKilos });
+      alert('🛡️ Liga y parámetros del aliado ajustados por el Guild Master.');
+      document.getElementById('btnVolverMiPerfil').click();
+    });
 
     window.votarPostAmigo = async function(amigoUid, firebaseId, esPositivo) {
       const postRef = doc(db, "usuarios", amigoUid, "historial", firebaseId);
@@ -917,7 +973,7 @@
         
         let spotifyHTML = '';
         if (post.tipo === 'musica' || post.tipo === 'ambos') {
-          const meta = post.spotifyMeta || { cover: '', title: 'Abrir en Spotify', url: '' };
+          const meta = post.spotifyMeta || { cover: '', title: 'Abrir in Spotify', url: '' };
           const coverTag = meta.cover ? `<img src="${meta.cover}" class="spotify-link-cover" />` : `<div class="spotify-link-cover" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🎵</div>`;
           spotifyHTML = `
             <a href="${meta.url}" target="_blank" class="spotify-link-card">
@@ -1080,7 +1136,6 @@
       avatarEl.className = `avatar ${rango.clase}`;
       if (usuario.avatarUrl) { avatarEl.innerHTML = `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />`; } else { avatarEl.innerHTML = `<span>${usuario.nombre ? usuario.nombre.charAt(0).toUpperCase() : '?'}</span>`; }
       
-      // Eliminamos visualización de IMC en el rango, lo dejamos para el ojo.
       let pAct = usuario.actividad || 0;
       document.getElementById('actividadValor').textContent = `${pAct} / 30`; 
       let pctAct = (pAct / 30) * 100; if (pctAct > 100) pctAct = 100; 
