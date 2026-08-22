@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aethel 4 · Rango IMC + Feed</title>
+  <title>Aethel 4 · Ligas ELO & Feed</title>
   <style>
     /* ===== RESET Y ESTILOS BASE ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -100,29 +100,47 @@
     .links a:hover { color: #2ECC71; text-shadow: 0 0 20px rgba(46, 204, 113, 0.1); }
     .message { margin-top: 20px; text-align: center; font-size: 14px; display: none; padding: 8px; border-radius: 6px; background: rgba(0, 0, 0, 0.3); }
 
-    /* ===== PERFIL SUPERIOR ===== */
+    /* ===== PERFIL SUPERIOR Y AVATARES ===== */
     .profile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; margin-bottom: 10px; text-align: center; }
-    .avatar { width: 120px; height: 120px; background: linear-gradient(135deg, #1A2A4A, #13203A); border-radius: 20px; display: flex; justify-content: center; align-items: center; font-size: 46px; color: #E8E6E3; font-weight: 500; border: 1px solid #2ECC71; flex-shrink: 0; overflow: hidden; position: relative; box-shadow: 0 0 30px rgba(46, 204, 113, 0.25); transition: all 0.3s ease; }
-    .avatar:hover { box-shadow: 0 0 50px rgba(46, 204, 113, 0.4); transform: scale(1.02); }
+    .avatar { width: 120px; height: 120px; background: linear-gradient(135deg, #1A2A4A, #13203A); border-radius: 20px; display: flex; justify-content: center; align-items: center; font-size: 46px; color: #E8E6E3; font-weight: 500; border: 2px solid rgba(255,255,255,0.1); flex-shrink: 0; overflow: hidden; position: relative; transition: all 0.3s ease; }
     .avatar img { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1; }
     .info h2 { font-size: 24px; color: #E8E6E3; font-weight: 400; letter-spacing: 1px; }
     .details { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 20px; margin-top: 8px; font-size: 14px; color: #8A8F9A; }
     .details strong { color: #E8E6E3; font-weight: 500; }
     .dia-tag { background: rgba(243, 156, 18, 0.1); color: #F39C12; border: 1px solid rgba(243, 156, 18, 0.3); font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: 500; letter-spacing: 1px; margin-bottom: 20px; }
 
-    /* ===== RANGO Y PUNTOS ===== */
-    .rango-container { position: relative; background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 16px 20px; margin-bottom: 28px; border: 1px solid rgba(46, 204, 113, 0.05); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    /* ===== LIGAS ELO (COLORES Y AURA NEÓN) ===== */
+    .rango-cobre .rango-badge { color: #B87333; text-shadow: 0 0 10px rgba(184, 115, 51, 0.3); }
+    .rango-cobre { border-color: rgba(184, 115, 51, 0.3); }
+    .avatar.cobre, .amigo-avatar.cobre, .feed-avatar.cobre { border-color: #B87333; box-shadow: 0 0 15px rgba(184, 115, 51, 0.2); }
+
+    .rango-bronce .rango-badge { color: #CD7F32; text-shadow: 0 0 15px rgba(205, 127, 50, 0.4); }
+    .rango-bronce { border-color: rgba(205, 127, 50, 0.4); }
+    .avatar.bronce, .amigo-avatar.bronce, .feed-avatar.bronce { border-color: #CD7F32; box-shadow: 0 0 20px rgba(205, 127, 50, 0.3); }
+
+    .rango-plata .rango-badge { color: #E5E4E2; text-shadow: 0 0 20px rgba(229, 228, 226, 0.6); }
+    .rango-plata { border-color: rgba(229, 228, 226, 0.5); }
+    .avatar.plata, .amigo-avatar.plata, .feed-avatar.plata { border-color: #E5E4E2; box-shadow: 0 0 30px rgba(229, 228, 226, 0.4); }
+
+    .rango-oro .rango-badge { color: #FFD700; text-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
+    .rango-oro { border-color: rgba(255, 215, 0, 0.6); }
+    .avatar.oro, .amigo-avatar.oro, .feed-avatar.oro { border-color: #FFD700; box-shadow: 0 0 40px rgba(255, 215, 0, 0.5); }
+
+    .rango-platino .rango-badge { color: #00FFFF; animation: latidoPlatino 2s infinite; }
+    .rango-platino { border-color: rgba(0, 255, 255, 0.8); }
+    .avatar.platino, .amigo-avatar.platino, .feed-avatar.platino { border-color: #00FFFF; animation: latidoPlatinoAvatar 2s infinite; }
+
+    @keyframes latidoPlatino { 0%, 100% { text-shadow: 0 0 30px rgba(0, 255, 255, 1); } 50% { text-shadow: 0 0 50px rgba(0, 255, 255, 1), 0 0 10px #fff; } }
+    @keyframes latidoPlatinoAvatar { 0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.6); } 50% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.9); } }
+
+    /* ===== RANGO CONTAINER ===== */
+    .rango-container { position: relative; background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 16px 20px; margin-bottom: 28px; border-width: 1px; border-style: solid; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: all 0.3s ease;}
     .rango-info { display: flex; flex-direction: column; }
     .rango-info .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #8A8F9A; }
-    .rango-info .imc { font-size: 13px; color: #8A8F9A; }
-    .rango-badge { font-size: 48px; font-weight: 700; line-height: 1; text-shadow: 0 0 30px currentColor; }
-    .rango-S .rango-badge { color: #2ECC71; } .rango-S { border-color: rgba(46, 204, 113, 0.3); }
-    .rango-A .rango-badge { color: #5DADE2; } .rango-A { border-color: rgba(93, 173, 226, 0.3); }
-    .rango-B .rango-badge { color: #58D68D; } .rango-B { border-color: rgba(88, 214, 141, 0.3); }
-    .rango-C .rango-badge { color: #F39C12; } .rango-C { border-color: rgba(243, 156, 18, 0.3); }
-    .rango-D .rango-badge { color: #E74C3C; } .rango-D { border-color: rgba(231, 76, 60, 0.3); }
+    .rango-info .imc { font-size: 12px; color: #8A8F9A; margin-top: 4px; }
+    .rango-badge { font-size: 28px; font-weight: 700; line-height: 1; display: flex; align-items: center; gap: 6px; }
 
-    .puntos { background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 18px 20px; margin-bottom: 28px; border: 1px solid rgba(46, 204, 113, 0.05); }
+    .puntos { background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 18px 20px; margin-bottom: 28px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;}
     .puntos-label { font-size: 13px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; }
     .puntos-valor { font-size: 42px; font-weight: 300; background: linear-gradient(135deg, #2ECC71, #1ABC9C); -webkit-background-clip: text; background-clip: text; color: transparent; margin: 4px 0 0; text-shadow: 0 0 40px rgba(46, 204, 113, 0.1); line-height: 1; }
 
@@ -144,7 +162,7 @@
     .feed-list-container { display: flex; flex-direction: column; gap: 16px; padding-bottom: 10px; }
     .feed-item { background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(46, 204, 113, 0.05); border-radius: 16px; padding: 16px; animation: fadeIn 0.4s ease; }
     .feed-header-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .feed-avatar { width: 42px; height: 42px; border-radius: 12px; background: #1A2A4A; display: flex; justify-content: center; align-items: center; color: #E8E6E3; font-weight: 500; font-size: 16px; border: 1px solid rgba(46, 204, 113, 0.3); overflow: hidden; flex-shrink: 0; }
+    .feed-avatar { width: 42px; height: 42px; border-radius: 12px; background: #1A2A4A; display: flex; justify-content: center; align-items: center; color: #E8E6E3; font-weight: 500; font-size: 16px; border: 2px solid rgba(255,255,255,0.1); overflow: hidden; flex-shrink: 0; }
     .feed-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .feed-meta { flex: 1; }
     .feed-name { color: #E8E6E3; font-size: 14px; font-weight: 500; margin-bottom: 2px; }
@@ -198,13 +216,11 @@
     .amigos-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-right: -8px; padding-right: 8px; }
     .amigo-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); cursor: pointer; transition: all 0.3s ease; }
     .amigo-item:hover { background: rgba(46, 204, 113, 0.05); border-color: rgba(46, 204, 113, 0.2); }
-    .amigo-avatar { width: 40px; height: 40px; border-radius: 12px; background: #1A2A4A; display: flex; justify-content: center; align-items: center; color: #E8E6E3; font-weight: 500; font-size: 16px; border: 1px solid rgba(46, 204, 113, 0.3); overflow: hidden;}
+    .amigo-avatar { width: 40px; height: 40px; border-radius: 12px; background: #1A2A4A; display: flex; justify-content: center; align-items: center; color: #E8E6E3; font-weight: 500; font-size: 16px; border: 2px solid rgba(255,255,255,0.1); overflow: hidden;}
     .amigo-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .amigo-info { flex: 1; }
     .amigo-nombre { color: #E8E6E3; font-size: 14px; font-weight: 500; transition: color 0.3s; }
     .amigo-item:hover .amigo-nombre { color: #2ECC71; }
-    .amigo-rango { color: #8A8F9A; font-size: 12px; }
-    .badge-rango { font-size: 18px; font-weight: 700; margin-right: 4px; }
     .btn-delete-amigo { background: transparent; border: none; color: #5A6070; font-size: 16px; cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.3s ease; }
     .btn-delete-amigo:hover { color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
     .drawer-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
@@ -231,6 +247,9 @@
     .stat-box .title { font-size: 11px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .stat-box .val { font-size: 20px; color: #E8E6E3; font-weight: 300; }
     .stat-box .val span { font-size: 12px; color: #5A6070; }
+    
+    /* MODAL EDITAR */
+    .input-group { margin-bottom: 22px; transition: all 0.3s ease; }
     
     /* CONSOLA SECRETA */
     .btn-secreto { position: absolute; bottom: 5px; right: 20px; color: rgba(255,255,255,0.1); cursor: pointer; font-size: 12px; font-family: monospace; z-index: 50; }
@@ -308,7 +327,6 @@
       <!-- ===== CONTENEDOR PRINCIPAL LOGUEADO ===== -->
       <div id="loggedInContainer" class="hidden">
         
-        <!-- LAS 3 PESTAÑAS MÁGICAS -->
         <div class="nav-tabs">
           <button class="tab-btn active" id="btnTabPerfil">👤 Perfil</button>
           <button class="tab-btn" id="btnTabFeed">📸 Actividad</button>
@@ -323,17 +341,20 @@
               <div class="info"><h2 id="nombre">Usuario</h2><div class="details"><span>Edad: <strong id="edad">0</strong></span><span>Peso: <strong id="peso">0</strong> kg</span><span>Altura: <strong id="altura">0</strong> m</span></div></div>
             </div>
             <div style="text-align: center;"><div class="dia-tag" id="tagDiaActual">Día de Expedición: 1</div></div>
+            
+            <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="puntos">0</div></div>
+            
             <div class="rango-container" id="rangoContainer">
-              <div class="rango-info"><span class="label">Rango actual</span><span class="imc" id="rangoImc">IMC: 0.0</span></div><div class="rango-badge" id="rangoBadge">-</div>
+              <div class="rango-info"><span class="label">Liga Actual</span><span class="imc" id="progresoLiga">Calculando...</span></div>
+              <div class="rango-badge" id="rangoBadge">Cobre 🥉</div>
             </div>
-            <div class="puntos"><div class="puntos-label">Puntos de Esfuerzo Totales</div><div class="puntos-valor" id="puntos">0</div></div>
             
             <div class="criterios">
               <div class="criterio"><span class="label">Kilos Bajados/Subidos</span><span class="valor" id="kilosValor">0</span><div></div></div>
               
               <div class="criterio">
                 <span class="label">Actividad Física</span>
-                <span class="valor" id="actividadValor">0 / 15</span>
+                <span class="valor" id="actividadValor">0 / 30</span>
                 <div class="barra"><div id="actividadBarra" style="width: 0%;"></div></div>
               </div>
               
@@ -390,18 +411,20 @@
               </div>
             </div>
             <div style="text-align: center;"><div class="dia-tag" id="friendTagDia">Día de Expedición: 1</div></div>
+            
+            <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="friendPuntos">0</div></div>
+
             <div class="rango-container" id="friendRangoContainer">
-              <div class="rango-info"><span class="label">Rango actual</span><span class="imc" id="friendRangoImc">IMC: 0.0</span></div>
-              <div class="rango-badge" id="friendRangoBadge">S</div>
+              <div class="rango-info"><span class="label">Liga Actual</span><span class="imc" id="friendProgresoLiga">Calculando...</span></div>
+              <div class="rango-badge" id="friendRangoBadge">Cobre 🥉</div>
             </div>
-            <div class="puntos"><div class="puntos-label">Puntos de Esfuerzo Totales</div><div class="puntos-valor" id="friendPuntos">0</div></div>
             
             <div class="criterios">
               <div class="criterio"><span class="label">Kilos Bajados/Subidos</span><span class="valor" id="friendKilosValor">0</span><div></div></div>
               
               <div class="criterio">
                 <span class="label">Actividad Física</span>
-                <span class="valor" id="friendActividadValor">0 / 15</span>
+                <span class="valor" id="friendActividadValor">0 / 30</span>
                 <div class="barra"><div id="friendActividadBarra" style="width: 0%;"></div></div>
               </div>
 
@@ -468,7 +491,7 @@
     </div>
   </div>
 
-  <!-- MODAL ACTIVIDAD (EJERCICIO / SUEÑO) -->
+  <!-- MODAL ACTIVIDAD -->
   <div id="modalActividad" class="modal-overlay hidden">
     <div class="modal">
       <h2 id="tituloModalActividad">✦ Registro Diario</h2>
@@ -631,11 +654,17 @@
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
           const uDoc = querySnapshot.docs[0]; const amigoData = uDoc.data(); const amigoUid = uDoc.id;
-          const imc = calcularIMC(amigoData.peso, amigoData.altura); const rango = obtenerRango(imc, amigoData.puntos || 0);
+          
+          let pAct = (amigoData.actividad || 0) * 10;
+          let pSue = (amigoData.suenoPruebas || 0) * 5;
+          let pKil = Math.abs(amigoData.kilos || 0) * 50;
+          let ptsTotales = pAct + pSue + pKil;
+          
+          const rango = obtenerRango(ptsTotales);
           const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `${amigoData.nombre.charAt(0).toUpperCase()}`;
           const div = document.createElement('div'); div.className = 'amigo-item';
-          div.onclick = (e) => { if (!e.target.closest('.btn-delete-amigo')) abrirVisitaAmigo(amigoData, rango, amigoUid); };
-          div.innerHTML = `<div class="amigo-avatar">${avatarContent}</div><div class="amigo-info"><div class="amigo-nombre">${amigoData.nombre}</div><div class="amigo-rango">Nivel Constancia</div></div><div class="badge-rango" style="color: ${rango.color}">${rango.letra}</div><button class="btn-delete-amigo" onclick="window.borrarAmigoLista('${amigoData.nombre}')">🗑</button>`;
+          div.onclick = (e) => { if (!e.target.closest('.btn-delete-amigo')) abrirVisitaAmigo(amigoData, ptsTotales, amigoUid); };
+          div.innerHTML = `<div class="amigo-avatar ${rango.clase}">${avatarContent}</div><div class="amigo-info"><div class="amigo-nombre">${amigoData.nombre}</div><div class="amigo-rango">Liga ${rango.nombre}</div></div><div class="badge-rango" style="color: ${rango.color}">${rango.emoji}</div><button class="btn-delete-amigo" onclick="window.borrarAmigoLista('${amigoData.nombre}')">🗑</button>`;
           listaAmigosDOM.appendChild(div);
         }
       }
@@ -657,7 +686,8 @@
     };
 
     // VISITA AMIGO EN TIEMPO REAL CON PERFIL COMPLETO
-    window.abrirVisitaAmigo = function(amigoData, rango, amigoUid) {
+    window.abrirVisitaAmigo = function(amigoData, ptsTotales, amigoUid) {
+      const rango = obtenerRango(ptsTotales);
       currentAmigoView = { data: amigoData, rango: rango, uid: amigoUid };
       if (drawerAmigos.classList.contains('active')) toggleDrawer();
       
@@ -666,6 +696,7 @@
       document.getElementById('btnTabFriendPerfil').click();
       
       const fAvatar = document.getElementById('friendAvatar');
+      fAvatar.className = `avatar ${rango.clase}`;
       if (amigoData.avatarUrl) fAvatar.innerHTML = `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover; border-radius:14px;" />`; 
       else fAvatar.innerHTML = `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`; 
       
@@ -675,20 +706,22 @@
       document.getElementById('friendAltura').textContent = amigoData.altura || '-';
       document.getElementById('friendTagDia').textContent = `Día de Expedición: ${amigoData.diaActual || 1}`;
 
-      const imc = calcularIMC(amigoData.peso, amigoData.altura);
-      document.getElementById('friendRangoImc').textContent = `IMC: ${imc.toFixed(1)}`;
-      document.getElementById('friendRangoBadge').textContent = rango.letra; 
+      document.getElementById('friendRangoBadge').textContent = `${rango.nombre} ${rango.emoji}`; 
       document.getElementById('friendRangoBadge').style.color = rango.color;
-      document.getElementById('friendRangoContainer').className = 'rango-container rango-' + rango.letra;
+      document.getElementById('friendRangoContainer').className = 'rango-container rango-' + rango.clase;
       
-      document.getElementById('friendPuntos').textContent = amigoData.puntos || 0;
+      if(rango.next !== 'Max') {
+        document.getElementById('friendProgresoLiga').textContent = `Faltan ${rango.next - ptsTotales} pts para la siguiente Liga`;
+      } else {
+        document.getElementById('friendProgresoLiga').textContent = `¡Rango Máximo Alcanzado!`;
+      }
+      
+      document.getElementById('friendPuntos').textContent = ptsTotales || 0;
       document.getElementById('friendKilosValor').textContent = amigoData.kilos > 0 ? `+${amigoData.kilos}` : (amigoData.kilos || 0);
 
-      // Calculo de barras
       let fAct = amigoData.actividad || 0;
-      let metaAct = Math.floor(fAct / 15) * 15 + 15;
-      let pctAct = ((fAct % 15) / 15) * 100; if (fAct > 0 && fAct % 15 === 0) pctAct = 100;
-      document.getElementById('friendActividadValor').textContent = `${fAct} / ${metaAct}`;
+      let pctAct = (fAct / 30) * 100; if (pctAct > 100) pctAct = 100;
+      document.getElementById('friendActividadValor').textContent = `${fAct} / 30`;
 
       let fSueno = amigoData.suenoPruebas || 0;
       let fSuenoReg = amigoData.suenoRegistros || 0;
@@ -730,7 +763,7 @@
           }
           fContainer.innerHTML += `
             <div class="feed-item">
-              <div class="feed-header-item"><div class="feed-avatar">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${amigoData.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div></div>
+              <div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${amigoData.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div></div>
               ${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div>
             </div>`;
         });
@@ -833,8 +866,11 @@
          } catch(e) { console.log("Carátula no disponible."); }
       }
 
+      const miRango = obtenerRango(usuario.puntos).clase;
+
       const nuevoAporte = {
         uid: usuarioActualUid, nombre: usuario.nombre, avatarUrl: avatarContent,
+        rangoClase: miRango,
         tipo: tipo, texto: texto, spotifyMeta: metaSpotify,
         fecha: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' }),
         timestamp: serverTimestamp()
@@ -895,12 +931,13 @@
         }
 
         let avatarContent = post.avatarUrl ? `<img src="${post.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${post.nombre.charAt(0).toUpperCase()}</span>`;
+        let claseRango = post.rangoClase || 'cobre';
         let btnBorrar = (post.uid === usuarioActualUid) ? `<button onclick="window.borrarPostTablon('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button>` : '';
 
         tCont.innerHTML += `
           <div class="feed-item">
             <div class="feed-header-item">
-              <div class="feed-avatar">${avatarContent}</div>
+              <div class="feed-avatar ${claseRango}">${avatarContent}</div>
               <div class="feed-meta"><div class="feed-name">${post.nombre}</div><div class="feed-time"><span class="feed-icon">${icon}</span> ${post.fecha}</div></div>
               <div class="feed-post-actions">${btnBorrar}</div>
             </div>
@@ -1007,34 +1044,46 @@
     document.getElementById('btnLogout').addEventListener('click', async () => { if(confirm('¿Seguro que deseas salir?')) { await signOut(auth); toggleDrawer(); } });
 
     function recalcularPuntos() { 
-      let ptsActividad = Math.floor((usuario.actividad || 0) / 5) * 1; 
-      let ptsSueno = Math.floor((usuario.suenoPruebas || 0) / 10) * 1;
-      let ptsKilos = Math.floor(Math.abs(usuario.kilos || 0) / 3) * 3; 
+      let ptsActividad = (usuario.actividad || 0) * 10; 
+      let ptsSueno = (usuario.suenoPruebas || 0) * 5;
+      let ptsKilos = Math.abs(usuario.kilos || 0) * 50; 
       usuario.puntos = ptsActividad + ptsSueno + ptsKilos; 
     }
     
     function calcularIMC(peso, altura) { if (altura > 0) return peso / (altura * altura); return 0; }
     
-    function obtenerRango(imc, puntos) {
-      if (imc === 0) return { letra: '-', color: '#8A8F9A' };
-      if (imc >= 18.5 && imc <= 24.9 && puntos >= 6) return { letra: 'S', color: '#2ECC71' };
-      if (imc >= 18.5 && imc <= 24.9) return { letra: 'A', color: '#5DADE2' };
-      if (imc >= 25.0 && imc <= 29.9 && puntos >= 3) return { letra: 'B', color: '#58D68D' };
-      if (imc >= 25.0 && imc <= 29.9) return { letra: 'C', color: '#F39C12' };
-      return { letra: 'D', color: '#E74C3C' };
+    // SISTEMA DE LIGAS ELO
+    function obtenerRango(pts) {
+      if (pts < 100) return { nombre: 'Cobre', emoji: '🥉', color: '#B87333', clase: 'cobre', next: 100 };
+      if (pts < 250) return { nombre: 'Bronce', emoji: '🛡️', color: '#CD7F32', clase: 'bronce', next: 250 };
+      if (pts < 400) return { nombre: 'Plata', emoji: '⚔️', color: '#E5E4E2', clase: 'plata', next: 400 };
+      if (pts < 500) return { nombre: 'Oro', emoji: '👑', color: '#FFD700', clase: 'oro', next: 500 };
+      return { nombre: 'Platino', emoji: '💠', color: '#00FFFF', clase: 'platino', next: 'Max' };
     }
 
     function renderizarPerfil() {
       recalcularPuntos(); 
-      document.getElementById('nombre').textContent = usuario.nombre; document.getElementById('edad').textContent = usuario.edad; document.getElementById('peso').textContent = usuario.peso; document.getElementById('altura').textContent = usuario.altura; document.getElementById('puntos').textContent = usuario.puntos; document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos; document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
-      const avatarEl = document.getElementById('avatar'); if (usuario.avatarUrl) { avatarEl.innerHTML = `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />`; } else { avatarEl.innerHTML = `<span>${usuario.nombre ? usuario.nombre.charAt(0).toUpperCase() : '?'}</span>`; }
-      const imc = calcularIMC(usuario.peso, usuario.altura); const rango = obtenerRango(imc, usuario.puntos);
-      document.getElementById('rangoImc').textContent = `IMC: ${imc.toFixed(1)}`; document.getElementById('rangoBadge').textContent = rango.letra; document.getElementById('rangoBadge').style.color = rango.color; document.getElementById('rangoContainer').className = 'rango-container rango-' + rango.letra;
+      document.getElementById('nombre').textContent = usuario.nombre; document.getElementById('edad').textContent = usuario.edad; document.getElementById('peso').textContent = usuario.peso; document.getElementById('altura').textContent = usuario.altura; document.getElementById('puntos').textContent = Number.isInteger(usuario.puntos) ? usuario.puntos : usuario.puntos.toFixed(1); document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos; document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
       
+      const rango = obtenerRango(usuario.puntos);
+      document.getElementById('rangoBadge').textContent = `${rango.nombre} ${rango.emoji}`; 
+      document.getElementById('rangoBadge').style.color = rango.color; 
+      document.getElementById('rangoContainer').className = 'rango-container rango-' + rango.clase;
+      
+      if(rango.next !== 'Max') {
+        document.getElementById('progresoLiga').textContent = `Faltan ${rango.next - usuario.puntos} pts para la siguiente Liga`;
+      } else {
+        document.getElementById('progresoLiga').textContent = `¡Rango Máximo Alcanzado!`;
+      }
+
+      const avatarEl = document.getElementById('avatar'); 
+      avatarEl.className = `avatar ${rango.clase}`;
+      if (usuario.avatarUrl) { avatarEl.innerHTML = `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />`; } else { avatarEl.innerHTML = `<span>${usuario.nombre ? usuario.nombre.charAt(0).toUpperCase() : '?'}</span>`; }
+      
+      // Eliminamos visualización de IMC en el rango, lo dejamos para el ojo.
       let pAct = usuario.actividad || 0;
-      let metaAct = Math.floor(pAct / 15) * 15 + 15; 
-      document.getElementById('actividadValor').textContent = `${pAct} / ${metaAct}`; 
-      let pctAct = ((pAct % 15) / 15) * 100; if (pAct > 0 && pAct % 15 === 0) pctAct = 100; 
+      document.getElementById('actividadValor').textContent = `${pAct} / 30`; 
+      let pctAct = (pAct / 30) * 100; if (pctAct > 100) pctAct = 100; 
 
       let pSueno = usuario.suenoPruebas || 0;
       let pSuenoHoras = usuario.suenoHorasTotal || 0;
@@ -1055,6 +1104,8 @@
       const feedCont = document.getElementById('feedContainer'); feedCont.innerHTML = ''; 
       if (usuario.historial.length === 0) { feedCont.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>Aún no hay actividad.</div>`; return; }
       const avatarContent = usuario.avatarUrl ? `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${usuario.nombre.charAt(0).toUpperCase()}</span>`;
+      const rango = obtenerRango(usuario.puntos);
+
       usuario.historial.forEach(post => {
         const feedIcon = post.tipo === 'ejercicio' ? '💪' : '🌙'; 
         const tagText = post.tipo === 'ejercicio' ? (categoriasNombre[post.categoria] || 'Actividad Física') : ('Descanso: ' + post.horas + ' horas');
@@ -1062,7 +1113,7 @@
         const imgHTML = post.foto ? `<img src="${post.foto}" class="feed-img">` : ''; const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
         let votingHTML = '';
         if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } else { votingHTML = `<div class="vote-actions"><button onclick="window.votarPostPropio('${post.firebaseId}', true)" class="btn-vote up">👍</button><span class="vote-count">${post.votosPositivos || 0}/3</span><button onclick="window.votarPostPropio('${post.firebaseId}', false)" class="btn-vote down">👎</button></div><div class="vote-status pending">⏳ Pendiente</div>`; }
-        feedCont.innerHTML += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions"><button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div></div>`;
+        feedCont.innerHTML += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions"><button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div></div>`;
       });
     }
 
@@ -1125,7 +1176,7 @@
       const tdee = bmr * f, inches = a / 2.54, pesoIdeal = g === 'M' ? 50.0 + 2.3 * (inches - 60) : 45.5 + 2.3 * (inches - 60);
       document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`; document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`; document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`; document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(pesoIdeal)} <span>kg</span>`; 
       const imc = calcularIMC(p, usuario.altura); const txtConsejo = document.getElementById('statConsejo');
-      if (imc < 18.5) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Déficit crítico. Superávit de +300kcal requerido."; else if (imc <= 24.9) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Óptimo. Mantén tus calorías de TDEE Diario."; else if (imc <= 29.9) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Sobrecarga leve. Aplica déficit de -300kcal."; else txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
+      if (imc < 18.5) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Déficit crítico. Superávit de +300kcal requerido."; else if (imc <= 24.9) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Óptimo. Mantén tus calorías de TDEE Diario."; else if (imc <= 29.9) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga leve. Aplica déficit de -300kcal."; else txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
       document.getElementById('modalStats').classList.remove('hidden');
     });
     document.getElementById('btnCerrarStats').addEventListener('click', () => document.getElementById('modalStats').classList.add('hidden'));
