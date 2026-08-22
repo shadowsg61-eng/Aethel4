@@ -27,7 +27,7 @@
       pointer-events: none; z-index: 0;
     }
 
-    .container { width: 100%; max-width: 480px; position: relative; z-index: 1; margin: auto; }
+    .container { width: 100%; max-width: 480px; position: relative; z-index: 1; margin: auto; padding-bottom: 20px;}
 
     .card {
       background: rgba(19, 32, 58, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -101,10 +101,10 @@
     .message { margin-top: 20px; text-align: center; font-size: 14px; display: none; padding: 8px; border-radius: 6px; background: rgba(0, 0, 0, 0.3); }
 
     /* ===== PERFIL SUPERIOR (GRANDE Y CENTRADO) ===== */
-    .profile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; margin-bottom: 30px; text-align: center; }
+    .profile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; margin-bottom: 10px; text-align: center; }
     .avatar {
       width: 120px; height: 120px; background: linear-gradient(135deg, #1A2A4A, #13203A); 
-      border-radius: 20px; /* Cuadrado con bordes muy suaves */
+      border-radius: 20px;
       display: flex; justify-content: center; align-items: center; font-size: 46px; color: #E8E6E3; font-weight: 500;
       border: 3px solid #2ECC71; flex-shrink: 0; overflow: hidden; position: relative; box-shadow: 0 0 30px rgba(46, 204, 113, 0.25); transition: all 0.3s ease;
     }
@@ -114,6 +114,9 @@
     .info h2 { font-size: 24px; color: #E8E6E3; font-weight: 400; letter-spacing: 1px; }
     .details { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 20px; margin-top: 8px; font-size: 14px; color: #8A8F9A; }
     .details strong { color: #E8E6E3; font-weight: 500; }
+    
+    /* Contador de días */
+    .dia-tag { background: rgba(243, 156, 18, 0.1); color: #F39C12; border: 1px solid rgba(243, 156, 18, 0.3); font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: 500; letter-spacing: 1px; margin-bottom: 20px; }
 
     /* ===== RANGO Y PUNTOS ===== */
     .rango-container { position: relative; background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 16px 20px; margin-bottom: 28px; border: 1px solid rgba(46, 204, 113, 0.05); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
@@ -154,7 +157,7 @@
     .feed-list-container { display: flex; flex-direction: column; gap: 16px; padding-bottom: 10px; }
     .feed-item { background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(46, 204, 113, 0.05); border-radius: 16px; padding: 16px; animation: fadeIn 0.4s ease; }
     .feed-header-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .feed-avatar { width: 42px; height: 42px; border-radius: 12px; /* Cuadrado redondeado */ background: #1A2A4A; display: flex; justify-content: center; align-items: center; color: #E8E6E3; font-weight: 500; font-size: 16px; border: 1px solid rgba(46, 204, 113, 0.3); overflow: hidden; flex-shrink: 0; }
+    .feed-avatar { width: 42px; height: 42px; border-radius: 12px; background: #1A2A4A; display: flex; justify-content: center; align-items: center; color: #E8E6E3; font-weight: 500; font-size: 16px; border: 1px solid rgba(46, 204, 113, 0.3); overflow: hidden; flex-shrink: 0; }
     .feed-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .feed-meta { flex: 1; }
     .feed-name { color: #E8E6E3; font-size: 14px; font-weight: 500; margin-bottom: 2px; }
@@ -235,6 +238,15 @@
     .macro-p { background: #E74C3C; width: 30%; } .macro-g { background: #F39C12; width: 35%; } .macro-c { background: #5DADE2; width: 35%; }
     .macro-labels { display: flex; justify-content: space-between; font-size: 11px; color: #8A8F9A; margin-top: 6px; }
     .system-tip { background: rgba(46, 204, 113, 0.05); border-left: 3px solid #2ECC71; padding: 12px; border-radius: 0 8px 8px 0; color: #E8E6E3; font-size: 13px; font-style: italic; line-height: 1.5; }
+
+    /* MODAL EDITAR */
+    .input-group { margin-bottom: 22px; transition: all 0.3s ease; }
+    
+    /* MODAL CONSOLA SECRETA */
+    .btn-secreto { position: absolute; bottom: 5px; right: 20px; color: rgba(255,255,255,0.1); cursor: pointer; font-size: 12px; font-family: monospace; z-index: 50; }
+    .modal-consola { background: #000; border: 1px solid #E74C3C; box-shadow: 0 0 40px rgba(231, 76, 60, 0.2); }
+    .consola-output { font-family: monospace; color: #2ECC71; font-size: 12px; height: 120px; overflow-y: auto; margin-bottom: 12px; text-align: left; padding: 8px; background: rgba(255,255,255,0.05); }
+    .consola-input { font-family: monospace; background: transparent; border: none; border-bottom: 1px solid #E74C3C; color: #E74C3C; width: 100%; padding: 8px; outline: none; }
 
     @media (max-width: 520px) {
       .card { padding: 24px 16px 16px; }
@@ -358,7 +370,11 @@
               </div>
             </div>
             
-            <!-- RANGO (El botón del ojo fue movido abajo) -->
+            <div style="text-align: center;">
+                <div class="dia-tag" id="tagDiaActual">Día de Expedición: 1</div>
+            </div>
+
+            <!-- RANGO -->
             <div class="rango-container" id="rangoContainer">
               <div class="rango-info"><span class="label">Rango actual</span><span class="imc" id="rangoImc">IMC: 0.0</span></div>
               <div class="rango-badge" id="rangoBadge">-</div>
@@ -379,7 +395,7 @@
               <button class="btn-base primario" id="btnAbrirActividad">+ Registrar actividad</button>
             </div>
 
-            <!-- BOTÓN DE OJO MOVIDO AQUÍ ABAJO A LA DERECHA -->
+            <!-- BOTÓN DE OJO ABAJO A LA DERECHA -->
             <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
               <button id="btnInfoVital" class="btn-stats-info" title="Estadísticas Vitales">👁</button>
             </div>
@@ -426,6 +442,9 @@
       </div>
 
     </div>
+    
+    <!-- EL BOTÓN SECRETO -->
+    <span class="btn-secreto" id="btnOpenConsole">_</span>
   </div>
 
   <!-- ===== DRAWER AMIGOS ===== -->
@@ -459,16 +478,14 @@
     </div>
   </div>
 
-  <!-- MODAL EDITAR CON NUEVO INPUT DE FOTO -->
+  <!-- MODAL EDITAR -->
   <div id="modalEditar" class="modal-overlay hidden">
     <div class="modal">
       <h2>✎ Editar perfil</h2>
-      
       <div class="input-group">
         <label>📷 Avatar de Perfil (Opcional)</label>
         <input type="file" id="editAvatarFile" accept="image/*" style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px dashed #2ECC71; border-radius: 8px; width: 100%; color: #E8E6E3; cursor: pointer;" />
       </div>
-
       <div class="input-group"><label>Nombre</label><input type="text" id="editNombre" /></div>
       <div class="row-3">
         <div><label style="display:block; font-size:13px; color:#8A8F9A; margin-bottom:6px;">Edad</label><input type="number" id="editEdad" style="width:100%; padding:12px 14px; background:rgba(255,255,255,0.03); border:none; border-bottom:1px solid rgba(46,204,113,0.2); color:#E8E6E3; font-size:15px; outline:none;" /></div>
@@ -512,13 +529,21 @@
         </select>
       </div>
       <div class="input-group"><label>Comentario (Opcional)</label><textarea id="comentarioRegistro" placeholder="¿Cómo te sentiste hoy?"></textarea></div>
-      
       <div class="input-group">
         <label>📷 Evidencia Fotográfica (Opcional)</label>
         <input type="file" id="fotoRegistro" accept="image/*" style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px dashed #2ECC71; border-radius: 8px; width: 100%; color: #E8E6E3; cursor: pointer;" />
       </div>
-
       <div class="acciones-modal"><button class="cancelar" id="cancelarActividad">Cancelar</button><button class="guardar" id="guardarActividad">Someter a Votación</button></div>
+    </div>
+  </div>
+
+  <!-- MODAL CONSOLA SECRETA -->
+  <div id="modalConsole" class="modal-overlay hidden">
+    <div class="modal modal-consola">
+      <h2 style="color: #E74C3C; font-family: monospace; font-size: 18px; text-align: left; margin-bottom: 10px;">>_ ROOT_ACCESS (GUILD MASTER)</h2>
+      <div id="consoleOutput" class="consola-output">Conexión establecida...<br>ADVERTENCIA: Estos comandos afectan el reloj de TODOS los usuarios.<br>Escribe un comando (/resetdia, /pasardia).</div>
+      <input type="text" id="consoleInput" class="consola-input" placeholder="Comando..." autocomplete="off"/>
+      <div class="acciones-modal"><button class="cancelar" id="btnCloseConsole" style="width: 100%; margin-top: 10px;">Cerrar Terminal</button></div>
     </div>
   </div>
 
@@ -530,7 +555,7 @@
     const IMGBB_API_KEY = "37e78e69061e8c13a2e7a9c8e50503de";
 
     let usuarioActualUid = null;
-    let usuario = { nombre: '', edad: 0, peso: 0, altura: 0, genero: 'M', grasaCorporal: null, nivelActividad: 1.2, puntos: 0, kilos: 0, actividad: 0, alimentacion: 0, avatarUrl: null, historial: [], amigos: [] };
+    let usuario = { nombre: '', edad: 0, peso: 0, altura: 0, genero: 'M', grasaCorporal: null, nivelActividad: 1.2, puntos: 0, kilos: 0, actividad: 0, alimentacion: 0, avatarUrl: null, diaActual: 1, historial: [], amigos: [] };
     
     const categoriasNombre = { pesas: "💪 Pesas", caminadora: "🏃‍♀️ Cinta", correr_exterior: "🌲 Running", caminar: "🚶 Senderismo", ciclismo: "🚴 Ciclismo", natacion: "🏊 Natación", yoga: "🧘 Yoga", crossfit: "🏋️ CrossFit", calistenia: "🤸 Calistenia", otro: "✨ Entrenamiento" };
     let postEnEdicion = null;
@@ -563,7 +588,7 @@
       document.getElementById('friendFeedSection').classList.remove('hidden'); document.getElementById('friendPerfilSection').classList.add('hidden');
     });
 
-    // DRAWER AMIGOS Y BÚSQUEDA REAL EN FIREBASE
+    // DRAWER AMIGOS
     const drawerOverlay = document.getElementById('drawerOverlay');
     const drawerAmigos = document.getElementById('drawerAmigos');
     const listaAmigosDOM = document.getElementById('listaAmigosDOM');
@@ -578,36 +603,23 @@
 
     async function renderizarAmigos() {
       listaAmigosDOM.innerHTML = '<p style="color:#5A6070; font-size:13px; text-align:center; margin-top:20px;">Cargando Alianza...</p>';
-      
       if(!usuario.amigos || usuario.amigos.length === 0) { 
         listaAmigosDOM.innerHTML = '<p style="color:#5A6070; font-size:13px; text-align:center; margin-top:20px;">No tienes aliados aún.</p>'; 
         return; 
       }
-      
       listaAmigosDOM.innerHTML = '';
       
       for (const nombreAmigo of usuario.amigos) {
         const q = query(collection(db, "usuarios"), where("nombre", "==", nombreAmigo));
         const querySnapshot = await getDocs(q);
-        
         if (!querySnapshot.empty) {
           const amigoData = querySnapshot.docs[0].data();
           const imc = calcularIMC(amigoData.peso, amigoData.altura);
           const rango = obtenerRango(imc, amigoData.puntos || 0);
-          
-          const avatarContent = amigoData.avatarUrl 
-            ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` 
-            : `${amigoData.nombre.charAt(0).toUpperCase()}`;
-
-          const div = document.createElement('div'); 
-          div.className = 'amigo-item';
+          const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `${amigoData.nombre.charAt(0).toUpperCase()}`;
+          const div = document.createElement('div'); div.className = 'amigo-item';
           div.onclick = (e) => { if (!e.target.closest('.btn-delete-amigo')) abrirVisitaAmigo(amigoData, rango); };
-          div.innerHTML = `
-            <div class="amigo-avatar">${avatarContent}</div>
-            <div class="amigo-info"><div class="amigo-nombre">${amigoData.nombre}</div><div class="amigo-rango">Nivel Constancia</div></div>
-            <div class="badge-rango" style="color: ${rango.color}">${rango.letra}</div>
-            <button class="btn-delete-amigo" onclick="window.borrarAmigoLista('${amigoData.nombre}')">🗑</button>
-          `;
+          div.innerHTML = `<div class="amigo-avatar">${avatarContent}</div><div class="amigo-info"><div class="amigo-nombre">${amigoData.nombre}</div><div class="amigo-rango">Nivel Constancia</div></div><div class="badge-rango" style="color: ${rango.color}">${rango.letra}</div><button class="btn-delete-amigo" onclick="window.borrarAmigoLista('${amigoData.nombre}')">🗑</button>`;
           listaAmigosDOM.appendChild(div);
         }
       }
@@ -616,178 +628,156 @@
     document.getElementById('btnAgregarAmigo').addEventListener('click', async () => {
       const nom = document.getElementById('inputBuscarAmigo').value.trim();
       if(!nom) return;
-      
-      if (nom === usuario.nombre) {
-        alert('No puedes agregarte a ti mismo.');
-        return;
-      }
-      
-      if (usuario.amigos && usuario.amigos.includes(nom)) {
-        alert('Esta persona ya está en tu Alianza.');
-        return;
-      }
+      if (nom === usuario.nombre) { alert('No puedes agregarte a ti mismo.'); return; }
+      if (usuario.amigos && usuario.amigos.includes(nom)) { alert('Esta persona ya está en tu Alianza.'); return; }
 
       try {
         const q = query(collection(db, "usuarios"), where("nombre", "==", nom));
         const querySnapshot = await getDocs(q);
-        
         if (querySnapshot.empty) {
           alert('Usuario no encontrado. (Revisa que las mayúsculas y minúsculas sean exactas).');
         } else {
           if(!usuario.amigos) usuario.amigos = [];
-          usuario.amigos.push(nom);
-          await guardarDatosUsuario();
-          document.getElementById('inputBuscarAmigo').value = '';
-          alert(`¡${nom} se ha unido a tu Alianza!`);
-          renderizarAmigos();
+          usuario.amigos.push(nom); await guardarDatosUsuario();
+          document.getElementById('inputBuscarAmigo').value = ''; alert(`¡${nom} se ha unido a tu Alianza!`); renderizarAmigos();
         }
-      } catch (error) {
-        alert('Hubo un error al buscar. Intenta de nuevo.');
-      }
+      } catch (error) { alert('Hubo un error al buscar. Intenta de nuevo.'); }
     });
 
     window.borrarAmigoLista = async function(nombreAmigo) {
       if(confirm(`¿Seguro que deseas desvincular a ${nombreAmigo} de tu Alianza?`)) {
         usuario.amigos = usuario.amigos.filter(n => n !== nombreAmigo);
-        await guardarDatosUsuario();
-        renderizarAmigos();
+        await guardarDatosUsuario(); renderizarAmigos();
       }
     };
 
     function abrirVisitaAmigo(amigoData, rango) {
       toggleDrawer(); loggedInContainer.classList.add('hidden'); friendContainer.classList.remove('hidden'); 
       document.getElementById('btnTabFriendPerfil').click();
-
       const fAvatar = document.getElementById('friendAvatar');
-      if (amigoData.avatarUrl) {
-        fAvatar.innerHTML = `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover; border-radius:14px;" />`;
-      } else {
-        fAvatar.innerHTML = `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`;
-      }
-
+      if (amigoData.avatarUrl) { fAvatar.innerHTML = `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover; border-radius:14px;" />`; } 
+      else { fAvatar.innerHTML = `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`; }
       document.getElementById('friendNombre').textContent = amigoData.nombre;
-      document.getElementById('friendRangoBadge').textContent = rango.letra;
-      document.getElementById('friendRangoBadge').style.color = rango.color;
+      document.getElementById('friendRangoBadge').textContent = rango.letra; document.getElementById('friendRangoBadge').style.color = rango.color;
       document.getElementById('friendRangoContainer').style.borderColor = rango.color + '4D'; 
       document.getElementById('friendPuntos').textContent = amigoData.puntos || 0;
-
       const fContainer = document.getElementById('friendFeedContainer');
       fContainer.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>Aún no podemos ver la actividad de los aliados. (Próximamente)</div>`;
     }
 
-    document.getElementById('btnVolverMiPerfil').addEventListener('click', () => {
-      friendContainer.classList.add('hidden'); loggedInContainer.classList.remove('hidden');
+    document.getElementById('btnVolverMiPerfil').addEventListener('click', () => { friendContainer.classList.add('hidden'); loggedInContainer.classList.remove('hidden'); });
+
+    // LÓGICA DE CONSOLA SECRETA (SOLO RELOJ)
+    const modalConsole = document.getElementById('modalConsole');
+    const consoleInput = document.getElementById('consoleInput');
+    const consoleOutput = document.getElementById('consoleOutput');
+    
+    document.getElementById('btnOpenConsole').addEventListener('click', () => {
+      modalConsole.classList.remove('hidden'); consoleInput.focus();
+    });
+    
+    document.getElementById('btnCloseConsole').addEventListener('click', () => {
+      modalConsole.classList.add('hidden');
     });
 
-    // SISTEMA PRINCIPAL
+    consoleInput.addEventListener('keypress', async (e) => {
+      if(e.key === 'Enter') {
+        const cmd = e.target.value.trim().toLowerCase();
+        e.target.value = '';
+        consoleOutput.innerHTML += `<br><span style="color:#FFF">> ${cmd}</span>`;
+        
+        if (cmd === '/resetdia') {
+          consoleOutput.innerHTML += `<br><span style="color:#F39C12">[!] Conectando a Base de Datos Global...</span>`;
+          const usersSnap = await getDocs(collection(db, "usuarios"));
+          
+          for (const uDoc of usersSnap.docs) {
+             await updateDoc(doc(db, "usuarios", uDoc.id), { diaActual: 1 });
+          }
+          
+          usuario.diaActual = 1;
+          renderizarPerfil();
+          consoleOutput.innerHTML += `<br><span style="color:#2ECC71">[OK] El reloj global ha vuelto al Día 1. Estadísticas intactas.</span>`;
+        } 
+        else if (cmd === '/pasardia') {
+          consoleOutput.innerHTML += `<br><span style="color:#5DADE2">[*] Modificando reloj global...</span>`;
+          let nuevoDiaGlobal = (usuario.diaActual || 1) + 1;
+          
+          const usersSnap = await getDocs(collection(db, "usuarios"));
+          for (const uDoc of usersSnap.docs) {
+             await updateDoc(doc(db, "usuarios", uDoc.id), { diaActual: nuevoDiaGlobal });
+          }
+          
+          usuario.diaActual = nuevoDiaGlobal;
+          renderizarPerfil();
+          consoleOutput.innerHTML += `<br><span style="color:#2ECC71">[OK] Servidor Global avanzado al Día ${nuevoDiaGlobal}.</span>`;
+        } 
+        else {
+          consoleOutput.innerHTML += `<br><span style="color:#E74C3C">Error: Comando desconocido. Comandos válidos: /resetdia, /pasardia</span>`;
+        }
+        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+      }
+    });
+
+    // SISTEMA PRINCIPAL Y SESIÓN
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         usuarioActualUid = user.uid;
         await cargarDatosUsuario(user.uid);
         mostrarApp();
       } else {
-        usuarioActualUid = null;
-        loginSection.classList.remove('hidden');
-        loggedInContainer.classList.add('hidden');
-        friendContainer.classList.add('hidden');
-        document.getElementById('btnMenuAmigos').classList.add('hidden');
-        document.getElementById('lemaLogin').classList.remove('hidden');
+        usuarioActualUid = null; loginSection.classList.remove('hidden'); loggedInContainer.classList.add('hidden'); friendContainer.classList.add('hidden');
+        document.getElementById('btnMenuAmigos').classList.add('hidden'); document.getElementById('lemaLogin').classList.remove('hidden');
       }
     });
 
     async function cargarDatosUsuario(uid) {
-      const docRef = doc(db, "usuarios", uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        usuario = docSnap.data();
-        if(!usuario.amigos) usuario.amigos = [];
+      const docRef = doc(db, "usuarios", uid); const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) { 
+          usuario = docSnap.data(); 
+          if(!usuario.amigos) usuario.amigos = []; 
+          if(!usuario.diaActual) usuario.diaActual = 1; 
       }
       await cargarHistorial(uid);
     }
-
-    async function guardarDatosUsuario() {
-      if (!usuarioActualUid) return;
-      await setDoc(doc(db, "usuarios", usuarioActualUid), usuario);
-    }
-
+    async function guardarDatosUsuario() { if (!usuarioActualUid) return; await setDoc(doc(db, "usuarios", usuarioActualUid), usuario); }
     async function cargarHistorial(uid) {
       const q = query(collection(db, "usuarios", uid, "historial"), orderBy("id", "desc"));
-      const querySnapshot = await getDocs(q);
-      usuario.historial = [];
-      querySnapshot.forEach((docSnap) => {
-        usuario.historial.push({ firebaseId: docSnap.id, ...docSnap.data() });
-      });
+      const querySnapshot = await getDocs(q); usuario.historial = [];
+      querySnapshot.forEach((docSnap) => { usuario.historial.push({ firebaseId: docSnap.id, ...docSnap.data() }); });
     }
 
     // BOTÓN ACCIÓN LOGIN / REGISTRO
-    const btnAction = document.getElementById('btnAction');
-    const toggleLink = document.getElementById('toggleLink');
-    const message = document.getElementById('message');
-
-    function showMessage(text, isError = true) {
-      message.textContent = text; message.style.color = isError ? '#E74C3C' : '#2ECC71';
-      message.style.display = 'block'; setTimeout(() => { message.style.display = 'none'; }, 4000);
-    }
+    const btnAction = document.getElementById('btnAction'); const toggleLink = document.getElementById('toggleLink'); const message = document.getElementById('message');
+    function showMessage(text, isError = true) { message.textContent = text; message.style.color = isError ? '#E74C3C' : '#2ECC71'; message.style.display = 'block'; setTimeout(() => { message.style.display = 'none'; }, 4000); }
 
     toggleLink.addEventListener('click', (e) => {
-      e.preventDefault(); isLogin = !isLogin;
-      btnAction.textContent = isLogin ? 'Iniciar sesión' : 'Comenzar aventura'; 
+      e.preventDefault(); isLogin = !isLogin; btnAction.textContent = isLogin ? 'Iniciar sesión' : 'Comenzar aventura'; 
       toggleLink.textContent = isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión';
-      document.getElementById('regFields').classList.toggle('hidden', isLogin);
-      document.getElementById('resetLink')?.classList.toggle('hidden', !isLogin);
-      message.style.display = 'none';
+      document.getElementById('regFields').classList.toggle('hidden', isLogin); document.getElementById('resetLink')?.classList.toggle('hidden', !isLogin); message.style.display = 'none';
     });
 
     btnAction.addEventListener('click', async function(e) {
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-
+      e.preventDefault(); const email = document.getElementById('email').value.trim(); const password = document.getElementById('password').value.trim();
       if (isLogin) {
         if (!email || !password) { showMessage('Completa todos los campos.'); return; }
-        try {
-          await signInWithEmailAndPassword(auth, email, password);
-          showMessage('✅ Acceso concedido.', false);
-        } catch (err) {
-          showMessage('❌ Error: Credenciales incorrectas o usuario no existe.');
-        }
+        try { await signInWithEmailAndPassword(auth, email, password); showMessage('✅ Acceso concedido.', false); } catch (err) { showMessage('❌ Error: Credenciales incorrectas o usuario no existe.'); }
       } else {
-        const nombre = document.getElementById('regNombre').value.trim();
-        const edad = parseInt(document.getElementById('regEdad').value);
-        const peso = parseFloat(document.getElementById('regPeso').value);
-        const altura = parseFloat(document.getElementById('regAltura').value);
+        const nombre = document.getElementById('regNombre').value.trim(); const edad = parseInt(document.getElementById('regEdad').value); const peso = parseFloat(document.getElementById('regPeso').value); const altura = parseFloat(document.getElementById('regAltura').value);
         if (!email || !password || !nombre || isNaN(edad) || isNaN(peso) || isNaN(altura)) { showMessage('Faltan campos principales.'); return; }
-
         try {
           const cred = await createUserWithEmailAndPassword(auth, email, password);
-          usuario.nombre = nombre; usuario.edad = edad; usuario.peso = peso; usuario.altura = altura;
-          usuario.genero = document.getElementById('regGenero').value;
-          const grasa = document.getElementById('regGrasa').value;
-          usuario.grasaCorporal = grasa ? parseFloat(grasa) : null;
+          usuario.nombre = nombre; usuario.edad = edad; usuario.peso = peso; usuario.altura = altura; usuario.genero = document.getElementById('regGenero').value;
+          const grasa = document.getElementById('regGrasa').value; usuario.grasaCorporal = grasa ? parseFloat(grasa) : null;
           usuario.nivelActividad = parseFloat(document.getElementById('regActividad').value);
-          usuario.kilos = 0; usuario.actividad = 0; usuario.alimentacion = 0; usuario.avatarUrl = null; usuario.puntos = 0; usuario.historial = []; usuario.amigos = [];
-          
-          await setDoc(doc(db, "usuarios", cred.user.uid), usuario);
-          showMessage('✅ Cuenta creada con éxito.', false);
-        } catch (err) {
-          showMessage('❌ Error al registrarse: ' + err.message);
-        }
+          usuario.kilos = 0; usuario.actividad = 0; usuario.alimentacion = 0; usuario.avatarUrl = null; usuario.diaActual = 1; usuario.puntos = 0; usuario.historial = []; usuario.amigos = [];
+          await setDoc(doc(db, "usuarios", cred.user.uid), usuario); showMessage('✅ Cuenta creada con éxito.', false);
+        } catch (err) { showMessage('❌ Error al registrarse: ' + err.message); }
       }
     });
 
-    function mostrarApp() {
-      loginSection.classList.add('hidden'); document.getElementById('lemaLogin').classList.add('hidden');
-      document.getElementById('btnMenuAmigos').classList.remove('hidden'); loggedInContainer.classList.remove('hidden');
-      renderizarPerfil(); renderizarFeed();
-    }
+    function mostrarApp() { loginSection.classList.add('hidden'); document.getElementById('lemaLogin').classList.add('hidden'); document.getElementById('btnMenuAmigos').classList.remove('hidden'); loggedInContainer.classList.remove('hidden'); renderizarPerfil(); renderizarFeed(); }
 
-    // CERRAR SESIÓN
-    document.getElementById('btnLogout').addEventListener('click', async () => {
-      if(confirm('¿Seguro que deseas salir?')) {
-        await signOut(auth);
-        toggleDrawer();
-      }
-    });
+    document.getElementById('btnLogout').addEventListener('click', async () => { if(confirm('¿Seguro que deseas salir?')) { await signOut(auth); toggleDrawer(); } });
 
     // SISTEMA DE PUNTOS Y PERFIL
     function recalcularPuntos() {
@@ -796,12 +786,7 @@
       let ptsKilos = Math.floor(Math.abs(usuario.kilos) / 3) * 3;
       usuario.puntos = ptsActividad + ptsAlimentacion + ptsKilos;
     }
-
-    function calcularIMC(peso, altura) { 
-      if (altura > 0) return peso / (altura * altura);
-      return 0;
-    }
-
+    function calcularIMC(peso, altura) { if (altura > 0) return peso / (altura * altura); return 0; }
     function obtenerRango(imc, puntos) {
       if (imc === 0) return { letra: '-', color: '#8A8F9A' };
       if (imc >= 18.5 && imc <= 24.9 && puntos >= 6) return { letra: 'S', color: '#2ECC71' };
@@ -820,48 +805,30 @@
       document.getElementById('puntos').textContent = usuario.puntos;
       document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos;
       
+      document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
+      
       const avatarEl = document.getElementById('avatar');
-      if (usuario.avatarUrl) {
-        avatarEl.innerHTML = `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />`;
-      } else {
-        avatarEl.innerHTML = `<span>${usuario.nombre ? usuario.nombre.charAt(0).toUpperCase() : '?'}</span>`;
-      }
+      if (usuario.avatarUrl) { avatarEl.innerHTML = `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />`; } 
+      else { avatarEl.innerHTML = `<span>${usuario.nombre ? usuario.nombre.charAt(0).toUpperCase() : '?'}</span>`; }
 
       const imc = calcularIMC(usuario.peso, usuario.altura);
       const rango = obtenerRango(imc, usuario.puntos);
       document.getElementById('rangoImc').textContent = `IMC: ${imc.toFixed(1)}`;
-      document.getElementById('rangoBadge').textContent = rango.letra;
-      document.getElementById('rangoBadge').style.color = rango.color;
+      document.getElementById('rangoBadge').textContent = rango.letra; document.getElementById('rangoBadge').style.color = rango.color;
       document.getElementById('rangoContainer').className = 'rango-container rango-' + rango.letra;
 
-      let metaCicloAct = Math.floor(usuario.actividad / 15) * 15 + 15;
-      document.getElementById('actividadValor').textContent = `${usuario.actividad} / ${metaCicloAct}`;
-      let pctAct = ((usuario.actividad % 15) / 15) * 100;
-      if (usuario.actividad > 0 && usuario.actividad % 15 === 0) pctAct = 100; 
-      
-      let metaCicloAli = Math.floor(usuario.alimentacion / 15) * 15 + 15;
-      document.getElementById('alimentacionValor').textContent = `${usuario.alimentacion} / ${metaCicloAli}`;
-      let pctAli = ((usuario.alimentacion % 15) / 15) * 100;
-      if (usuario.alimentacion > 0 && usuario.alimentacion % 15 === 0) pctAli = 100;
-
-      setTimeout(() => {
-        document.getElementById('actividadBarra').style.width = pctAct + '%';
-        document.getElementById('alimentacionBarra').style.width = pctAli + '%';
-      }, 100);
+      let metaCicloAct = Math.floor(usuario.actividad / 15) * 15 + 15; document.getElementById('actividadValor').textContent = `${usuario.actividad} / ${metaCicloAct}`;
+      let pctAct = ((usuario.actividad % 15) / 15) * 100; if (usuario.actividad > 0 && usuario.actividad % 15 === 0) pctAct = 100; 
+      let metaCicloAli = Math.floor(usuario.alimentacion / 15) * 15 + 15; document.getElementById('alimentacionValor').textContent = `${usuario.alimentacion} / ${metaCicloAli}`;
+      let pctAli = ((usuario.alimentacion % 15) / 15) * 100; if (usuario.alimentacion > 0 && usuario.alimentacion % 15 === 0) pctAli = 100;
+      setTimeout(() => { document.getElementById('actividadBarra').style.width = pctAct + '%'; document.getElementById('alimentacionBarra').style.width = pctAli + '%'; }, 100);
     }
 
     function renderizarFeed() {
-      const feedCont = document.getElementById('feedContainer');
-      feedCont.innerHTML = ''; 
-      if (usuario.historial.length === 0) {
-        feedCont.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>Aún no hay actividad.</div>`;
-        return;
-      }
+      const feedCont = document.getElementById('feedContainer'); feedCont.innerHTML = ''; 
+      if (usuario.historial.length === 0) { feedCont.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>Aún no hay actividad.</div>`; return; }
       
-      const avatarContent = usuario.avatarUrl 
-        ? `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` 
-        : `<span>${usuario.nombre.charAt(0).toUpperCase()}</span>`;
-      
+      const avatarContent = usuario.avatarUrl ? `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${usuario.nombre.charAt(0).toUpperCase()}</span>`;
       usuario.historial.forEach(post => {
         const feedIcon = post.tipo === 'ejercicio' ? '💪' : '🥗';
         const tagHTML = `<div class="feed-tag">${post.tipo === 'ejercicio' ? (categoriasNombre[post.categoria] || 'Actividad') : 'Salud Alimenticia'}</div>`;
@@ -869,256 +836,97 @@
         const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
 
         let votingHTML = '';
-        if (post.estado === 'aprobado') {
-          votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`;
-        } else if (post.estado === 'rechazado') {
-          votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`;
-        } else {
+        if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } 
+        else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
+        else {
           votingHTML = `
-            <div class="vote-actions">
-              <button onclick="window.votarPost('${post.firebaseId}', true)" class="btn-vote up">👍</button>
-              <span class="vote-count">${post.votosPositivos || 0}/3</span>
-              <button onclick="window.votarPost('${post.firebaseId}', false)" class="btn-vote down">👎</button>
-            </div>
-            <div class="vote-status pending">⏳ Pendiente</div>
-          `;
+            <div class="vote-actions"><button onclick="window.votarPost('${post.firebaseId}', true)" class="btn-vote up">👍</button><span class="vote-count">${post.votosPositivos || 0}/3</span><button onclick="window.votarPost('${post.firebaseId}', false)" class="btn-vote down">👎</button></div>
+            <div class="vote-status pending">⏳ Pendiente</div>`;
         }
 
         feedCont.innerHTML += `
           <div class="feed-item">
-            <div class="feed-header-item">
-              <div class="feed-avatar">${avatarContent}</div>
-              <div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div>
-              <div class="feed-post-actions">
-                <button onclick="window.editarPost('${post.firebaseId}')" title="Editar">✎</button>
-                <button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button>
-              </div>
-            </div>
-            ${comentarioHTML}${imgHTML}${tagHTML}
-            <div class="feed-voting">${votingHTML}</div>
-          </div>
-        `;
+            <div class="feed-header-item"><div class="feed-avatar">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions"><button onclick="window.editarPost('${post.firebaseId}')" title="Editar">✎</button><button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>
+            ${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div>
+          </div>`;
       });
     }
 
     // ACCIONES DE POST EN LA NUBE
     window.votarPost = async function(firebaseId, esPositivo) {
-      const post = usuario.historial.find(p => p.firebaseId === firebaseId);
-      if(!post || post.estado !== 'pendiente') return;
-
-      if(esPositivo) {
-        post.votosPositivos = (post.votosPositivos || 0) + 1;
-        if(post.votosPositivos >= 3) {
-          post.estado = 'aprobado';
-          if (post.tipo === 'ejercicio') usuario.actividad++;
-          else usuario.alimentacion++;
-        }
-      } else {
-        post.votosNegativos = (post.votosNegativos || 0) + 1;
-        if(post.votosNegativos >= 3) post.estado = 'rechazado';
-      }
-
-      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), {
-        votosPositivos: post.votosPositivos,
-        votosNegativos: post.votosNegativos,
-        estado: post.estado
-      });
-      await guardarDatosUsuario();
-      renderizarPerfil(); renderizarFeed();
+      const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
+      if(esPositivo) { post.votosPositivos = (post.votosPositivos || 0) + 1; if(post.votosPositivos >= 3) { post.estado = 'aprobado'; if (post.tipo === 'ejercicio') usuario.actividad++; else usuario.alimentacion++; } } 
+      else { post.votosNegativos = (post.votosNegativos || 0) + 1; if(post.votosNegativos >= 3) post.estado = 'rechazado'; }
+      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado });
+      await guardarDatosUsuario(); renderizarPerfil(); renderizarFeed();
     };
 
     window.borrarPost = async function(firebaseId) {
       if(confirm('¿Eliminar este registro?')) {
         const index = usuario.historial.findIndex(p => p.firebaseId === firebaseId);
         if(index > -1) {
-          const post = usuario.historial[index];
-          await deleteDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId));
-          if(post.estado === 'aprobado') {
-            if (post.tipo === 'ejercicio' && usuario.actividad > 0) usuario.actividad--;
-            else if (post.tipo === 'alimentacion' && usuario.alimentacion > 0) usuario.alimentacion--;
-            await guardarDatosUsuario();
-          }
-          usuario.historial.splice(index, 1);
-          renderizarPerfil(); renderizarFeed();
+          const post = usuario.historial[index]; await deleteDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId));
+          if(post.estado === 'aprobado') { if (post.tipo === 'ejercicio' && usuario.actividad > 0) usuario.actividad--; else if (post.tipo === 'alimentacion' && usuario.alimentacion > 0) usuario.alimentacion--; await guardarDatosUsuario(); }
+          usuario.historial.splice(index, 1); renderizarPerfil(); renderizarFeed();
         }
       }
     };
 
     // TDEE Modal
     document.getElementById('btnInfoVital').addEventListener('click', () => {
-      const p = usuario.peso, a = usuario.altura * 100, e = usuario.edad, g = usuario.genero || 'M';
-      const f = parseFloat(usuario.nivelActividad) || 1.2, grasa = parseFloat(usuario.grasaCorporal);
+      const p = usuario.peso, a = usuario.altura * 100, e = usuario.edad, g = usuario.genero || 'M', f = parseFloat(usuario.nivelActividad) || 1.2, grasa = parseFloat(usuario.grasaCorporal);
       let bmr = grasa > 0 ? 370 + (21.6 * (p * (1 - (grasa / 100)))) : (g === 'M' ? (10 * p) + (6.25 * a) - (5 * e) + 5 : (10 * p) + (6.25 * a) - (5 * e) - 161);
-      const tdee = bmr * f, inches = a / 2.54;
-      const pesoIdeal = g === 'M' ? 50.0 + 2.3 * (inches - 60) : 45.5 + 2.3 * (inches - 60);
-
-      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`;
-      document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`;
-      document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`;
-      document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(pesoIdeal)} <span>kg</span>`;
-      document.getElementById('macroPro').textContent = Math.round((tdee * 0.30) / 4); 
-      document.getElementById('macroGra').textContent = Math.round((tdee * 0.35) / 9); 
-      document.getElementById('macroCar').textContent = Math.round((tdee * 0.35) / 4);
-
-      const imc = calcularIMC(p, usuario.altura);
-      const txtConsejo = document.getElementById('statConsejo');
-      if (imc < 18.5) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Déficit crítico. Superávit de +300kcal requerido.";
-      else if (imc <= 24.9) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Óptimo. Mantén tus calorías de TDEE Diario.";
-      else if (imc <= 29.9) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Sobrecarga leve. Aplica déficit de -300kcal.";
-      else txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
-
+      const tdee = bmr * f, inches = a / 2.54, pesoIdeal = g === 'M' ? 50.0 + 2.3 * (inches - 60) : 45.5 + 2.3 * (inches - 60);
+      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`; document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`; document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`; document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(pesoIdeal)} <span>kg</span>`;
+      document.getElementById('macroPro').textContent = Math.round((tdee * 0.30) / 4); document.getElementById('macroGra').textContent = Math.round((tdee * 0.35) / 9); document.getElementById('macroCar').textContent = Math.round((tdee * 0.35) / 4);
+      const imc = calcularIMC(p, usuario.altura); const txtConsejo = document.getElementById('statConsejo');
+      if (imc < 18.5) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Déficit crítico. Superávit de +300kcal requerido."; else if (imc <= 24.9) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Óptimo. Mantén tus calorías de TDEE Diario."; else if (imc <= 29.9) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Sobrecarga leve. Aplica déficit de -300kcal."; else txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
       document.getElementById('modalStats').classList.remove('hidden');
     });
     document.getElementById('btnCerrarStats').addEventListener('click', () => document.getElementById('modalStats').classList.add('hidden'));
 
-    // EDICIÓN PERFIL Y AVATAR
+    // EDICIÓN PERFIL
     document.getElementById('editarPerfil').addEventListener('click', () => {
-      document.getElementById('editNombre').value = usuario.nombre; document.getElementById('editEdad').value = usuario.edad;
-      document.getElementById('editPeso').value = usuario.peso; document.getElementById('editAltura').value = usuario.altura;
-      document.getElementById('editKilos').value = usuario.kilos; document.getElementById('editGenero').value = usuario.genero || 'M';
-      document.getElementById('editGrasa').value = usuario.grasaCorporal || ''; document.getElementById('editActividad').value = usuario.nivelActividad || 1.2;
-      document.getElementById('editAvatarFile').value = ''; // Limpiar input
+      document.getElementById('editNombre').value = usuario.nombre; document.getElementById('editEdad').value = usuario.edad; document.getElementById('editPeso').value = usuario.peso; document.getElementById('editAltura').value = usuario.altura; document.getElementById('editKilos').value = usuario.kilos; document.getElementById('editGenero').value = usuario.genero || 'M'; document.getElementById('editGrasa').value = usuario.grasaCorporal || ''; document.getElementById('editActividad').value = usuario.nivelActividad || 1.2; document.getElementById('editAvatarFile').value = ''; 
       document.getElementById('modalEditar').classList.remove('hidden');
     });
     document.getElementById('cancelarEditar').addEventListener('click', () => document.getElementById('modalEditar').classList.add('hidden'));
-    
     document.getElementById('guardarEditar').addEventListener('click', async () => {
-      const btnGuardarEditar = document.getElementById('guardarEditar');
-      const fileInputAvatar = document.getElementById('editAvatarFile');
-      const fileAvatar = fileInputAvatar.files[0];
-
-      btnGuardarEditar.textContent = 'Guardando...';
-      btnGuardarEditar.disabled = true;
-
-      let nuevaAvatarUrl = usuario.avatarUrl || null;
-
+      const btnGuardarEditar = document.getElementById('guardarEditar'); const fileInputAvatar = document.getElementById('editAvatarFile'); const fileAvatar = fileInputAvatar.files[0];
+      btnGuardarEditar.textContent = 'Guardando...'; btnGuardarEditar.disabled = true; let nuevaAvatarUrl = usuario.avatarUrl || null;
       if (fileAvatar) {
-        const formData = new FormData();
-        formData.append('image', fileAvatar);
-
+        const formData = new FormData(); formData.append('image', fileAvatar);
         try {
-          const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData });
-          const data = await res.json();
-          if (data.success) {
-            nuevaAvatarUrl = data.data.url;
-          } else {
-            alert('Error al subir la imagen de perfil. Intenta de nuevo.');
-            btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false;
-            return;
-          }
-        } catch (error) {
-          alert('Hubo un error de red al subir la imagen de perfil.');
-          btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false;
-          return;
-        }
+          const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData }); const data = await res.json();
+          if (data.success) nuevaAvatarUrl = data.data.url; else { alert('Error al subir la imagen.'); btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false; return; }
+        } catch (error) { alert('Hubo un error de red.'); btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false; return; }
       }
-
-      usuario.avatarUrl = nuevaAvatarUrl;
-      usuario.nombre = document.getElementById('editNombre').value.trim() || usuario.nombre;
-      usuario.edad = parseInt(document.getElementById('editEdad').value) || usuario.edad;
-      usuario.peso = parseFloat(document.getElementById('editPeso').value) || usuario.peso;
-      usuario.altura = parseFloat(document.getElementById('editAltura').value) || usuario.altura;
-      usuario.kilos = parseFloat(document.getElementById('editKilos').value) || usuario.kilos;
-      usuario.genero = document.getElementById('editGenero').value;
-      const gr = document.getElementById('editGrasa').value; usuario.grasaCorporal = gr ? parseFloat(gr) : null;
-      usuario.nivelActividad = parseFloat(document.getElementById('editActividad').value);
-
-      await guardarDatosUsuario();
-      renderizarPerfil(); renderizarFeed();
-      document.getElementById('modalEditar').classList.add('hidden');
-      btnGuardarEditar.textContent = 'Guardar';
-      btnGuardarEditar.disabled = false;
+      usuario.avatarUrl = nuevaAvatarUrl; usuario.nombre = document.getElementById('editNombre').value.trim() || usuario.nombre; usuario.edad = parseInt(document.getElementById('editEdad').value) || usuario.edad; usuario.peso = parseFloat(document.getElementById('editPeso').value) || usuario.peso; usuario.altura = parseFloat(document.getElementById('editAltura').value) || usuario.altura; usuario.kilos = parseFloat(document.getElementById('editKilos').value) || usuario.kilos; usuario.genero = document.getElementById('editGenero').value; const gr = document.getElementById('editGrasa').value; usuario.grasaCorporal = gr ? parseFloat(gr) : null; usuario.nivelActividad = parseFloat(document.getElementById('editActividad').value);
+      await guardarDatosUsuario(); renderizarPerfil(); renderizarFeed(); document.getElementById('modalEditar').classList.add('hidden'); btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false;
     });
 
-    // REGISTRO DIARIO Y SUBIDA A IMGBB
-    document.getElementById('tipoRegistro').addEventListener('change', (e) => {
-      if (e.target.value === 'alimentacion') document.getElementById('grupoCategoria').classList.add('hidden');
-      else document.getElementById('grupoCategoria').classList.remove('hidden');
-    });
-    const abrirModalReg = () => {
-      postEnEdicion = null; 
-      document.getElementById('tituloModalActividad').textContent = '✦ Registro Diario';
-      document.getElementById('guardarActividad').textContent = 'Someter a Votación'; 
-      document.getElementById('tipoRegistro').disabled = false;
-      document.getElementById('fotoRegistro').value = ''; 
-      document.getElementById('comentarioRegistro').value = '';
-      document.getElementById('modalActividad').classList.remove('hidden');
-    };
-    
-    document.getElementById('btnAbrirActividad').addEventListener('click', abrirModalReg);
-    document.getElementById('btnAbrirActividadFeed').addEventListener('click', abrirModalReg);
-    document.getElementById('cancelarActividad').addEventListener('click', () => document.getElementById('modalActividad').classList.add('hidden'));
+    // REGISTRO DIARIO
+    document.getElementById('tipoRegistro').addEventListener('change', (e) => { if (e.target.value === 'alimentacion') document.getElementById('grupoCategoria').classList.add('hidden'); else document.getElementById('grupoCategoria').classList.remove('hidden'); });
+    const abrirModalReg = () => { postEnEdicion = null; document.getElementById('tituloModalActividad').textContent = '✦ Registro Diario'; document.getElementById('guardarActividad').textContent = 'Someter a Votación'; document.getElementById('tipoRegistro').disabled = false; document.getElementById('fotoRegistro').value = ''; document.getElementById('comentarioRegistro').value = ''; document.getElementById('modalActividad').classList.remove('hidden'); };
+    document.getElementById('btnAbrirActividad').addEventListener('click', abrirModalReg); document.getElementById('btnAbrirActividadFeed').addEventListener('click', abrirModalReg); document.getElementById('cancelarActividad').addEventListener('click', () => document.getElementById('modalActividad').classList.add('hidden'));
 
     document.getElementById('guardarActividad').addEventListener('click', async () => {
-      const tipo = document.getElementById('tipoRegistro').value;
-      const categoria = document.getElementById('catEjercicio').value;
-      const comentario = document.getElementById('comentarioRegistro').value.trim();
-      const fileInput = document.getElementById('fotoRegistro');
-      const file = fileInput.files[0];
-      const btnGuardar = document.getElementById('guardarActividad');
-
-      if (tipo === 'ejercicio' && !categoria && !postEnEdicion) { 
-        alert("Selecciona categoría."); 
-        return; 
-      }
-      
-      btnGuardar.textContent = 'Subiendo evidencia...';
-      btnGuardar.disabled = true;
-
-      let fotoUrl = null;
-
+      const tipo = document.getElementById('tipoRegistro').value; const categoria = document.getElementById('catEjercicio').value; const comentario = document.getElementById('comentarioRegistro').value.trim(); const file = document.getElementById('fotoRegistro').files[0]; const btnGuardar = document.getElementById('guardarActividad');
+      if (tipo === 'ejercicio' && !categoria) { alert("Selecciona categoría."); return; }
+      btnGuardar.textContent = 'Subiendo...'; btnGuardar.disabled = true; let fotoUrl = null;
       if (file) {
-        const formData = new FormData();
-        formData.append('image', file);
-
+        const formData = new FormData(); formData.append('image', file);
         try {
-          const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-            method: 'POST',
-            body: formData
-          });
-          const data = await res.json();
-          if (data.success) {
-            fotoUrl = data.data.url; 
-          } else {
-            alert('Error al subir la imagen. Por favor intenta de nuevo.');
-            btnGuardar.textContent = 'Someter a Votación';
-            btnGuardar.disabled = false;
-            return;
-          }
-        } catch (error) {
-          alert('Hubo un error de conexión al subir la foto.');
-          btnGuardar.textContent = 'Someter a Votación';
-          btnGuardar.disabled = false;
-          return;
-        }
+          const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData }); const data = await res.json();
+          if (data.success) fotoUrl = data.data.url; else { alert('Error subiendo imagen.'); btnGuardar.textContent = 'Someter a Votación'; btnGuardar.disabled = false; return; }
+        } catch (error) { alert('Error de conexión.'); btnGuardar.textContent = 'Someter a Votación'; btnGuardar.disabled = false; return; }
       }
-      
-      const nuevoPost = { 
-        id: Date.now(), 
-        tipo: tipo, 
-        categoria: tipo === 'ejercicio' ? categoria : null, 
-        comentario: comentario, 
-        fecha: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' }), 
-        foto: fotoUrl, 
-        votosPositivos: 0, 
-        votosNegativos: 0, 
-        estado: 'pendiente' 
-      };
-
+      const nuevoPost = { id: Date.now(), tipo: tipo, categoria: tipo === 'ejercicio' ? categoria : null, comentario: comentario, fecha: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' }), foto: fotoUrl, votosPositivos: 0, votosNegativos: 0, estado: 'pendiente' };
       try {
-        const docRef = await addDoc(collection(db, "usuarios", usuarioActualUid, "historial"), nuevoPost);
-        nuevoPost.firebaseId = docRef.id;
-        usuario.historial.unshift(nuevoPost);
-
-        renderizarPerfil(); renderizarFeed(); 
-        document.getElementById('modalActividad').classList.add('hidden');
-        document.getElementById('btnTabFeed').click();
-      } catch (err) {
-        alert('Error al guardar el registro.');
-      }
-
-      btnGuardar.textContent = 'Someter a Votación';
-      btnGuardar.disabled = false;
+        const docRef = await addDoc(collection(db, "usuarios", usuarioActualUid, "historial"), nuevoPost); nuevoPost.firebaseId = docRef.id; usuario.historial.unshift(nuevoPost);
+        renderizarPerfil(); renderizarFeed(); document.getElementById('modalActividad').classList.add('hidden'); document.getElementById('btnTabFeed').click();
+      } catch (err) { alert('Error al guardar.'); }
+      btnGuardar.textContent = 'Someter a Votación'; btnGuardar.disabled = false;
     });
 
   </script>
