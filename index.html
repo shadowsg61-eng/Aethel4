@@ -172,13 +172,12 @@
     .vote-status.approved { color: #2ECC71; background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.2); width: 100%; text-align: center; padding: 8px;}
     .vote-status.rejected { color: #E74C3C; background: rgba(231, 76, 60, 0.1); width: 100%; text-align: center; padding: 8px;}
 
-    /* ===== TABLÓN DEL GREMIO (TARJETAS SPOTIFY) ===== */
+    /* ===== TABLÓN DEL GREMIO ===== */
     .filtros-tablon { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
     .btn-filtro { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); color: #8A8F9A; padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all 0.3s; }
     .btn-filtro:hover { color: #E8E6E3; }
     .btn-filtro.active { background: rgba(46, 204, 113, 0.1); color: #2ECC71; border-color: #2ECC71; }
     
-    /* Tarjeta Musical Clickable */
     .spotify-link-card { display: flex; align-items: center; gap: 14px; background: rgba(30, 215, 96, 0.08); border: 1px solid rgba(30, 215, 96, 0.2); padding: 12px; border-radius: 12px; text-decoration: none; margin-top: 10px; transition: all 0.3s ease; }
     .spotify-link-card:hover { background: rgba(30, 215, 96, 0.15); transform: translateY(-2px); border-color: rgba(30, 215, 96, 0.4); }
     .spotify-link-cover { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #000; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
@@ -186,7 +185,7 @@
     .spotify-link-title { color: #FFF; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
     .spotify-link-subtitle { color: #1ED760; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
 
-    /* ===== MENÚ LATERAL (DRAWER AMIGOS) ===== */
+    /* ===== MENÚ LATERAL ===== */
     .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
     .drawer-overlay.active { opacity: 1; pointer-events: auto; }
     .drawer { position: fixed; top: 0; right: -100%; width: 320px; max-width: 100%; height: 100%; background: rgba(15, 26, 46, 0.95); border-left: 1px solid rgba(46, 204, 113, 0.2); box-shadow: -20px 0 50px rgba(0,0,0,0.8); z-index: 2001; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 24px; }
@@ -232,13 +231,6 @@
     .stat-box .title { font-size: 11px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .stat-box .val { font-size: 20px; color: #E8E6E3; font-weight: 300; }
     .stat-box .val span { font-size: 12px; color: #5A6070; }
-    .macro-bar { display: flex; height: 6px; border-radius: 6px; overflow: hidden; margin-top: 8px; }
-    .macro-p { background: #E74C3C; width: 30%; } .macro-g { background: #F39C12; width: 35%; } .macro-c { background: #5DADE2; width: 35%; }
-    .macro-labels { display: flex; justify-content: space-between; font-size: 11px; color: #8A8F9A; margin-top: 6px; }
-    .system-tip { background: rgba(46, 204, 113, 0.05); border-left: 3px solid #2ECC71; padding: 12px; border-radius: 0 8px 8px 0; color: #E8E6E3; font-size: 13px; font-style: italic; line-height: 1.5; }
-
-    /* MODAL EDITAR */
-    .input-group { margin-bottom: 22px; transition: all 0.3s ease; }
     
     /* CONSOLA SECRETA */
     .btn-secreto { position: absolute; bottom: 5px; right: 20px; color: rgba(255,255,255,0.1); cursor: pointer; font-size: 12px; font-family: monospace; z-index: 50; }
@@ -335,12 +327,24 @@
               <div class="rango-info"><span class="label">Rango actual</span><span class="imc" id="rangoImc">IMC: 0.0</span></div><div class="rango-badge" id="rangoBadge">-</div>
             </div>
             <div class="puntos"><div class="puntos-label">Puntos de Esfuerzo Totales</div><div class="puntos-valor" id="puntos">0</div></div>
+            
             <div class="criterios">
               <div class="criterio"><span class="label">Kilos Bajados/Subidos</span><span class="valor" id="kilosValor">0</span><div></div></div>
-              <div class="criterio"><span class="label">Actividad Física</span><span class="valor" id="actividadValor">0 / 15</span><div class="barra"><div id="actividadBarra" style="width: 0%;"></div></div></div>
-              <div class="criterio"><span class="label">Salud Alimenticia</span><span class="valor" id="alimentacionValor">0 / 15</span><div class="barra"><div id="alimentacionBarra" style="width: 0%;"></div></div></div>
+              
+              <div class="criterio">
+                <span class="label">Actividad Física</span>
+                <span class="valor" id="actividadValor">0 / 15</span>
+                <div class="barra"><div id="actividadBarra" style="width: 0%;"></div></div>
+              </div>
+              
+              <div class="criterio">
+                <span class="label">Descanso (Sueño)<br><span id="suenoPromedio" style="color:#5DADE2;font-size:10px;">Promedio: 0.0h</span></span>
+                <span class="valor" id="suenoValor">0 / 30</span>
+                <div class="barra"><div id="suenoBarra" style="width: 0%;"></div></div>
+              </div>
             </div>
-            <div class="acciones"><button class="btn-base secundario" id="editarPerfil">✎ Editar perfil</button><button class="btn-base primario" id="btnAbrirActividad">+ Registrar actividad</button></div>
+
+            <div class="acciones"><button class="btn-base secundario" id="editarPerfil">✎ Editar perfil</button><button class="btn-base primario" id="btnAbrirActividad">+ Registrar</button></div>
             <div style="display: flex; justify-content: flex-end; margin-top: 12px;"><button id="btnInfoVital" class="btn-stats-info" title="Estadísticas Vitales">👁</button></div>
           </div>
 
@@ -372,7 +376,7 @@
           <button class="tab-btn" id="btnTabFriendFeed">📸 Actividad</button>
         </div>
         <div>
-          <!-- VISTA PERFIL DEL AMIGO ACTUALIZADA -->
+          <!-- PERFIL DE AMIGO -->
           <div id="friendPerfilSection">
             <div class="profile" style="margin-bottom: 20px;">
               <div class="avatar" id="friendAvatar">?</div>
@@ -394,11 +398,21 @@
             
             <div class="criterios">
               <div class="criterio"><span class="label">Kilos Bajados/Subidos</span><span class="valor" id="friendKilosValor">0</span><div></div></div>
-              <div class="criterio"><span class="label">Actividad Física</span><span class="valor" id="friendActividadValor">0 / 15</span><div class="barra"><div id="friendActividadBarra" style="width: 0%;"></div></div></div>
-              <div class="criterio"><span class="label">Salud Alimenticia</span><span class="valor" id="friendAlimentacionValor">0 / 15</span><div class="barra"><div id="friendAlimentacionBarra" style="width: 0%;"></div></div></div>
+              
+              <div class="criterio">
+                <span class="label">Actividad Física</span>
+                <span class="valor" id="friendActividadValor">0 / 15</span>
+                <div class="barra"><div id="friendActividadBarra" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="criterio">
+                <span class="label">Descanso (Sueño)<br><span id="friendSuenoPromedio" style="color:#5DADE2;font-size:10px;">Promedio: 0.0h</span></span>
+                <span class="valor" id="friendSuenoValor">0 / 30</span>
+                <div class="barra"><div id="friendSuenoBarra" style="width: 0%;"></div></div>
+              </div>
             </div>
           </div>
-          
+
           <div id="friendFeedSection" class="hidden">
              <div id="friendFeedContainer" class="feed-list-container"></div>
           </div>
@@ -420,7 +434,6 @@
   </div>
 
   <!-- ===== MODALES ===== -->
-  <!-- MODAL STATS -->
   <div id="modalStats" class="modal-overlay hidden">
     <div class="modal">
       <h2>✦ Ventana de Estado</h2>
@@ -430,17 +443,11 @@
         <div class="stat-box"><div class="title">Tasa Basal (BMR)</div><div class="val" id="statBmr">0 <span>kcal</span></div></div>
         <div class="stat-box"><div class="title">Peso Ideal Est.</div><div class="val" id="statPesoIdeal">0 <span>kg</span></div></div>
       </div>
-      <div style="margin-bottom: 20px;">
-        <div style="font-size: 13px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Sugerencia de Macros</div>
-        <div class="macro-bar"><div class="macro-p"></div><div class="macro-g"></div><div class="macro-c"></div></div>
-        <div class="macro-labels"><span>Pro: <span id="macroPro">0</span>g</span><span>Gra: <span id="macroGra">0</span>g</span><span>Car: <span id="macroCar">0</span>g</span></div>
-      </div>
-      <div class="system-tip" id="statConsejo">Calculando datos...</div>
+      <div class="system-tip" id="statConsejo" style="margin-top: 20px;">Calculando datos...</div>
       <div class="acciones-modal"><button class="cancelar" id="btnCerrarStats" style="width: 100%;">Cerrar Ventana</button></div>
     </div>
   </div>
 
-  <!-- MODAL EDITAR -->
   <div id="modalEditar" class="modal-overlay hidden">
     <div class="modal">
       <h2>✎ Editar perfil</h2>
@@ -461,17 +468,18 @@
     </div>
   </div>
 
-  <!-- MODAL ACTIVIDAD (PERSONAL) -->
+  <!-- MODAL ACTIVIDAD (EJERCICIO / SUEÑO) -->
   <div id="modalActividad" class="modal-overlay hidden">
     <div class="modal">
       <h2 id="tituloModalActividad">✦ Registro Diario</h2>
       <div class="input-group">
-        <label>Tipo de Registro</label>
+        <label>¿Qué deseas registrar?</label>
         <select id="tipoRegistro">
           <option value="ejercicio">💪 Actividad Física</option>
-          <option value="alimentacion">🥗 Salud Alimenticia</option>
+          <option value="sueno">🌙 Calidad de Sueño</option>
         </select>
       </div>
+      
       <div class="input-group" id="grupoCategoria">
         <label>Categoría de Ejercicio</label>
         <select id="catEjercicio">
@@ -488,8 +496,28 @@
           <option value="otro">✨ Otro</option>
         </select>
       </div>
-      <div class="input-group"><label>Comentario (Opcional)</label><textarea id="comentarioRegistro" placeholder="¿Cómo te sentiste hoy?"></textarea></div>
-      <div class="input-group"><label>📷 Evidencia Fotográfica (Opcional)</label><input type="file" id="fotoRegistro" accept="image/png, image/jpeg, image/jpg, image/webp" style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px dashed #2ECC71; border-radius: 8px; width: 100%; color: #E8E6E3; cursor: pointer;" /></div>
+
+      <div class="input-group hidden" id="grupoSueno">
+        <label>¿Cuántas horas dormiste?</label>
+        <select id="horasSueno">
+          <option value="" disabled selected>Selecciona las horas...</option>
+          <option value="1">1 hora</option>
+          <option value="2">2 horas</option>
+          <option value="3">3 horas</option>
+          <option value="4">4 horas</option>
+          <option value="5">5 horas (Déficit Crítico)</option>
+          <option value="6">6 horas (Supervivencia)</option>
+          <option value="7">7 horas (Óptimo)</option>
+          <option value="8">8 horas (Óptimo)</option>
+          <option value="9">9 horas</option>
+          <option value="10">10 horas</option>
+          <option value="11">11 horas</option>
+          <option value="12">12 horas</option>
+        </select>
+      </div>
+
+      <div class="input-group"><label>Comentario (Opcional)</label><textarea id="comentarioRegistro" placeholder="Describe cómo te fue..."></textarea></div>
+      <div class="input-group"><label>📷 Evidencia Fotográfica</label><input type="file" id="fotoRegistro" accept="image/png, image/jpeg, image/jpg, image/webp" style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px dashed #2ECC71; border-radius: 8px; width: 100%; color: #E8E6E3; cursor: pointer;" /></div>
       <div class="acciones-modal"><button class="cancelar" id="cancelarActividad">Cancelar</button><button class="guardar" id="guardarActividad">Someter a Votación</button></div>
     </div>
   </div>
@@ -537,7 +565,11 @@
     const IMGBB_API_KEY = "37e78e69061e8c13a2e7a9c8e50503de";
 
     let usuarioActualUid = null;
-    let usuario = { nombre: '', edad: 0, peso: 0, altura: 0, genero: 'M', grasaCorporal: null, nivelActividad: 1.2, puntos: 0, kilos: 0, actividad: 0, alimentacion: 0, avatarUrl: null, diaActual: 1, historial: [], amigos: [] };
+    let usuario = { 
+        nombre: '', edad: 0, peso: 0, altura: 0, genero: 'M', grasaCorporal: null, nivelActividad: 1.2, 
+        puntos: 0, kilos: 0, actividad: 0, suenoPruebas: 0, suenoHorasTotal: 0, suenoRegistros: 0, 
+        avatarUrl: null, diaActual: 1, historial: [], amigos: [] 
+    };
     
     let currentAmigoView = null;
     let unsubscribeUserFeed = null;
@@ -637,7 +669,6 @@
       if (amigoData.avatarUrl) fAvatar.innerHTML = `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover; border-radius:14px;" />`; 
       else fAvatar.innerHTML = `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`; 
       
-      // Llenar datos completos del amigo
       document.getElementById('friendNombre').textContent = amigoData.nombre;
       document.getElementById('friendEdad').textContent = amigoData.edad || '-';
       document.getElementById('friendPeso').textContent = amigoData.peso || '-';
@@ -653,19 +684,24 @@
       document.getElementById('friendPuntos').textContent = amigoData.puntos || 0;
       document.getElementById('friendKilosValor').textContent = amigoData.kilos > 0 ? `+${amigoData.kilos}` : (amigoData.kilos || 0);
 
+      // Calculo de barras
       let fAct = amigoData.actividad || 0;
       let metaAct = Math.floor(fAct / 15) * 15 + 15;
       let pctAct = ((fAct % 15) / 15) * 100; if (fAct > 0 && fAct % 15 === 0) pctAct = 100;
       document.getElementById('friendActividadValor').textContent = `${fAct} / ${metaAct}`;
 
-      let fAli = amigoData.alimentacion || 0;
-      let metaAli = Math.floor(fAli / 15) * 15 + 15;
-      let pctAli = ((fAli % 15) / 15) * 100; if (fAli > 0 && fAli % 15 === 0) pctAli = 100;
-      document.getElementById('friendAlimentacionValor').textContent = `${fAli} / ${metaAli}`;
+      let fSueno = amigoData.suenoPruebas || 0;
+      let fSuenoReg = amigoData.suenoRegistros || 0;
+      let fSuenoHoras = amigoData.suenoHorasTotal || 0;
+      let prom = fSuenoReg > 0 ? (fSuenoHoras / fSuenoReg).toFixed(1) : "0.0";
+
+      document.getElementById('friendSuenoValor').textContent = `${fSueno} / 30`;
+      document.getElementById('friendSuenoPromedio').textContent = `Promedio: ${prom}h`;
+      let pctSueno = (fSueno / 30) * 100; if (pctSueno > 100) pctSueno = 100;
 
       setTimeout(() => {
         document.getElementById('friendActividadBarra').style.width = pctAct + '%';
-        document.getElementById('friendAlimentacionBarra').style.width = pctAli + '%';
+        document.getElementById('friendSuenoBarra').style.width = pctSueno + '%';
       }, 100);
       
       const fContainer = document.getElementById('friendFeedContainer');
@@ -679,8 +715,9 @@
         if (historialAmigo.length === 0) { fContainer.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>${amigoData.nombre} aún no ha registrado actividad.</div>`; return; }
         const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`;
         historialAmigo.forEach(post => {
-          const feedIcon = post.tipo === 'ejercicio' ? '💪' : '🥗';
-          const tagHTML = `<div class="feed-tag">${post.tipo === 'ejercicio' ? (categoriasNombre[post.categoria] || 'Actividad') : 'Salud Alimenticia'}</div>`;
+          const feedIcon = post.tipo === 'ejercicio' ? '💪' : '🌙';
+          const tagText = post.tipo === 'ejercicio' ? (categoriasNombre[post.categoria] || 'Actividad Física') : ('Descanso: ' + post.horas + ' horas');
+          const tagHTML = `<div class="feed-tag">${tagText}</div>`;
           const imgHTML = post.foto ? `<img src="${post.foto}" class="feed-img">` : '';
           const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
           let votingHTML = '';
@@ -719,8 +756,20 @@
           const userRef = doc(db, "usuarios", amigoUid); const uSnap = await getDoc(userRef);
           if (uSnap.exists()) {
              let uData = uSnap.data();
-             if (post.tipo === 'ejercicio') uData.actividad = (uData.actividad || 0) + 1; else uData.alimentacion = (uData.alimentacion || 0) + 1;
-             await updateDoc(userRef, { actividad: uData.actividad, alimentacion: uData.alimentacion });
+             if (post.tipo === 'ejercicio') {
+                uData.actividad = (uData.actividad || 0) + 1; 
+             } else if (post.tipo === 'sueno') {
+                uData.suenoRegistros = (uData.suenoRegistros || 0) + 1;
+                uData.suenoHorasTotal = (uData.suenoHorasTotal || 0) + post.horas;
+                if(post.horas >= 7) uData.suenoPruebas = (uData.suenoPruebas || 0) + 1;
+                else if(post.horas === 6) uData.suenoPruebas = (uData.suenoPruebas || 0) + 0.5;
+             }
+             await updateDoc(userRef, { 
+                 actividad: uData.actividad, 
+                 suenoRegistros: uData.suenoRegistros, 
+                 suenoHorasTotal: uData.suenoHorasTotal, 
+                 suenoPruebas: uData.suenoPruebas 
+             });
           }
         }
       } else { post.votosNegativos = (post.votosNegativos || 0) + 1; if(post.votosNegativos >= 3) post.estado = 'rechazado'; }
@@ -905,8 +954,13 @@
 
     async function cargarDatosUsuario(uid) {
       const docRef = doc(db, "usuarios", uid); const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) { usuario = docSnap.data(); if(!usuario.amigos) usuario.amigos = []; if(!usuario.diaActual) usuario.diaActual = 1; }
+      if (docSnap.exists()) { 
+        usuario = docSnap.data(); 
+        if(!usuario.amigos) usuario.amigos = []; 
+        if(!usuario.diaActual) usuario.diaActual = 1; 
+      }
     }
+    
     async function guardarDatosUsuario() { if (!usuarioActualUid) return; await setDoc(doc(db, "usuarios", usuarioActualUid), usuario); }
 
     function escucharHistorialUsuario(uid) {
@@ -940,7 +994,9 @@
           usuario.nombre = nombre; usuario.edad = edad; usuario.peso = peso; usuario.altura = altura; usuario.genero = document.getElementById('regGenero').value;
           const grasa = document.getElementById('regGrasa').value; usuario.grasaCorporal = grasa ? parseFloat(grasa) : null;
           usuario.nivelActividad = parseFloat(document.getElementById('regActividad').value);
-          usuario.kilos = 0; usuario.actividad = 0; usuario.alimentacion = 0; usuario.avatarUrl = null; usuario.diaActual = 1; usuario.puntos = 0; usuario.historial = []; usuario.amigos = [];
+          usuario.kilos = 0; usuario.actividad = 0; 
+          usuario.suenoPruebas = 0; usuario.suenoRegistros = 0; usuario.suenoHorasTotal = 0;
+          usuario.avatarUrl = null; usuario.diaActual = 1; usuario.puntos = 0; usuario.historial = []; usuario.amigos = [];
           await setDoc(doc(db, "usuarios", cred.user.uid), usuario); showMessage('✅ Cuenta creada con éxito.', false);
         } catch (err) { showMessage('❌ Error al registrarse: ' + err.message); }
       }
@@ -950,8 +1006,15 @@
 
     document.getElementById('btnLogout').addEventListener('click', async () => { if(confirm('¿Seguro que deseas salir?')) { await signOut(auth); toggleDrawer(); } });
 
-    function recalcularPuntos() { let ptsActividad = Math.floor(usuario.actividad / 15) * 3; let ptsAlimentacion = Math.floor(usuario.alimentacion / 15) * 3; let ptsKilos = Math.floor(Math.abs(usuario.kilos) / 3) * 3; usuario.puntos = ptsActividad + ptsAlimentacion + ptsKilos; }
+    function recalcularPuntos() { 
+      let ptsActividad = Math.floor((usuario.actividad || 0) / 5) * 1; 
+      let ptsSueno = Math.floor((usuario.suenoPruebas || 0) / 10) * 1;
+      let ptsKilos = Math.floor(Math.abs(usuario.kilos || 0) / 3) * 3; 
+      usuario.puntos = ptsActividad + ptsSueno + ptsKilos; 
+    }
+    
     function calcularIMC(peso, altura) { if (altura > 0) return peso / (altura * altura); return 0; }
+    
     function obtenerRango(imc, puntos) {
       if (imc === 0) return { letra: '-', color: '#8A8F9A' };
       if (imc >= 18.5 && imc <= 24.9 && puntos >= 6) return { letra: 'S', color: '#2ECC71' };
@@ -967,9 +1030,25 @@
       const avatarEl = document.getElementById('avatar'); if (usuario.avatarUrl) { avatarEl.innerHTML = `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />`; } else { avatarEl.innerHTML = `<span>${usuario.nombre ? usuario.nombre.charAt(0).toUpperCase() : '?'}</span>`; }
       const imc = calcularIMC(usuario.peso, usuario.altura); const rango = obtenerRango(imc, usuario.puntos);
       document.getElementById('rangoImc').textContent = `IMC: ${imc.toFixed(1)}`; document.getElementById('rangoBadge').textContent = rango.letra; document.getElementById('rangoBadge').style.color = rango.color; document.getElementById('rangoContainer').className = 'rango-container rango-' + rango.letra;
-      let metaCicloAct = Math.floor(usuario.actividad / 15) * 15 + 15; document.getElementById('actividadValor').textContent = `${usuario.actividad} / ${metaCicloAct}`; let pctAct = ((usuario.actividad % 15) / 15) * 100; if (usuario.actividad > 0 && usuario.actividad % 15 === 0) pctAct = 100; 
-      let metaCicloAli = Math.floor(usuario.alimentacion / 15) * 15 + 15; document.getElementById('alimentacionValor').textContent = `${usuario.alimentacion} / ${metaCicloAli}`; let pctAli = ((usuario.alimentacion % 15) / 15) * 100; if (usuario.alimentacion > 0 && usuario.alimentacion % 15 === 0) pctAli = 100;
-      setTimeout(() => { document.getElementById('actividadBarra').style.width = pctAct + '%'; document.getElementById('alimentacionBarra').style.width = pctAli + '%'; }, 100);
+      
+      let pAct = usuario.actividad || 0;
+      let metaAct = Math.floor(pAct / 15) * 15 + 15; 
+      document.getElementById('actividadValor').textContent = `${pAct} / ${metaAct}`; 
+      let pctAct = ((pAct % 15) / 15) * 100; if (pAct > 0 && pAct % 15 === 0) pctAct = 100; 
+
+      let pSueno = usuario.suenoPruebas || 0;
+      let pSuenoHoras = usuario.suenoHorasTotal || 0;
+      let pSuenoReg = usuario.suenoRegistros || 0;
+      let prom = pSuenoReg > 0 ? (pSuenoHoras / pSuenoReg).toFixed(1) : "0.0";
+      
+      document.getElementById('suenoValor').textContent = `${pSueno} / 30`;
+      document.getElementById('suenoPromedio').textContent = `Promedio: ${prom}h`;
+      let pctSueno = (pSueno / 30) * 100; if(pctSueno > 100) pctSueno = 100;
+      
+      setTimeout(() => { 
+        document.getElementById('actividadBarra').style.width = pctAct + '%'; 
+        document.getElementById('suenoBarra').style.width = pctSueno + '%';
+      }, 100);
     }
 
     function renderizarFeed() {
@@ -977,7 +1056,10 @@
       if (usuario.historial.length === 0) { feedCont.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>Aún no hay actividad.</div>`; return; }
       const avatarContent = usuario.avatarUrl ? `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${usuario.nombre.charAt(0).toUpperCase()}</span>`;
       usuario.historial.forEach(post => {
-        const feedIcon = post.tipo === 'ejercicio' ? '💪' : '🥗'; const tagHTML = `<div class="feed-tag">${post.tipo === 'ejercicio' ? (categoriasNombre[post.categoria] || 'Actividad') : 'Salud Alimenticia'}</div>`; const imgHTML = post.foto ? `<img src="${post.foto}" class="feed-img">` : ''; const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
+        const feedIcon = post.tipo === 'ejercicio' ? '💪' : '🌙'; 
+        const tagText = post.tipo === 'ejercicio' ? (categoriasNombre[post.categoria] || 'Actividad Física') : ('Descanso: ' + post.horas + ' horas');
+        const tagHTML = `<div class="feed-tag">${tagText}</div>`; 
+        const imgHTML = post.foto ? `<img src="${post.foto}" class="feed-img">` : ''; const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
         let votingHTML = '';
         if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } else { votingHTML = `<div class="vote-actions"><button onclick="window.votarPostPropio('${post.firebaseId}', true)" class="btn-vote up">👍</button><span class="vote-count">${post.votosPositivos || 0}/3</span><button onclick="window.votarPostPropio('${post.firebaseId}', false)" class="btn-vote down">👎</button></div><div class="vote-status pending">⏳ Pendiente</div>`; }
         feedCont.innerHTML += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions"><button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div></div>`;
@@ -998,7 +1080,14 @@
       if(esPositivo) { 
         post.votosPositivos = (post.votosPositivos || 0) + 1; 
         if(post.votosPositivos >= 3) { 
-          post.estado = 'aprobado'; if (post.tipo === 'ejercicio') usuario.actividad++; else usuario.alimentacion++; 
+          post.estado = 'aprobado'; 
+          if (post.tipo === 'ejercicio') usuario.actividad = (usuario.actividad || 0) + 1;
+          else if (post.tipo === 'sueno') {
+             usuario.suenoRegistros = (usuario.suenoRegistros || 0) + 1;
+             usuario.suenoHorasTotal = (usuario.suenoHorasTotal || 0) + post.horas;
+             if(post.horas >= 7) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 1;
+             else if(post.horas === 6) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 0.5;
+          }
         } 
       } 
       else { 
@@ -1012,7 +1101,21 @@
     window.borrarPost = async function(firebaseId) {
       if(confirm('¿Eliminar este registro?')) {
         const index = usuario.historial.findIndex(p => p.firebaseId === firebaseId);
-        if(index > -1) { const post = usuario.historial[index]; await deleteDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId)); if(post.estado === 'aprobado') { if (post.tipo === 'ejercicio' && usuario.actividad > 0) usuario.actividad--; else if (post.tipo === 'alimentacion' && usuario.alimentacion > 0) usuario.alimentacion--; await guardarDatosUsuario(); } }
+        if(index > -1) { 
+          const post = usuario.historial[index]; 
+          await deleteDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId)); 
+          if(post.estado === 'aprobado') { 
+             if (post.tipo === 'ejercicio' && usuario.actividad > 0) {
+                 usuario.actividad--; 
+             } else if (post.tipo === 'sueno') {
+                 usuario.suenoRegistros = Math.max(0, (usuario.suenoRegistros || 0) - 1);
+                 usuario.suenoHorasTotal = Math.max(0, (usuario.suenoHorasTotal || 0) - post.horas);
+                 if (post.horas >= 7) usuario.suenoPruebas = Math.max(0, (usuario.suenoPruebas || 0) - 1);
+                 else if (post.horas === 6) usuario.suenoPruebas = Math.max(0, (usuario.suenoPruebas || 0) - 0.5);
+             }
+             await guardarDatosUsuario(); 
+          } 
+        }
       }
     };
 
@@ -1020,7 +1123,7 @@
       const p = usuario.peso, a = usuario.altura * 100, e = usuario.edad, g = usuario.genero || 'M', f = parseFloat(usuario.nivelActividad) || 1.2, grasa = parseFloat(usuario.grasaCorporal);
       let bmr = grasa > 0 ? 370 + (21.6 * (p * (1 - (grasa / 100)))) : (g === 'M' ? (10 * p) + (6.25 * a) - (5 * e) + 5 : (10 * p) + (6.25 * a) - (5 * e) - 161);
       const tdee = bmr * f, inches = a / 2.54, pesoIdeal = g === 'M' ? 50.0 + 2.3 * (inches - 60) : 45.5 + 2.3 * (inches - 60);
-      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`; document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`; document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`; document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(pesoIdeal)} <span>kg</span>`; document.getElementById('macroPro').textContent = Math.round((tdee * 0.30) / 4); document.getElementById('macroGra').textContent = Math.round((tdee * 0.35) / 9); document.getElementById('macroCar').textContent = Math.round((tdee * 0.35) / 4);
+      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`; document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`; document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`; document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(pesoIdeal)} <span>kg</span>`; 
       const imc = calcularIMC(p, usuario.altura); const txtConsejo = document.getElementById('statConsejo');
       if (imc < 18.5) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Déficit crítico. Superávit de +300kcal requerido."; else if (imc <= 24.9) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Óptimo. Mantén tus calorías de TDEE Diario."; else if (imc <= 29.9) txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Sobrecarga leve. Aplica déficit de -300kcal."; else txtConsejo.innerHTML = "<strong>[Aviso del Sistema]</strong> Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
       document.getElementById('modalStats').classList.remove('hidden');
@@ -1043,20 +1146,71 @@
       await guardarDatosUsuario(); renderizarPerfil(); document.getElementById('modalEditar').classList.add('hidden'); btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false;
     });
 
-    document.getElementById('tipoRegistro').addEventListener('change', (e) => { if (e.target.value === 'alimentacion') document.getElementById('grupoCategoria').classList.add('hidden'); else document.getElementById('grupoCategoria').classList.remove('hidden'); });
-    const abrirModalReg = () => { document.getElementById('tituloModalActividad').textContent = '✦ Registro Diario'; document.getElementById('guardarActividad').textContent = 'Someter a Votación'; document.getElementById('tipoRegistro').disabled = false; document.getElementById('fotoRegistro').value = ''; document.getElementById('comentarioRegistro').value = ''; document.getElementById('modalActividad').classList.remove('hidden'); };
-    document.getElementById('btnAbrirActividad').addEventListener('click', abrirModalReg); document.getElementById('btnAbrirActividadFeed').addEventListener('click', abrirModalReg); document.getElementById('cancelarActividad').addEventListener('click', () => document.getElementById('modalActividad').classList.add('hidden'));
+    document.getElementById('tipoRegistro').addEventListener('change', (e) => { 
+        if (e.target.value === 'sueno') { 
+            document.getElementById('grupoCategoria').classList.add('hidden'); 
+            document.getElementById('grupoSueno').classList.remove('hidden'); 
+        } else { 
+            document.getElementById('grupoCategoria').classList.remove('hidden'); 
+            document.getElementById('grupoSueno').classList.add('hidden'); 
+        } 
+    });
+
+    const abrirModalReg = () => { 
+        document.getElementById('tituloModalActividad').textContent = '✦ Registro Diario'; 
+        document.getElementById('guardarActividad').textContent = 'Someter a Votación'; 
+        
+        document.getElementById('tipoRegistro').value = 'ejercicio';
+        document.getElementById('tipoRegistro').dispatchEvent(new Event('change'));
+        
+        document.getElementById('catEjercicio').value = '';
+        document.getElementById('horasSueno').value = '';
+        document.getElementById('fotoRegistro').value = ''; 
+        document.getElementById('comentarioRegistro').value = ''; 
+        document.getElementById('modalActividad').classList.remove('hidden'); 
+    };
+    
+    document.getElementById('btnAbrirActividad').addEventListener('click', abrirModalReg); 
+    document.getElementById('btnAbrirActividadFeed').addEventListener('click', abrirModalReg); 
+    document.getElementById('cancelarActividad').addEventListener('click', () => document.getElementById('modalActividad').classList.add('hidden'));
 
     document.getElementById('guardarActividad').addEventListener('click', async () => {
-      const tipo = document.getElementById('tipoRegistro').value; const categoria = document.getElementById('catEjercicio').value; const comentario = document.getElementById('comentarioRegistro').value.trim(); const file = document.getElementById('fotoRegistro').files[0]; const btnGuardar = document.getElementById('guardarActividad');
-      if (tipo === 'ejercicio' && !categoria) { alert("Selecciona categoría."); return; }
+      const tipo = document.getElementById('tipoRegistro').value; 
+      const categoria = document.getElementById('catEjercicio').value; 
+      const horas = document.getElementById('horasSueno').value;
+      const comentario = document.getElementById('comentarioRegistro').value.trim(); 
+      const file = document.getElementById('fotoRegistro').files[0]; 
+      const btnGuardar = document.getElementById('guardarActividad');
+      
+      if (tipo === 'ejercicio' && !categoria) { alert("Selecciona categoría de ejercicio."); return; }
+      if (tipo === 'sueno' && !horas) { alert("Selecciona las horas de sueño."); return; }
+      
       btnGuardar.textContent = 'Subiendo...'; btnGuardar.disabled = true; let fotoUrl = null;
       if (file) {
         const formData = new FormData(); formData.append('image', file);
         try { const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData }); const data = await res.json(); if (data.success) fotoUrl = data.data.url; else { alert('Error subiendo imagen.'); btnGuardar.textContent = 'Someter a Votación'; btnGuardar.disabled = false; return; } } catch (error) { alert('Error de conexión.'); btnGuardar.textContent = 'Someter a Votación'; btnGuardar.disabled = false; return; }
       }
-      const nuevoPost = { id: Date.now(), tipo: tipo, categoria: tipo === 'ejercicio' ? categoria : null, comentario: comentario, fecha: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' }), foto: fotoUrl, votosPositivos: 0, votosNegativos: 0, usuariosVotaron: [], estado: 'pendiente' };
-      try { await addDoc(collection(db, "usuarios", usuarioActualUid, "historial"), nuevoPost); document.getElementById('modalActividad').classList.add('hidden'); document.getElementById('btnTabFeed').click(); } catch (err) { alert('Error al guardar.'); }
+      
+      const nuevoPost = { 
+          id: Date.now(), 
+          tipo: tipo, 
+          categoria: tipo === 'ejercicio' ? categoria : null, 
+          horas: tipo === 'sueno' ? parseInt(horas) : null,
+          comentario: comentario, 
+          fecha: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' }), 
+          foto: fotoUrl, 
+          votosPositivos: 0, 
+          votosNegativos: 0, 
+          usuariosVotaron: [], 
+          estado: 'pendiente' 
+      };
+      
+      try { 
+          await addDoc(collection(db, "usuarios", usuarioActualUid, "historial"), nuevoPost); 
+          document.getElementById('modalActividad').classList.add('hidden'); 
+          document.getElementById('btnTabFeed').click(); 
+      } catch (err) { alert('Error al guardar.'); }
+      
       btnGuardar.textContent = 'Someter a Votación'; btnGuardar.disabled = false;
     });
 
