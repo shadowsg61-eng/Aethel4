@@ -106,8 +106,7 @@
       width: 120px; height: 120px; background: linear-gradient(135deg, #1A2A4A, #13203A); 
       border-radius: 20px;
       display: flex; justify-content: center; align-items: center; font-size: 46px; color: #E8E6E3; font-weight: 500;
-      border: 1px solid #2ECC71; /* <-- AQUÍ ESTÁ EL CAMBIO A 1PX */
-      flex-shrink: 0; overflow: hidden; position: relative; box-shadow: 0 0 30px rgba(46, 204, 113, 0.25); transition: all 0.3s ease;
+      border: 1px solid #2ECC71; flex-shrink: 0; overflow: hidden; position: relative; box-shadow: 0 0 30px rgba(46, 204, 113, 0.25); transition: all 0.3s ease;
     }
     .avatar:hover { box-shadow: 0 0 50px rgba(46, 204, 113, 0.4); transform: scale(1.02); }
     .avatar img { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1; }
@@ -558,6 +557,8 @@
     let usuarioActualUid = null;
     let usuario = { nombre: '', edad: 0, peso: 0, altura: 0, genero: 'M', grasaCorporal: null, nivelActividad: 1.2, puntos: 0, kilos: 0, actividad: 0, alimentacion: 0, avatarUrl: null, diaActual: 1, historial: [], amigos: [] };
     
+    let currentAmigoView = null; // Guardará el amigo que estamos viendo actualmente
+    
     const categoriasNombre = { pesas: "💪 Pesas", caminadora: "🏃‍♀️ Cinta", correr_exterior: "🌲 Running", caminar: "🚶 Senderismo", ciclismo: "🚴 Ciclismo", natacion: "🏊 Natación", yoga: "🧘 Yoga", crossfit: "🏋️ CrossFit", calistenia: "🤸 Calistenia", otro: "✨ Entrenamiento" };
     let postEnEdicion = null;
     let isLogin = true;
@@ -614,12 +615,17 @@
         const q = query(collection(db, "usuarios"), where("nombre", "==", nombreAmigo));
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
-          const amigoData = querySnapshot.docs[0].data();
+          const uDoc = querySnapshot.docs[0];
+          const amigoData = uDoc.data();
+          const amigoUid = uDoc.id; // ¡Obtenemos su ID secreto!
           const imc = calcularIMC(amigoData.peso, amigoData.altura);
           const rango = obtenerRango(imc, amigoData.puntos || 0);
           const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `${amigoData.nombre.charAt(0).toUpperCase()}`;
           const div = document.createElement('div'); div.className = 'amigo-item';
-          div.onclick = (e) => { if (!e.target.closest('.btn-delete-amigo')) abrirVisitaAmigo(amigoData, rango); };
+          
+          // Le pasamos el ID a la función
+          div.onclick = (e) => { if (!e.target.closest('.btn-delete-amigo')) abrirVisitaAmigo(amigoData, rango, amigoUid); };
+          
           div.innerHTML = `<div class="amigo-avatar">${avatarContent}</div><div class="amigo-info"><div class="amigo-nombre">${amigoData.nombre}</div><div class="amigo-rango">Nivel Constancia</div></div><div class="badge-rango" style="color: ${rango.color}">${rango.letra}</div><button class="btn-delete-amigo" onclick="window.borrarAmigoLista('${amigoData.nombre}')">🗑</button>`;
           listaAmigosDOM.appendChild(div);
         }
@@ -652,9 +658,13 @@
       }
     };
 
-    function abrirVisitaAmigo(amigoData, rango) {
+    // ===== AQUÍ ESTÁ LA MAGIA DEL FEED DE ALIADOS =====
+    window.abrirVisitaAmigo = async function(amigoData, rango, amigoUid) {
+      currentAmigoView = { data: amigoData, rango: rango, uid: amigoUid };
+      
       toggleDrawer(); loggedInContainer.classList.add('hidden'); friendContainer.classList.remove('hidden'); 
       document.getElementById('btnTabFriendPerfil').click();
+      
       const fAvatar = document.getElementById('friendAvatar');
       if (amigoData.avatarUrl) { fAvatar.innerHTML = `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover; border-radius:14px;" />`; } 
       else { fAvatar.innerHTML = `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`; }
@@ -662,11 +672,98 @@
       document.getElementById('friendRangoBadge').textContent = rango.letra; document.getElementById('friendRangoBadge').style.color = rango.color;
       document.getElementById('friendRangoContainer').style.borderColor = rango.color + '4D'; 
       document.getElementById('friendPuntos').textContent = amigoData.puntos || 0;
+      
       const fContainer = document.getElementById('friendFeedContainer');
-      fContainer.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>Aún no podemos ver la actividad de los aliados. (Próximamente)</div>`;
-    }
+      fContainer.innerHTML = '<p style="color:#5A6070; font-size:13px; text-align:center; margin-top:20px;">Cargando actividad del aliado...</p>';
+      
+      // Descargamos su historial en vivo
+      const q = query(collection(db, "usuarios", amigoUid, "historial"), orderBy("id", "desc"));
+      const querySnapshot = await getDocs(q);
+      const historialAmigo = [];
+      querySnapshot.forEach((docSnap) => { historialAmigo.push({ firebaseId: docSnap.id, ...docSnap.data() }); });
 
-    document.getElementById('btnVolverMiPerfil').addEventListener('click', () => { friendContainer.classList.add('hidden'); loggedInContainer.classList.remove('hidden'); });
+      fContainer.innerHTML = '';
+      if (historialAmigo.length === 0) {
+        fContainer.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>${amigoData.nombre} aún no ha registrado actividad.</div>`;
+        return;
+      }
+
+      const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`;
+
+      historialAmigo.forEach(post => {
+        const feedIcon = post.tipo === 'ejercicio' ? '💪' : '🥗';
+        const tagHTML = `<div class="feed-tag">${post.tipo === 'ejercicio' ? (categoriasNombre[post.categoria] || 'Actividad') : 'Salud Alimenticia'}</div>`;
+        const imgHTML = post.foto ? `<img src="${post.foto}" class="feed-img">` : '';
+        const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
+
+        let votingHTML = '';
+        if (post.estado === 'aprobado') { 
+          votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; 
+        } else if (post.estado === 'rechazado') { 
+          votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; 
+        } else {
+          // Si está pendiente, TÚ puedes votar por su evidencia
+          votingHTML = `
+            <div class="vote-actions">
+              <button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', true)" class="btn-vote up">👍</button>
+              <span class="vote-count">${post.votosPositivos || 0}/3</span>
+              <button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', false)" class="btn-vote down">👎</button>
+            </div>
+            <div class="vote-status pending">⏳ Pendiente</div>`;
+        }
+
+        fContainer.innerHTML += `
+          <div class="feed-item">
+            <div class="feed-header-item">
+              <div class="feed-avatar">${avatarContent}</div>
+              <div class="feed-meta"><div class="feed-name">${amigoData.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div>
+            </div>
+            ${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div>
+          </div>`;
+      });
+    };
+
+    // SISTEMA PARA VOTAR Y DARLE PUNTOS A TUS AMIGOS
+    window.votarPostAmigo = async function(amigoUid, firebaseId, esPositivo) {
+      const postRef = doc(db, "usuarios", amigoUid, "historial", firebaseId);
+      const postSnap = await getDoc(postRef);
+      if(!postSnap.exists()) return;
+      let post = postSnap.data();
+
+      if(post.estado !== 'pendiente') return;
+
+      if(esPositivo) {
+        post.votosPositivos = (post.votosPositivos || 0) + 1;
+        if(post.votosPositivos >= 3) {
+          post.estado = 'aprobado';
+          
+          // Si llega a 3 votos, le regalamos su punto al amigo!
+          const userRef = doc(db, "usuarios", amigoUid);
+          const uSnap = await getDoc(userRef);
+          if (uSnap.exists()) {
+             let uData = uSnap.data();
+             if (post.tipo === 'ejercicio') uData.actividad = (uData.actividad || 0) + 1;
+             else uData.alimentacion = (uData.alimentacion || 0) + 1;
+             await updateDoc(userRef, { actividad: uData.actividad, alimentacion: uData.alimentacion });
+          }
+        }
+      } else {
+        post.votosNegativos = (post.votosNegativos || 0) + 1;
+        if(post.votosNegativos >= 3) post.estado = 'rechazado';
+      }
+
+      await updateDoc(postRef, { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado });
+
+      // Refrescar la pantalla para ver el voto actualizado
+      if (currentAmigoView && currentAmigoView.uid === amigoUid) {
+         abrirVisitaAmigo(currentAmigoView.data, currentAmigoView.rango, currentAmigoView.uid);
+      }
+    };
+
+    document.getElementById('btnVolverMiPerfil').addEventListener('click', () => { 
+      friendContainer.classList.add('hidden'); 
+      loggedInContainer.classList.remove('hidden'); 
+    });
 
     // LÓGICA DE CONSOLA SECRETA (SOLO RELOJ)
     const modalConsole = document.getElementById('modalConsole');
