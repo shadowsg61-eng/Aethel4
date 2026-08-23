@@ -158,7 +158,7 @@
       transform: scale(1.2); 
     }
 
-    /* ===== RANGO CONTAINER ===== */
+    /* ===== RANGO CONTAINER (DISEÑO VERTICAL CENTRADO) ===== */
     .rango-container { 
       position: relative; 
       background: rgba(0, 0, 0, 0.3); 
@@ -233,7 +233,7 @@
     .btn-vote.up:hover { color: #2ECC71; border-color: #2ECC71; background: rgba(46, 204, 113, 0.1); }
     .btn-vote.down:hover { color: #E74C3C; border-color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
     
-    /* ESTILO ESPECIAL PARA EL VOTO DE DIOS */
+    /* VOTO DE DIOS */
     .btn-vote.admin-god { color: #F39C12; border-color: #F39C12; box-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
     .btn-vote.admin-god:hover { background: rgba(243, 156, 18, 0.15); transform: scale(1.15); }
 
@@ -275,10 +275,6 @@
     .amigo-info { flex: 1; }
     .amigo-nombre { color: #E8E6E3; font-size: 14px; font-weight: 500; transition: color 0.3s; }
     .amigo-item:hover .amigo-nombre { color: #2ECC71; }
-    
-    /* MEJORA: Texto del rango en la lista de amigos */
-    .amigo-rango { color: #8A8F9A; font-size: 11px; margin-top: 4px; font-weight: 400; text-transform: uppercase; letter-spacing: 1px; }
-    
     .badge-rango { display: flex; align-items: center; font-size: 20px; margin-right: 4px; }
     .btn-delete-amigo { background: transparent; border: none; color: #5A6070; font-size: 16px; cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.3s ease; }
     .btn-delete-amigo:hover { color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
@@ -301,10 +297,10 @@
     .modal .acciones-modal .guardar { background: linear-gradient(135deg, #2ECC71, #1ABC9C); color: #0B1426; }
     .modal .acciones-modal .cancelar { background: rgba(255, 255, 255, 0.03); color: #E8E6E3; border: 1px solid rgba(46, 204, 113, 0.2); }
 
-    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
     .stat-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; text-align: center; }
     .stat-box .title { font-size: 11px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .stat-box .val { font-size: 18px; color: #E8E6E3; font-weight: 400; }
+    .stat-box .val { font-size: 20px; color: #E8E6E3; font-weight: 300; }
     .stat-box .val span { font-size: 12px; color: #5A6070; }
     
     /* MODAL EDITAR & ADMIN */
@@ -417,15 +413,12 @@
             
             <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="puntos">0</div></div>
             
-            <!-- CONTENEDOR DE RANGO REDISEÑADO CON IMC -->
             <div class="rango-container" id="rangoContainer">
               <div class="rango-info">
                 <span class="label">Liga Actual</span>
-                <span class="imc" id="progresoLiga" style="text-align:center; line-height: 1.4;">Calculando...</span>
+                <span class="imc" id="progresoLiga">Calculando...</span>
               </div>
-              <div class="rango-badge" id="rangoBadge">
-                <!-- Se inyectará la Medalla gigante y el nombre -->
-              </div>
+              <div class="rango-badge" id="rangoBadge"></div>
             </div>
             
             <div class="criterios">
@@ -502,7 +495,7 @@
             <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="friendPuntos">0</div></div>
 
             <div class="rango-container" id="friendRangoContainer">
-              <div class="rango-info"><span class="label">Liga Actual</span><span class="imc" id="friendProgresoLiga" style="text-align:center; line-height: 1.4;">Calculando...</span></div>
+              <div class="rango-info"><span class="label">Liga Actual</span><span class="imc" id="friendProgresoLiga">Calculando...</span></div>
               <div class="rango-badge" id="friendRangoBadge"></div>
             </div>
             
@@ -580,25 +573,7 @@
         <div class="stat-box"><div class="title">Tasa Basal (BMR)</div><div class="val" id="statBmr">0 <span>kcal</span></div></div>
         <div class="stat-box"><div class="title">Peso Ideal Est.</div><div class="val" id="statPesoIdeal">0 <span>kg</span></div></div>
       </div>
-
-      <!-- Barra de IMC Dinámica -->
-      <div class="criterio" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
-        <span class="label">Tu IMC: <strong id="statImcNum" style="color:#2ECC71; font-size:16px;">0.0</strong></span>
-        <span class="valor" id="statImcText">Calculando...</span>
-        <div class="barra" style="margin-top:8px; height:8px;"><div id="statImcBarra" style="width: 50%;"></div></div>
-      </div>
-
-      <!-- Proyección a 3 Meses -->
-      <div class="admin-panel" style="margin-top: 20px; background: rgba(0,0,0,0.3); border-color: rgba(46, 204, 113, 0.2);">
-        <h3 style="color: #2ECC71; text-align: center; margin-bottom: 16px;">📅 Proyección de Peso Sugerido</h3>
-        <div style="display: flex; justify-content: space-between; text-align: center; font-size: 14px;">
-           <div><div style="color: #8A8F9A; font-size: 11px; margin-bottom:4px; text-transform:uppercase;">Mes 1</div><strong style="color: #E8E6E3;" id="projM1">-- kg</strong></div>
-           <div><div style="color: #8A8F9A; font-size: 11px; margin-bottom:4px; text-transform:uppercase;">Mes 2</div><strong style="color: #E8E6E3;" id="projM2">-- kg</strong></div>
-           <div><div style="color: #8A8F9A; font-size: 11px; margin-bottom:4px; text-transform:uppercase;">Mes 3</div><strong style="color: #2ECC71;" id="projM3">-- kg</strong></div>
-        </div>
-      </div>
-
-      <div class="system-tip" id="statConsejo" style="margin-top: 15px; text-align: center; font-size: 13px; color: #8A8F9A;">Calculando datos...</div>
+      <div class="system-tip" id="statConsejo" style="margin-top: 20px;">Calculando datos...</div>
       <div class="acciones-modal"><button class="cancelar" id="btnCerrarStats" style="width: 100%;">Cerrar Ventana</button></div>
     </div>
   </div>
@@ -885,12 +860,15 @@
       document.getElementById('friendAltura').textContent = amigoData.altura || '-';
       document.getElementById('friendTagDia').textContent = `Día de Expedición: ${amigoData.diaActual || 1}`;
 
-      const fImc = calcularIMC(amigoData.peso, amigoData.altura);
-      document.getElementById('friendProgresoLiga').innerHTML = `Faltan ${rango.next === 'Max' ? 0 : (rango.next - ptsTotales)} pts para la siguiente Liga<br><span style="color:#2ECC71; font-size:11px;">IMC Actual: ${fImc.toFixed(1)}</span>`;
-
       document.getElementById('friendRangoBadge').innerHTML = `${rango.icono} <div style="margin-top:8px;">${rango.nombre}</div>`; 
       document.getElementById('friendRangoBadge').style.color = rango.color;
       document.getElementById('friendRangoContainer').className = 'rango-container rango-' + rango.clase;
+      
+      if(rango.next !== 'Max') {
+        document.getElementById('friendProgresoLiga').textContent = `Faltan ${rango.next - ptsTotales} pts para la siguiente Liga`;
+      } else {
+        document.getElementById('friendProgresoLiga').textContent = `¡Rango Máximo Alcanzado!`;
+      }
       
       document.getElementById('friendPuntos').textContent = ptsTotales || 0;
       document.getElementById('friendKilosValor').textContent = amigoData.kilos > 0 ? `+${amigoData.kilos}` : (amigoData.kilos || 0);
@@ -1335,17 +1313,14 @@
       document.getElementById('nombre').textContent = usuario.nombre; document.getElementById('edad').textContent = usuario.edad; document.getElementById('peso').textContent = usuario.peso; document.getElementById('altura').textContent = usuario.altura; document.getElementById('puntos').textContent = Number.isInteger(usuario.puntos) ? usuario.puntos : usuario.puntos.toFixed(1); document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos; document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
       
       const rango = obtenerRango(usuario.puntos);
-      const mImc = calcularIMC(usuario.peso, usuario.altura);
-
-      // Inyectamos la medalla y abajo el nombre
       document.getElementById('rangoBadge').innerHTML = `${rango.icono} <div>${rango.nombre}</div>`; 
       document.getElementById('rangoBadge').style.color = rango.color; 
       document.getElementById('rangoContainer').className = 'rango-container rango-' + rango.clase;
       
       if(rango.next !== 'Max') {
-        document.getElementById('progresoLiga').innerHTML = `Faltan ${rango.next - usuario.puntos} pts para la siguiente Liga<br><span style="color:#2ECC71; font-size:11px;">IMC Actual: ${mImc.toFixed(1)}</span>`;
+        document.getElementById('progresoLiga').textContent = `Faltan ${rango.next - usuario.puntos} pts para la siguiente Liga`;
       } else {
-        document.getElementById('progresoLiga').innerHTML = `¡Rango Máximo Alcanzado!<br><span style="color:#2ECC71; font-size:11px;">IMC Actual: ${mImc.toFixed(1)}</span>`;
+        document.getElementById('progresoLiga').textContent = `¡Rango Máximo Alcanzado!`;
       }
 
       const avatarEl = document.getElementById('avatar'); 
@@ -1371,7 +1346,9 @@
       }, 100);
     }
 
-    // RENDERIZAR FEED PROPIO CON FILTROS Y BOTON DE DIOS
+    // ==========================================
+    // RENDERIZAR FEED PROPIO (CON RESTRICCIÓN MORTAL)
+    // ==========================================
     function renderizarFeed() {
       const feedCont = document.getElementById('feedContainer'); feedCont.innerHTML = ''; 
       const esAdmin = auth.currentUser && auth.currentUser.email === ADMIN_EMAIL;
@@ -1404,15 +1381,25 @@
         if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } 
         else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
         else { 
-            let btnAdmin = esAdmin ? `<button onclick="window.aprobarAdminPropio('${post.firebaseId}')" class="btn-vote admin-god" title="Aprobación Divina">🛡️</button>` : '';
-            votingHTML = `
-              <div class="vote-actions">
-                <button onclick="window.votarPostPropio('${post.firebaseId}', true)" class="btn-vote up">👍</button>
-                <span class="vote-count">${post.votosPositivos || 0}/3</span>
-                <button onclick="window.votarPostPropio('${post.firebaseId}', false)" class="btn-vote down">👎</button>
-                ${btnAdmin}
-              </div>
-              <div class="vote-status pending">⏳ Pendiente</div>`; 
+            if (esAdmin) {
+                // Admin ve todo incluso en su propio perfil
+                let btnAdmin = `<button onclick="window.aprobarAdminPropio('${post.firebaseId}')" class="btn-vote admin-god" title="Aprobación Divina">🛡️</button>`;
+                votingHTML = `
+                  <div class="vote-actions">
+                    <button onclick="window.votarPostPropio('${post.firebaseId}', true)" class="btn-vote up">👍</button>
+                    <span class="vote-count">${post.votosPositivos || 0}/3</span>
+                    <button onclick="window.votarPostPropio('${post.firebaseId}', false)" class="btn-vote down">👎</button>
+                    ${btnAdmin}
+                  </div>
+                  <div class="vote-status pending">⏳ Pendiente</div>`; 
+            } else {
+                // Mortal no puede votar en sus propias fotos
+                votingHTML = `
+                  <div class="vote-actions" style="justify-content: center; width: 100%;">
+                    <span class="vote-count">👍 Votos recibidos: ${post.votosPositivos || 0}/3</span>
+                  </div>
+                  <div class="vote-status pending">⏳ Esperando votos de la Alianza</div>`; 
+            }
         }
         
         feedCont.innerHTML += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions"><button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div></div>`;
@@ -1420,17 +1407,19 @@
     }
 
     // ==========================================
-    // VOTACIONES NORMALES (PROPIAS)
+    // VOTACIONES NORMALES (PROPIAS - RESTRINGIDO)
     // ==========================================
     window.votarPostPropio = async function(firebaseId, esPositivo) {
       const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
       
-      if (!post.usuariosVotaron) post.usuariosVotaron = [];
-      if (post.usuariosVotaron.includes(usuarioActualUid)) {
-          alert('🛡️ Ya votaste en esta publicación. No puedes votar dos veces.');
+      const esAdmin = auth.currentUser && auth.currentUser.email === ADMIN_EMAIL;
+      if (!esAdmin) {
+          alert('🛡️ Regla de la Alianza: No puedes votar por tus propias evidencias. Espera a que el gremio te califique.');
           return;
       }
-      post.usuariosVotaron.push(usuarioActualUid);
+
+      if (!post.usuariosVotaron) post.usuariosVotaron = [];
+      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
 
       if(esPositivo) { 
         post.votosPositivos = (post.votosPositivos || 0) + 1; 
@@ -1499,59 +1488,15 @@
       }
     };
 
-    // BOTÓN DE ESTADÍSTICAS VITALES (EL OJO)
     document.getElementById('btnInfoVital').addEventListener('click', () => {
-      const p = usuario.peso, a = usuario.altura, e = usuario.edad, g = usuario.genero || 'M', act = parseFloat(usuario.nivelActividad) || 1.2, grasa = parseFloat(usuario.grasaCorporal);
-      const aCm = a * 100;
-      let bmr = grasa > 0 ? 370 + (21.6 * (p * (1 - (grasa / 100)))) : (g === 'M' ? (10 * p) + (6.25 * aCm) - (5 * e) + 5 : (10 * p) + (6.25 * aCm) - (5 * e) - 161);
-      const tdee = bmr * act, inches = aCm / 2.54, pesoIdeal = g === 'M' ? 50.0 + 2.3 * (inches - 60) : 45.5 + 2.3 * (inches - 60);
-      
-      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`; 
-      document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`; 
-      document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`; 
-      document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(pesoIdeal)} <span>kg</span>`; 
-      
-      const imc = calcularIMC(p, a); 
-      let txtConsejo = "";
-      
-      // LOGICA DE LA BARRA DE IMC Y PROYECCIONES
-      let imcText = "";
-      let imcColor = "#2ECC71";
-      let imcPct = ((imc - 15) / 25) * 100; 
-      if(imcPct < 0) imcPct = 0; if(imcPct > 100) imcPct = 100;
-
-      let modM1 = 0, modM2 = 0, modM3 = 0;
-
-      if (imc < 18.5) {
-          imcText = "Déficit (Bajo Peso)"; imcColor = "#F39C12"; txtConsejo = "Superávit calórico de +300kcal requerido.";
-          modM1 = 1.0; modM2 = 2.0; modM3 = 3.0; // Ganar músculo
-      } else if (imc <= 24.9) {
-          imcText = "Peso Óptimo"; imcColor = "#2ECC71"; txtConsejo = "Óptimo. Mantén tus calorías de TDEE Diario.";
-          modM1 = -0.5; modM2 = -1.0; modM3 = -1.5; // Recomposición ligera
-      } else if (imc <= 29.9) {
-          imcText = "Sobrepeso Leve"; imcColor = "#E74C3C"; txtConsejo = "Sobrecarga leve. Aplica déficit de -300kcal.";
-          let baseLoss = 2.0 * act;
-          modM1 = -baseLoss; modM2 = -(baseLoss * 2); modM3 = -(baseLoss * 3);
-      } else {
-          imcText = "Sobrecarga (Obesidad)"; imcColor = "#E74C3C"; txtConsejo = "Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
-          let baseLoss = 2.5 * act;
-          modM1 = -baseLoss; modM2 = -(baseLoss * 2); modM3 = -(baseLoss * 3);
-      }
-
-      document.getElementById('statImcNum').textContent = imc.toFixed(1);
-      document.getElementById('statImcNum').style.color = imcColor;
-      document.getElementById('statImcText').textContent = imcText;
-      document.getElementById('statImcBarra').style.width = imcPct + "%";
-      document.getElementById('statImcBarra').style.background = imcColor;
-      document.getElementById('statConsejo').textContent = txtConsejo;
-
-      document.getElementById('projM1').textContent = (p + modM1).toFixed(1) + " kg";
-      document.getElementById('projM2').textContent = (p + modM2).toFixed(1) + " kg";
-      document.getElementById('projM3').textContent = (p + modM3).toFixed(1) + " kg";
-
+      const p = usuario.peso, a = usuario.altura * 100, e = usuario.edad, g = usuario.genero || 'M', f = parseFloat(usuario.nivelActividad) || 1.2, grasa = parseFloat(usuario.grasaCorporal);
+      let bmr = grasa > 0 ? 370 + (21.6 * (p * (1 - (grasa / 100)))) : (g === 'M' ? (10 * p) + (6.25 * a) - (5 * e) + 5 : (10 * p) + (6.25 * a) - (5 * e) - 161);
+      const tdee = bmr * f, inches = a / 2.54, pesoIdeal = g === 'M' ? 50.0 + 2.3 * (inches - 60) : 45.5 + 2.3 * (inches - 60);
+      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`; document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`; document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`; document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(pesoIdeal)} <span>kg</span>`; 
+      const imc = calcularIMC(p, usuario.altura); const txtConsejo = document.getElementById('statConsejo');
+      if (imc < 18.5) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Déficit crítico. Superávit de +300kcal requerido."; else if (imc <= 24.9) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Óptimo. Mantén tus calorías de TDEE Diario."; else if (imc <= 29.9) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga leve. Aplica déficit de -300kcal."; else txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
       document.getElementById('modalStats').classList.remove('hidden');
     });
-
     document.getElementById('btnCerrarStats').addEventListener('click', () => document.getElementById('modalStats').classList.add('hidden'));
 
     document.getElementById('editarPerfil').addEventListener('click', () => {
