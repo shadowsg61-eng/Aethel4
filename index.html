@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aethel 4 · Ligas ELO & Admin</title>
+  
+  <link rel="icon" type="image/png" href="https://i.ibb.co/81P7sWq/1000051409-removebg-preview.png">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/81P7sWq/1000051409-removebg-preview.png">
+  
   <style>
     /* ===== RESET Y ESTILOS BASE ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,9 +54,21 @@
 
     .btn-hamburguesa {
       position: absolute; right: 0; top: 0; background: transparent; border: none;
-      color: #8A8F9A; font-size: 24px; cursor: pointer; transition: all 0.3s ease; padding: 4px;
+      color: #8A8F9A; font-size: 24px; cursor: pointer; transition: all 0.3s ease; padding: 4px; z-index: 10;
     }
     .btn-hamburguesa:hover { color: #2ECC71; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
+
+    /* CAMPANA DE NOTIFICACIONES */
+    .btn-notif {
+      position: absolute; right: 40px; top: 0; background: transparent; border: none;
+      color: #8A8F9A; font-size: 24px; cursor: pointer; transition: all 0.3s ease; padding: 4px; z-index: 10;
+    }
+    .btn-notif:hover { color: #F39C12; text-shadow: 0 0 15px rgba(243, 156, 18, 0.4); }
+    .badge-notif {
+      position: absolute; top: 4px; right: 4px; width: 10px; height: 10px; 
+      background: #E74C3C; border-radius: 50%; border: 2px solid #13203A;
+      box-shadow: 0 0 10px rgba(231, 76, 60, 0.8);
+    }
 
     .return-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(46, 204, 113, 0.1); }
     .return-bar button { background: transparent; border: none; color: #2ECC71; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; padding: 4px 8px; border-radius: 6px; }
@@ -109,6 +125,14 @@
     .details strong { color: #E8E6E3; font-weight: 500; }
     .dia-tag { background: rgba(243, 156, 18, 0.1); color: #F39C12; border: 1px solid rgba(243, 156, 18, 0.3); font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: 500; letter-spacing: 1px; margin-bottom: 20px; }
 
+    /* BANNER MARRANO PENALIZADO */
+    .banner-penalizado {
+      background: rgba(231, 76, 60, 0.15); border: 1px solid #E74C3C; color: #E74C3C;
+      padding: 10px; border-radius: 12px; text-align: center; font-weight: bold;
+      font-size: 14px; margin-bottom: 16px; animation: pulseRed 2s infinite;
+    }
+    @keyframes pulseRed { 0%, 100% { box-shadow: 0 0 10px rgba(231, 76, 60, 0.2); } 50% { box-shadow: 0 0 20px rgba(231, 76, 60, 0.5); } }
+
     /* ===== LIGAS ELO (COLORES Y AURA NEÓN) ===== */
     .rango-cobre .rango-badge { color: #B87333; text-shadow: 0 0 10px rgba(184, 115, 51, 0.3); }
     .rango-cobre { border-color: rgba(184, 115, 51, 0.3); }
@@ -133,61 +157,18 @@
     @keyframes latidoPlatino { 0%, 100% { text-shadow: 0 0 30px rgba(0, 255, 255, 1); } 50% { text-shadow: 0 0 50px rgba(0, 255, 255, 1), 0 0 10px #fff; } }
     @keyframes latidoPlatinoAvatar { 0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.6); } 50% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.9); } }
 
-    /* Animación de flotación para la medalla gigante */
-    @keyframes floatMedal {
-      0%, 100% { transform: translateY(0) scale(1.6); }
-      50% { transform: translateY(-8px) scale(1.6); }
-    }
+    @keyframes floatMedal { 0%, 100% { transform: translateY(0) scale(1.6); } 50% { transform: translateY(-8px) scale(1.6); } }
 
     /* ===== ESTILOS PARA INSIGNIAS PERSONALIZADAS (IMÁGENES) ===== */
-    .rango-badge img {
-      width: 150px; 
-      height: 150px; 
-      object-fit: contain; 
-      filter: drop-shadow(0 0 25px currentColor); 
-      margin: 0;
-      animation: floatMedal 3s ease-in-out infinite;
-      transform: scale(1.6); 
-    }
-    
-    .badge-rango img {
-      width: 40px; 
-      height: 40px; 
-      object-fit: contain; 
-      filter: drop-shadow(0 0 10px currentColor); 
-      transform: scale(1.2); 
-    }
+    .rango-badge img { width: 150px; height: 150px; object-fit: contain; filter: drop-shadow(0 0 25px currentColor); margin: 0; animation: floatMedal 3s ease-in-out infinite; transform: scale(1.6); }
+    .badge-rango img { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 0 10px currentColor); transform: scale(1.2); }
 
     /* ===== RANGO CONTAINER (DISEÑO VERTICAL CENTRADO) ===== */
-    .rango-container { 
-      position: relative; 
-      background: rgba(0, 0, 0, 0.3); 
-      border-radius: 16px; 
-      padding: 24px 20px; 
-      margin-bottom: 28px; 
-      border-width: 1px; 
-      border-style: solid; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 16px; 
-      text-align: center;
-      transition: all 0.3s ease;
-    }
+    .rango-container { position: relative; background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 24px 20px; margin-bottom: 28px; border-width: 1px; border-style: solid; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; transition: all 0.3s ease; }
     .rango-info { display: flex; flex-direction: column; align-items: center; }
     .rango-info .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #8A8F9A; }
     .rango-info .imc { font-size: 13px; color: #E8E6E3; margin-top: 6px; font-weight: 500; }
-    
-    .rango-badge { 
-      font-size: 26px; 
-      font-weight: 700; 
-      line-height: 1; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      gap: 12px; 
-    }
+    .rango-badge { font-size: 26px; font-weight: 700; line-height: 1; display: flex; flex-direction: column; align-items: center; gap: 12px; }
 
     .puntos { background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 18px 20px; margin-bottom: 28px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;}
     .puntos-label { font-size: 13px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; }
@@ -275,6 +256,8 @@
     .amigo-info { flex: 1; }
     .amigo-nombre { color: #E8E6E3; font-size: 14px; font-weight: 500; transition: color 0.3s; }
     .amigo-item:hover .amigo-nombre { color: #2ECC71; }
+    /* Corrección de color para el rango en el menú lateral */
+    .amigo-rango { font-size: 12px; color: #8A8F9A; margin-top: 2px; }
     .badge-rango { display: flex; align-items: center; font-size: 20px; margin-right: 4px; }
     .btn-delete-amigo { background: transparent; border: none; color: #5A6070; font-size: 16px; cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.3s ease; }
     .btn-delete-amigo:hover { color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
@@ -284,7 +267,7 @@
 
     .hidden { display: none !important; }
 
-    /* ===== MODALES ===== */
+    /* ===== MODAL NOTIFICACIONES ===== */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .modal { background: #13203A; border-radius: 24px; padding: 32px 24px; max-width: 420px; width: 90%; border: 1px solid rgba(46, 204, 113, 0.2); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 60px rgba(46, 204, 113, 0.05); animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
@@ -297,12 +280,20 @@
     .modal .acciones-modal .guardar { background: linear-gradient(135deg, #2ECC71, #1ABC9C); color: #0B1426; }
     .modal .acciones-modal .cancelar { background: rgba(255, 255, 255, 0.03); color: #E8E6E3; border: 1px solid rgba(46, 204, 113, 0.2); }
 
+    /* ESTADISTICAS */
     .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
     .stat-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; text-align: center; }
     .stat-box .title { font-size: 11px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .stat-box .val { font-size: 20px; color: #E8E6E3; font-weight: 300; }
     .stat-box .val span { font-size: 12px; color: #5A6070; }
+    /* Corrección de color para el Consejo del Ojo */
+    #statConsejo { color: #E8E6E3; font-size: 14px; line-height: 1.5; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+    #statConsejo strong { color: #2ECC71; font-weight: 600; }
     
+    /* ITEMS DE NOTIFICACIONES */
+    .notif-item { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; border-left: 4px solid #2ECC71; font-size: 13px; color: #E8E6E3; }
+    .notif-time { font-size: 10px; color: #8A8F9A; margin-top: 6px; display:block; }
+
     /* MODAL EDITAR & ADMIN */
     .input-group { margin-bottom: 22px; transition: all 0.3s ease; }
     .admin-panel { background: rgba(231, 76, 60, 0.1); border: 1px dashed #E74C3C; padding: 16px; border-radius: 12px; margin-top: 20px; }
@@ -317,18 +308,10 @@
     @media (max-width: 520px) {
       .card { padding: 24px 16px 16px; }
       .header h1 { font-size: 22px; letter-spacing: 6px; }
-      
-      .rango-container { 
-        flex-direction: column; 
-        text-align: center; 
-        gap: 20px; 
-        padding: 16px; 
-      }
+      .rango-container { flex-direction: column; text-align: center; gap: 20px; padding: 16px; }
       .rango-info { align-items: center; }
       .rango-badge { font-size: 20px; justify-content: center; text-align: center; }
-      
       .rango-badge img { width: 140px; height: 140px; transform: scale(1.6); } 
-      
       .puntos-valor { font-size: 36px; }
       .drawer { width: 85%; }
     }
@@ -338,7 +321,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAn68P9ePlPk0VJ7Grlow98c9n0T4JhQSE",
@@ -355,7 +338,7 @@
 
     window.fbAuth = auth;
     window.fbDb = db;
-    window.fbMethods = { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp };
+    window.fbMethods = { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp, limit };
   </script>
 </head>
 <body>
@@ -363,6 +346,9 @@
   <div class="container">
     <div class="card">
       <div class="header" id="mainHeader">
+        <button id="btnNotificaciones" class="btn-notif hidden" title="Notificaciones">
+          🔔<span id="badgeNotif" class="badge-notif hidden"></span>
+        </button>
         <button id="btnMenuAmigos" class="btn-hamburguesa hidden" title="Gremio / Amigos">☰</button>
         <span class="icon">✦</span>
         <h1>AETHEL <span>4</span></h1>
@@ -407,9 +393,19 @@
           <div id="perfilSection">
             <div class="profile">
               <div class="avatar" id="avatar">?</div>
-              <div class="info"><h2 id="nombre">Usuario</h2><div class="details"><span>Edad: <strong id="edad">0</strong></span><span>Peso: <strong id="peso">0</strong> kg</span><span>Altura: <strong id="altura">0</strong> m</span></div></div>
+              <div class="info">
+                <h2 id="nombre">Usuario</h2>
+                <div class="details">
+                  <span>Edad: <strong id="edad">0</strong></span>
+                  <span>Peso: <strong id="peso">0</strong> kg</span>
+                  <span>Altura: <strong id="altura">0</strong> m</span>
+                  <span>IMC: <strong id="imcValor">0</strong></span>
+                </div>
+              </div>
             </div>
             <div style="text-align: center;"><div class="dia-tag" id="tagDiaActual">Día de Expedición: 1</div></div>
+            
+            <div id="bannerPenalizadoPropio" class="banner-penalizado hidden">⚠️ Este Marrano esta penalizado (-0.5 XP) ⚠️</div>
             
             <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="puntos">0</div></div>
             
@@ -487,10 +483,13 @@
                   <span>Edad: <strong id="friendEdad">0</strong></span>
                   <span>Peso: <strong id="friendPeso">0</strong> kg</span>
                   <span>Altura: <strong id="friendAltura">0</strong> m</span>
+                  <span>IMC: <strong id="friendImcValor">0</strong></span>
                 </div>
               </div>
             </div>
             <div style="text-align: center;"><div class="dia-tag" id="friendTagDia">Día de Expedición: 1</div></div>
+            
+            <div id="bannerPenalizadoAmigo" class="banner-penalizado hidden">⚠️ Este Marrano esta penalizado (-0.5 XP) ⚠️</div>
             
             <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="friendPuntos">0</div></div>
 
@@ -518,6 +517,12 @@
             <!-- PANEL ADMIN -->
             <div id="adminControlPanel" class="admin-panel hidden">
               <h3>🛡️ PANEL DE GUILD MASTER (ADMIN)</h3>
+              
+              <div class="input-group" style="margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; background: rgba(231,76,60,0.1); padding: 10px; border-radius: 8px; border: 1px solid rgba(231,76,60,0.3);">
+                <label style="margin:0; color:#E74C3C; font-weight:bold; font-size:14px;">Castigar por Marrano (-0.5 XP):</label>
+                <input type="checkbox" id="adminTogglePenalizacion" style="width:22px; height:22px; cursor:pointer;" />
+              </div>
+
               <div class="input-group" style="margin-bottom:12px;">
                 <label>Ajustar Entrenamientos aprobados:</label>
                 <input type="number" id="adminInputAct" style="padding:8px;" />
@@ -563,7 +568,18 @@
     <div class="drawer-footer"><button id="btnLogout" class="btn-logout">🚪 Cerrar sesión</button></div>
   </div>
 
-  <!-- ===== MODALES ===== -->
+  <!-- ===== MODAL NOTIFICACIONES ===== -->
+  <div id="modalNotif" class="modal-overlay hidden">
+    <div class="modal">
+      <h2>🔔 Notificaciones</h2>
+      <div id="listaNotificaciones" style="display:flex; flex-direction:column; gap:12px; max-height: 350px; overflow-y:auto; margin-bottom: 20px;">
+          <!-- Se inyectan notificaciones aquí -->
+      </div>
+      <div class="acciones-modal"><button class="cancelar" id="btnCerrarNotif" style="width: 100%;">Cerrar Panel</button></div>
+    </div>
+  </div>
+
+  <!-- ===== MODALES RESTANTES ===== -->
   <div id="modalStats" class="modal-overlay hidden">
     <div class="modal">
       <h2>✦ Ventana de Estado</h2>
@@ -573,7 +589,7 @@
         <div class="stat-box"><div class="title">Tasa Basal (BMR)</div><div class="val" id="statBmr">0 <span>kcal</span></div></div>
         <div class="stat-box"><div class="title">Peso Ideal Est.</div><div class="val" id="statPesoIdeal">0 <span>kg</span></div></div>
       </div>
-      <div class="system-tip" id="statConsejo" style="margin-top: 20px;">Calculando datos...</div>
+      <div id="statConsejo">Calculando datos...</div>
       <div class="acciones-modal"><button class="cancelar" id="btnCerrarStats" style="width: 100%;">Cerrar Ventana</button></div>
     </div>
   </div>
@@ -696,7 +712,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAn68P9ePlPk0VJ7Grlow98c9n0T4JhQSE",
@@ -713,7 +729,7 @@
 
     window.fbAuth = auth;
     window.fbDb = db;
-    window.fbMethods = { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp };
+    window.fbMethods = { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp, limit };
     
     const IMGBB_API_KEY = "37e78e69061e8c13a2e7a9c8e50503de";
     const ADMIN_EMAIL = "noctiansa@gmail.com"; 
@@ -722,14 +738,19 @@
     let usuario = { 
         nombre: '', edad: 0, peso: 0, altura: 0, genero: 'M', grasaCorporal: null, nivelActividad: 1.2, 
         puntos: 0, kilos: 0, actividad: 0, suenoPruebas: 0, suenoHorasTotal: 0, suenoRegistros: 0, 
-        avatarUrl: null, diaActual: 1, historial: [], amigos: [] 
+        avatarUrl: null, diaActual: 1, historial: [], amigos: [], penalizado: false
     };
     
     let currentAmigoView = null;
     let unsubscribeUserFeed = null;
     let unsubscribeAmigoFeed = null;
     let unsubscribeTablon = null;
+    let unsubscribeNotifs = null;
+    
     let postsTablonArray = [];
+    let misNotificaciones = [];
+    let notifsNoLeidas = 0;
+    let lastNotifCheck = parseInt(localStorage.getItem('lastNotifCheck') || '0');
     
     let filtroActualTablon = 'todos';
     let filtroFeedPersonal = 'todos';
@@ -764,6 +785,54 @@
       e.target.classList.add('active'); document.getElementById('btnTabFriendPerfil').classList.remove('active');
       document.getElementById('friendFeedSection').classList.remove('hidden'); document.getElementById('friendPerfilSection').classList.add('hidden');
     });
+
+    // SISTEMA DE NOTIFICACIONES
+    document.getElementById('btnNotificaciones').addEventListener('click', () => {
+        lastNotifCheck = Date.now();
+        localStorage.setItem('lastNotifCheck', lastNotifCheck);
+        notifsNoLeidas = 0;
+        document.getElementById('badgeNotif').classList.add('hidden');
+        renderizarModalNotificaciones();
+        document.getElementById('modalNotif').classList.remove('hidden');
+    });
+    document.getElementById('btnCerrarNotif').addEventListener('click', () => { document.getElementById('modalNotif').classList.add('hidden'); });
+
+    function renderizarModalNotificaciones() {
+        const list = document.getElementById('listaNotificaciones');
+        list.innerHTML = '';
+        if (misNotificaciones.length === 0) {
+            list.innerHTML = '<p style="text-align:center; color:#8A8F9A;">No hay alertas en el Gremio.</p>'; return;
+        }
+        misNotificaciones.forEach(n => {
+            list.innerHTML += `<div class="notif-item">${n.mensaje}<span class="notif-time">${new Date(n.id).toLocaleString('es-MX', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' })}</span></div>`;
+        });
+    }
+
+    function escucharNotificacionesGlobales() {
+        if(unsubscribeNotifs) unsubscribeNotifs();
+        const q = query(collection(db, "notificaciones"), orderBy("id", "desc"), limit(30));
+        unsubscribeNotifs = onSnapshot(q, (snap) => {
+            misNotificaciones = [];
+            notifsNoLeidas = 0;
+            snap.forEach(docSnap => {
+                const noti = docSnap.data();
+                let esParaMi = false;
+                if (noti.para === usuarioActualUid) esParaMi = true;
+                if (noti.para === 'global' && usuario.amigos && usuario.amigos.includes(noti.creadorNombre)) esParaMi = true;
+
+                if (esParaMi) {
+                    misNotificaciones.push(noti);
+                    if (noti.id > lastNotifCheck) notifsNoLeidas++;
+                }
+            });
+            if(notifsNoLeidas > 0) document.getElementById('badgeNotif').classList.remove('hidden');
+            else document.getElementById('badgeNotif').classList.add('hidden');
+            
+            if(!document.getElementById('modalNotif').classList.contains('hidden')){
+                renderizarModalNotificaciones();
+            }
+        });
+    }
 
     // FILTROS DE FEED PERSONAL
     document.querySelectorAll('#filtrosFeedPersonal .btn-filtro').forEach(btn => {
@@ -812,7 +881,8 @@
           let pAct = (amigoData.actividad || 0) * 10;
           let pSue = (amigoData.suenoPruebas || 0) * 5;
           let pKil = Math.abs(amigoData.kilos || 0) * 50;
-          let ptsTotales = pAct + pSue + pKil;
+          let pen = amigoData.penalizado ? 0.5 : 0;
+          let ptsTotales = pAct + pSue + pKil - pen;
           
           const rango = obtenerRango(ptsTotales);
           const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `${amigoData.nombre.charAt(0).toUpperCase()}`;
@@ -858,7 +928,18 @@
       document.getElementById('friendEdad').textContent = amigoData.edad || '-';
       document.getElementById('friendPeso').textContent = amigoData.peso || '-';
       document.getElementById('friendAltura').textContent = amigoData.altura || '-';
+      
+      let amImc = calcularIMC(amigoData.peso, amigoData.altura);
+      document.getElementById('friendImcValor').textContent = amImc > 0 ? amImc.toFixed(1) : '-';
+      
       document.getElementById('friendTagDia').textContent = `Día de Expedición: ${amigoData.diaActual || 1}`;
+
+      // Banner de Penalización
+      if (amigoData.penalizado) {
+        document.getElementById('bannerPenalizadoAmigo').classList.remove('hidden');
+      } else {
+        document.getElementById('bannerPenalizadoAmigo').classList.add('hidden');
+      }
 
       document.getElementById('friendRangoBadge').innerHTML = `${rango.icono} <div style="margin-top:8px;">${rango.nombre}</div>`; 
       document.getElementById('friendRangoBadge').style.color = rango.color;
@@ -870,7 +951,8 @@
         document.getElementById('friendProgresoLiga').textContent = `¡Rango Máximo Alcanzado!`;
       }
       
-      document.getElementById('friendPuntos').textContent = ptsTotales || 0;
+      let pDisplay = Number.isInteger(ptsTotales) ? ptsTotales : ptsTotales.toFixed(1);
+      document.getElementById('friendPuntos').textContent = pDisplay;
       document.getElementById('friendKilosValor').textContent = amigoData.kilos > 0 ? `+${amigoData.kilos}` : (amigoData.kilos || 0);
 
       let fAct = amigoData.actividad || 0;
@@ -893,6 +975,7 @@
           document.getElementById('adminInputAct').value = fAct;
           document.getElementById('adminInputSueno').value = fSueno;
           document.getElementById('adminInputKilos').value = amigoData.kilos || 0;
+          document.getElementById('adminTogglePenalizacion').checked = amigoData.penalizado || false;
       } else {
           panelAdmin.classList.add('hidden');
       }
@@ -968,9 +1051,21 @@
       const nuevoAct = parseInt(document.getElementById('adminInputAct').value) || 0;
       const nuevoSueno = parseFloat(document.getElementById('adminInputSueno').value) || 0;
       const nuevoKilos = parseFloat(document.getElementById('adminInputKilos').value) || 0;
+      const nuevaPenalizacion = document.getElementById('adminTogglePenalizacion').checked;
+      
+      const penalizacionPrevia = currentAmigoView.data.penalizado || false;
 
       const amigoRef = doc(db, "usuarios", currentAmigoView.uid);
-      await updateDoc(amigoRef, { actividad: nuevoAct, suenoPruebas: nuevoSueno, kilos: nuevoKilos });
+      await updateDoc(amigoRef, { actividad: nuevoAct, suenoPruebas: nuevoSueno, kilos: nuevoKilos, penalizado: nuevaPenalizacion });
+      
+      // Notificación de Penalización al Gremio
+      if(nuevaPenalizacion && !penalizacionPrevia){
+          await addDoc(collection(db, "notificaciones"), {
+            id: Date.now(), para: 'global', creadorNombre: currentAmigoView.data.nombre,
+            mensaje: `⚠️ ¡El Marrano de ${currentAmigoView.data.nombre} ha sido penalizado por el Guild Master!`
+          });
+      }
+
       alert('🛡️ Liga y parámetros del aliado ajustados por el Guild Master.');
       document.getElementById('btnVolverMiPerfil').click();
     });
@@ -1013,6 +1108,11 @@
                  suenoPruebas: uData.suenoPruebas 
              });
           }
+          // Notificar que se aprobó
+          await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: 'Sistema', mensaje: `✅ ¡Tu evidencia ha sido validada por la Alianza!` });
+        } else {
+          // Notificar que alguien votó
+          await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: usuario.nombre, mensaje: `👍 A ${usuario.nombre} le pareció bien tu evidencia.` });
         }
       } else { 
         post.votosNegativos = (post.votosNegativos || 0) + 1; 
@@ -1054,6 +1154,7 @@
          });
       }
       await updateDoc(postRef, { votosPositivos: post.votosPositivos, estado: post.estado, usuariosVotaron: post.usuariosVotaron });
+      await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: 'Admin', mensaje: `🛡️ El Guild Master ha aprobado tu evidencia de inmediato.` });
     };
 
     document.getElementById('btnVolverMiPerfil').addEventListener('click', () => { 
@@ -1226,13 +1327,13 @@
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         usuarioActualUid = user.uid; await cargarDatosUsuario(user.uid);
-        escucharHistorialUsuario(user.uid); escucharTablonGlobal();
+        escucharHistorialUsuario(user.uid); escucharTablonGlobal(); escucharNotificacionesGlobales();
         mostrarApp();
       } else {
         usuarioActualUid = null; 
-        if (unsubscribeUserFeed) unsubscribeUserFeed(); if (unsubscribeAmigoFeed) unsubscribeAmigoFeed(); if (unsubscribeTablon) unsubscribeTablon();
+        if (unsubscribeUserFeed) unsubscribeUserFeed(); if (unsubscribeAmigoFeed) unsubscribeAmigoFeed(); if (unsubscribeTablon) unsubscribeTablon(); if (unsubscribeNotifs) unsubscribeNotifs();
         document.getElementById('loginSection').classList.remove('hidden'); document.getElementById('loggedInContainer').classList.add('hidden'); document.getElementById('friendContainer').classList.add('hidden');
-        document.getElementById('btnMenuAmigos').classList.add('hidden'); document.getElementById('lemaLogin').classList.remove('hidden');
+        document.getElementById('btnMenuAmigos').classList.add('hidden'); document.getElementById('btnNotificaciones').classList.add('hidden'); document.getElementById('lemaLogin').classList.remove('hidden');
       }
     });
 
@@ -1242,6 +1343,7 @@
         usuario = docSnap.data(); 
         if(!usuario.amigos) usuario.amigos = []; 
         if(!usuario.diaActual) usuario.diaActual = 1; 
+        if(usuario.penalizado === undefined) usuario.penalizado = false;
       }
     }
     
@@ -1280,39 +1382,67 @@
           usuario.nivelActividad = parseFloat(document.getElementById('regActividad').value);
           usuario.kilos = 0; usuario.actividad = 0; 
           usuario.suenoPruebas = 0; usuario.suenoRegistros = 0; usuario.suenoHorasTotal = 0;
-          usuario.avatarUrl = null; usuario.diaActual = 1; usuario.puntos = 0; usuario.historial = []; usuario.amigos = [];
+          usuario.avatarUrl = null; usuario.diaActual = 1; usuario.puntos = 0; usuario.historial = []; usuario.amigos = []; usuario.penalizado = false;
           await setDoc(doc(db, "usuarios", cred.user.uid), usuario); showMessage('✅ Cuenta creada con éxito.', false);
         } catch (err) { showMessage('❌ Error al registrarse: ' + err.message); }
       }
     });
 
-    function mostrarApp() { document.getElementById('loginSection').classList.add('hidden'); document.getElementById('lemaLogin').classList.add('hidden'); document.getElementById('btnMenuAmigos').classList.remove('hidden'); document.getElementById('loggedInContainer').classList.remove('hidden'); renderizarPerfil(); renderizarFeed(); }
+    function mostrarApp() { 
+      document.getElementById('loginSection').classList.add('hidden'); 
+      document.getElementById('lemaLogin').classList.add('hidden'); 
+      document.getElementById('btnMenuAmigos').classList.remove('hidden'); 
+      document.getElementById('btnNotificaciones').classList.remove('hidden'); 
+      document.getElementById('loggedInContainer').classList.remove('hidden'); 
+      renderizarPerfil(); renderizarFeed(); 
+    }
 
     document.getElementById('btnLogout').addEventListener('click', async () => { if(confirm('¿Seguro que deseas salir?')) { await signOut(auth); toggleDrawer(); } });
+
+    // ==========================================
+    // SISTEMA DE LIGAS ELO
+    // ==========================================
+    function obtenerRango(pts) {
+      if (pts < 100) return { nombre: 'Cobre', icono: '<img src="https://i.ibb.co/81P7sWq/1000051409-removebg-preview.png" />', color: '#B87333', clase: 'cobre', next: 100 };
+      if (pts < 250) return { nombre: 'Bronce', icono: '<img src="https://i.ibb.co/93wHrSDV/1000051434-removebg-preview.png" />', color: '#CD7F32', clase: 'bronce', next: 250 };
+      if (pts < 400) return { nombre: 'Plata', icono: '<img src="https://i.ibb.co/JFcHPzvQ/1000051435-removebg-preview.png" />', color: '#E5E4E2', clase: 'plata', next: 400 };
+      if (pts < 500) return { nombre: 'Oro', icono: '<img src="https://i.ibb.co/m5gMHbSH/1000051436-removebg-preview.png" />', color: '#FFD700', clase: 'oro', next: 500 };
+      return { nombre: 'Platino', icono: '<img src="https://i.ibb.co/m5PxdPgv/1000051442-removebg-preview.png" />', color: '#00FFFF', clase: 'platino', next: 'Max' };
+    }
 
     function recalcularPuntos() { 
       let ptsActividad = (usuario.actividad || 0) * 10; 
       let ptsSueno = (usuario.suenoPruebas || 0) * 5;
       let ptsKilos = Math.abs(usuario.kilos || 0) * 50; 
-      usuario.puntos = ptsActividad + ptsSueno + ptsKilos; 
+      let pen = usuario.penalizado ? 0.5 : 0;
+      usuario.puntos = ptsActividad + ptsSueno + ptsKilos - pen; 
     }
     
     function calcularIMC(peso, altura) { if (altura > 0) return peso / (altura * altura); return 0; }
     
-    // SISTEMA DE LIGAS ELO
-    function obtenerRango(pts) {
-      if (pts < 100) return { nombre: 'Cobre', icono: '<img src="https://i.ibb.co/81P7sWq/1000051409-removebg-preview.png" />', color: '#B87333', clase: 'cobre', next: 100 };
-      if (pts < 250) return { nombre: 'Bronce', icono: '🛡️', color: '#CD7F32', clase: 'bronce', next: 250 };
-      if (pts < 400) return { nombre: 'Plata', icono: '⚔️', color: '#E5E4E2', clase: 'plata', next: 400 };
-      if (pts < 500) return { nombre: 'Oro', icono: '👑', color: '#FFD700', clase: 'oro', next: 500 };
-      return { nombre: 'Platino', icono: '💠', color: '#00FFFF', clase: 'platino', next: 'Max' };
-    }
-
     function renderizarPerfil() {
       recalcularPuntos(); 
-      document.getElementById('nombre').textContent = usuario.nombre; document.getElementById('edad').textContent = usuario.edad; document.getElementById('peso').textContent = usuario.peso; document.getElementById('altura').textContent = usuario.altura; document.getElementById('puntos').textContent = Number.isInteger(usuario.puntos) ? usuario.puntos : usuario.puntos.toFixed(1); document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos; document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
+      document.getElementById('nombre').textContent = usuario.nombre; 
+      document.getElementById('edad').textContent = usuario.edad; 
+      document.getElementById('peso').textContent = usuario.peso; 
+      document.getElementById('altura').textContent = usuario.altura; 
       
+      let miImc = calcularIMC(usuario.peso, usuario.altura);
+      document.getElementById('imcValor').textContent = miImc > 0 ? miImc.toFixed(1) : '-';
+      
+      let pDisplay = Number.isInteger(usuario.puntos) ? usuario.puntos : usuario.puntos.toFixed(1);
+      document.getElementById('puntos').textContent = pDisplay; 
+      document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos; document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
+      
+      // Banner de Penalización
+      if (usuario.penalizado) {
+        document.getElementById('bannerPenalizadoPropio').classList.remove('hidden');
+      } else {
+        document.getElementById('bannerPenalizadoPropio').classList.add('hidden');
+      }
+
       const rango = obtenerRango(usuario.puntos);
+      // Inyectamos la medalla y abajo el nombre
       document.getElementById('rangoBadge').innerHTML = `${rango.icono} <div>${rango.nombre}</div>`; 
       document.getElementById('rangoBadge').style.color = rango.color; 
       document.getElementById('rangoContainer').className = 'rango-container rango-' + rango.clase;
@@ -1382,7 +1512,6 @@
         else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
         else { 
             if (esAdmin) {
-                // Admin ve todo incluso en su propio perfil
                 let btnAdmin = `<button onclick="window.aprobarAdminPropio('${post.firebaseId}')" class="btn-vote admin-god" title="Aprobación Divina">🛡️</button>`;
                 votingHTML = `
                   <div class="vote-actions">
@@ -1393,7 +1522,6 @@
                   </div>
                   <div class="vote-status pending">⏳ Pendiente</div>`; 
             } else {
-                // Mortal no puede votar en sus propias fotos
                 votingHTML = `
                   <div class="vote-actions" style="justify-content: center; width: 100%;">
                     <span class="vote-count">👍 Votos recibidos: ${post.votosPositivos || 0}/3</span>
@@ -1489,12 +1617,45 @@
     };
 
     document.getElementById('btnInfoVital').addEventListener('click', () => {
-      const p = usuario.peso, a = usuario.altura * 100, e = usuario.edad, g = usuario.genero || 'M', f = parseFloat(usuario.nivelActividad) || 1.2, grasa = parseFloat(usuario.grasaCorporal);
-      let bmr = grasa > 0 ? 370 + (21.6 * (p * (1 - (grasa / 100)))) : (g === 'M' ? (10 * p) + (6.25 * a) - (5 * e) + 5 : (10 * p) + (6.25 * a) - (5 * e) - 161);
-      const tdee = bmr * f, inches = a / 2.54, pesoIdeal = g === 'M' ? 50.0 + 2.3 * (inches - 60) : 45.5 + 2.3 * (inches - 60);
-      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`; document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`; document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`; document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(pesoIdeal)} <span>kg</span>`; 
-      const imc = calcularIMC(p, usuario.altura); const txtConsejo = document.getElementById('statConsejo');
-      if (imc < 18.5) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Déficit crítico. Superávit de +300kcal requerido."; else if (imc <= 24.9) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Óptimo. Mantén tus calorías de TDEE Diario."; else if (imc <= 29.9) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga leve. Aplica déficit de -300kcal."; else txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
+      const p = usuario.peso, a = usuario.altura, e = usuario.edad, g = usuario.genero || 'M', f = parseFloat(usuario.nivelActividad) || 1.2, grasa = parseFloat(usuario.grasaCorporal);
+      const aCm = a * 100;
+      let bmr = grasa > 0 ? 370 + (21.6 * (p * (1 - (grasa / 100)))) : (g === 'M' ? (10 * p) + (6.25 * aCm) - (5 * e) + 5 : (10 * p) + (6.25 * aCm) - (5 * e) - 161);
+      const tdee = bmr * f;
+      
+      const imc = calcularIMC(p, a); 
+      let textoConsejo = "";
+      let recomendacionAdicional = "";
+
+      if (imc < 18.5) {
+          textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Déficit crítico. Superávit de +300kcal requerido.";
+          let pesoIdealMin = 18.5 * (a * a);
+          let kilosASubir = pesoIdealMin - p;
+          recomendacionAdicional = `<br><br><span style="color:#F39C12;">🎯 Meta de Salud: Subir aprox. <strong>${kilosASubir.toFixed(1)} kg</strong> de masa muscular para un IMC óptimo.</span>`;
+      } else if (imc <= 24.9) {
+          textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Óptimo. Mantén tus calorías de TDEE Diario.";
+          recomendacionAdicional = `<br><br><span style="color:#2ECC71;">🎯 Meta de Salud: ¡Estás en tu peso ideal! Enfócate en mantenimiento.</span>`;
+      } else if (imc <= 29.9) {
+          textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga leve. Aplica déficit de -300kcal.";
+          let pesoIdealMax = 24.9 * (a * a);
+          let kilosABajar = p - pesoIdealMax;
+          let rate = f >= 1.55 ? 0.8 : 0.5; 
+          let semanas = Math.ceil(kilosABajar / rate);
+          recomendacionAdicional = `<br><br><span style="color:#5DADE2;">🎯 Meta de Salud: Bajar aprox. <strong>${kilosABajar.toFixed(1)} kg</strong>.<br>⏱️ Tiempo est. de purificación: <strong>${semanas} semanas</strong> entrenando a tu ritmo actual.</span>`;
+      } else {
+          textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
+          let pesoIdealMax = 24.9 * (a * a);
+          let kilosABajar = p - pesoIdealMax;
+          let rate = f >= 1.55 ? 0.8 : 0.5; 
+          let semanas = Math.ceil(kilosABajar / rate);
+          recomendacionAdicional = `<br><br><span style="color:#5DADE2;">🎯 Meta de Salud: Bajar aprox. <strong>${kilosABajar.toFixed(1)} kg</strong>.<br>⏱️ Tiempo est. de purificación: <strong>${semanas} semanas</strong> entrenando a tu ritmo actual.</span>`;
+      }
+
+      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`; 
+      document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`; 
+      document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`; 
+      document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(24.9 * (a * a))} <span>kg</span>`; 
+      
+      document.getElementById('statConsejo').innerHTML = textoConsejo + recomendacionAdicional;
       document.getElementById('modalStats').classList.remove('hidden');
     });
     document.getElementById('btnCerrarStats').addEventListener('click', () => document.getElementById('modalStats').classList.add('hidden'));
@@ -1581,6 +1742,13 @@
       
       try { 
           await addDoc(collection(db, "usuarios", usuarioActualUid, "historial"), nuevoPost); 
+          
+          // Notificar a la Alianza que subiste algo
+          await addDoc(collection(db, "notificaciones"), {
+            id: Date.now(), para: 'global', creadorNombre: usuario.nombre,
+            mensaje: `📸 Tu amigo ${usuario.nombre} acaba de subir una nueva prueba.`
+          });
+
           document.getElementById('modalActividad').classList.add('hidden'); 
           document.getElementById('btnTabFeed').click(); 
       } catch (err) { alert('Error al guardar.'); }
