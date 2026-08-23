@@ -133,12 +133,63 @@
     @keyframes latidoPlatino { 0%, 100% { text-shadow: 0 0 30px rgba(0, 255, 255, 1); } 50% { text-shadow: 0 0 50px rgba(0, 255, 255, 1), 0 0 10px #fff; } }
     @keyframes latidoPlatinoAvatar { 0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.6); } 50% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.9); } }
 
-    /* ===== RANGO CONTAINER ===== */
-    .rango-container { position: relative; background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 16px 20px; margin-bottom: 28px; border-width: 1px; border-style: solid; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: all 0.3s ease;}
-    .rango-info { display: flex; flex-direction: column; }
+    /* Animación de flotación para la medalla gigante */
+    @keyframes floatMedal {
+      0%, 100% { transform: translateY(0) scale(1.6); }
+      50% { transform: translateY(-8px) scale(1.6); }
+    }
+
+    /* ===== ESTILOS PARA INSIGNIAS PERSONALIZADAS (IMÁGENES) ===== */
+    /* Para el perfil principal (GIGANTE, CENTRADA Y GLORIOSA) */
+    .rango-badge img {
+      width: 150px; 
+      height: 150px; 
+      object-fit: contain; 
+      filter: drop-shadow(0 0 25px currentColor); /* Resplandor masivo */
+      margin: 0;
+      animation: floatMedal 3s ease-in-out infinite;
+      transform: scale(1.6); /* <--- ESTE ES EL TRUCO PARA HACERLA MASIVA */
+    }
+    
+    /* Para la lista lateral de amigos (pequeño y ordenado) */
+    .badge-rango img {
+      width: 40px; 
+      height: 40px; 
+      object-fit: contain; 
+      filter: drop-shadow(0 0 10px currentColor); 
+      transform: scale(1.2); /* Un ligero aumento visual aquí también */
+    }
+
+    /* ===== RANGO CONTAINER NUEVO (DISEÑO VERTICAL CENTRADO) ===== */
+    .rango-container { 
+      position: relative; 
+      background: rgba(0, 0, 0, 0.3); 
+      border-radius: 16px; 
+      padding: 24px 20px; 
+      margin-bottom: 28px; 
+      border-width: 1px; 
+      border-style: solid; 
+      display: flex; 
+      flex-direction: column; /* Apilado */
+      align-items: center; 
+      justify-content: center; 
+      gap: 16px; 
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .rango-info { display: flex; flex-direction: column; align-items: center; }
     .rango-info .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #8A8F9A; }
-    .rango-info .imc { font-size: 12px; color: #8A8F9A; margin-top: 4px; }
-    .rango-badge { font-size: 24px; font-weight: 700; line-height: 1; display: flex; align-items: center; gap: 6px; }
+    .rango-info .imc { font-size: 13px; color: #E8E6E3; margin-top: 6px; font-weight: 500; }
+    
+    .rango-badge { 
+      font-size: 26px; 
+      font-weight: 700; 
+      line-height: 1; 
+      display: flex; 
+      flex-direction: column; /* Medalla arriba, Texto abajo */
+      align-items: center; 
+      gap: 12px; 
+    }
 
     .puntos { background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 18px 20px; margin-bottom: 28px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;}
     .puntos-label { font-size: 13px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; }
@@ -221,6 +272,7 @@
     .amigo-info { flex: 1; }
     .amigo-nombre { color: #E8E6E3; font-size: 14px; font-weight: 500; transition: color 0.3s; }
     .amigo-item:hover .amigo-nombre { color: #2ECC71; }
+    .badge-rango { display: flex; align-items: center; font-size: 20px; margin-right: 4px; }
     .btn-delete-amigo { background: transparent; border: none; color: #5A6070; font-size: 16px; cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.3s ease; }
     .btn-delete-amigo:hover { color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
     .drawer-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
@@ -266,11 +318,14 @@
       .rango-container { 
         flex-direction: column; 
         text-align: center; 
-        gap: 8px; 
+        gap: 20px; /* Un poco más de espacio para que no choque con el texto */
         padding: 16px; 
       }
       .rango-info { align-items: center; }
       .rango-badge { font-size: 20px; justify-content: center; text-align: center; }
+      
+      /* Mantenemos la escala gigante en el celular */
+      .rango-badge img { width: 140px; height: 140px; transform: scale(1.6); } 
       
       .puntos-valor { font-size: 36px; }
       .drawer { width: 85%; }
@@ -356,9 +411,15 @@
             
             <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="puntos">0</div></div>
             
+            <!-- CONTENEDOR DE RANGO REDISEÑADO -->
             <div class="rango-container" id="rangoContainer">
-              <div class="rango-info"><span class="label">Liga Actual</span><span class="imc" id="progresoLiga">Calculando...</span></div>
-              <div class="rango-badge" id="rangoBadge">Cobre 🥉</div>
+              <div class="rango-info">
+                <span class="label">Liga Actual</span>
+                <span class="imc" id="progresoLiga">Calculando...</span>
+              </div>
+              <div class="rango-badge" id="rangoBadge">
+                <!-- Se inyectará la Medalla gigante y el nombre -->
+              </div>
             </div>
             
             <div class="criterios">
@@ -426,9 +487,15 @@
             
             <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="friendPuntos">0</div></div>
 
+            <!-- CONTENEDOR DE RANGO REDISEÑADO AMIGO -->
             <div class="rango-container" id="friendRangoContainer">
-              <div class="rango-info"><span class="label">Liga Actual</span><span class="imc" id="friendProgresoLiga">Calculando...</span></div>
-              <div class="rango-badge" id="friendRangoBadge">Cobre 🥉</div>
+              <div class="rango-info">
+                <span class="label">Liga Actual</span>
+                <span class="imc" id="friendProgresoLiga">Calculando...</span>
+              </div>
+              <div class="rango-badge" id="friendRangoBadge">
+                 <!-- Se inyectará la Medalla gigante y el nombre -->
+              </div>
             </div>
             
             <div class="criterios">
@@ -696,7 +763,7 @@
           const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `${amigoData.nombre.charAt(0).toUpperCase()}`;
           const div = document.createElement('div'); div.className = 'amigo-item';
           div.onclick = (e) => { if (!e.target.closest('.btn-delete-amigo')) abrirVisitaAmigo(amigoData, ptsTotales, amigoUid); };
-          div.innerHTML = `<div class="amigo-avatar ${rango.clase}">${avatarContent}</div><div class="amigo-info"><div class="amigo-nombre">${amigoData.nombre}</div><div class="amigo-rango">Liga ${rango.nombre}</div></div><div class="badge-rango" style="color: ${rango.color}">${rango.emoji}</div><button class="btn-delete-amigo" onclick="window.borrarAmigoLista('${amigoData.nombre}')">🗑</button>`;
+          div.innerHTML = `<div class="amigo-avatar ${rango.clase}">${avatarContent}</div><div class="amigo-info"><div class="amigo-nombre">${amigoData.nombre}</div><div class="amigo-rango">Liga ${rango.nombre}</div></div><div class="badge-rango" style="color: ${rango.color}">${rango.icono}</div><button class="btn-delete-amigo" onclick="window.borrarAmigoLista('${amigoData.nombre}')">🗑</button>`;
           listaAmigosDOM.appendChild(div);
         }
       }
@@ -738,7 +805,7 @@
       document.getElementById('friendAltura').textContent = amigoData.altura || '-';
       document.getElementById('friendTagDia').textContent = `Día de Expedición: ${amigoData.diaActual || 1}`;
 
-      document.getElementById('friendRangoBadge').textContent = `${rango.nombre} ${rango.emoji}`; 
+      document.getElementById('friendRangoBadge').innerHTML = `${rango.icono} <div style="margin-top:8px;">${rango.nombre}</div>`; 
       document.getElementById('friendRangoBadge').style.color = rango.color;
       document.getElementById('friendRangoContainer').className = 'rango-container rango-' + rango.clase;
       
@@ -764,7 +831,7 @@
       document.getElementById('friendSuenoPromedio').textContent = `Promedio: ${prom}h`;
       let pctSueno = (fSueno / 30) * 100; if (pctSueno > 100) pctSueno = 100;
 
-      // VALIDACIÓN ADMIN SUPREMO (noctiansa@gmail.com)
+      // VALIDACIÓN ADMIN SUPREMO
       const panelAdmin = document.getElementById('adminControlPanel');
       if (auth.currentUser && auth.currentUser.email === ADMIN_EMAIL) {
           panelAdmin.classList.remove('hidden');
@@ -813,7 +880,7 @@
       });
     };
 
-    // BOTÓN DE APLICAR CAMBIOS ADMIN (ENTRENAMIENTO, SUEÑO Y KILOS)
+    // BOTÓN DE APLICAR CAMBIOS ADMIN
     document.getElementById('btnGuardarAdmin').addEventListener('click', async () => {
       if(!currentAmigoView) return;
       const nuevoAct = parseInt(document.getElementById('adminInputAct').value) || 0;
@@ -973,7 +1040,7 @@
         
         let spotifyHTML = '';
         if (post.tipo === 'musica' || post.tipo === 'ambos') {
-          const meta = post.spotifyMeta || { cover: '', title: 'Abrir in Spotify', url: '' };
+          const meta = post.spotifyMeta || { cover: '', title: 'Abrir en Spotify', url: '' };
           const coverTag = meta.cover ? `<img src="${meta.cover}" class="spotify-link-cover" />` : `<div class="spotify-link-cover" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🎵</div>`;
           spotifyHTML = `
             <a href="${meta.url}" target="_blank" class="spotify-link-card">
@@ -1110,11 +1177,11 @@
     
     // SISTEMA DE LIGAS ELO
     function obtenerRango(pts) {
-      if (pts < 100) return { nombre: 'Cobre', emoji: '🥉', color: '#B87333', clase: 'cobre', next: 100 };
-      if (pts < 250) return { nombre: 'Bronce', emoji: '🛡️', color: '#CD7F32', clase: 'bronce', next: 250 };
-      if (pts < 400) return { nombre: 'Plata', emoji: '⚔️', color: '#E5E4E2', clase: 'plata', next: 400 };
-      if (pts < 500) return { nombre: 'Oro', emoji: '👑', color: '#FFD700', clase: 'oro', next: 500 };
-      return { nombre: 'Platino', emoji: '💠', color: '#00FFFF', clase: 'platino', next: 'Max' };
+      if (pts < 100) return { nombre: 'Cobre', icono: '<img src="https://i.ibb.co/81P7sWq/1000051409-removebg-preview.png" />', color: '#B87333', clase: 'cobre', next: 100 };
+      if (pts < 250) return { nombre: 'Bronce', icono: '🛡️', color: '#CD7F32', clase: 'bronce', next: 250 };
+      if (pts < 400) return { nombre: 'Plata', icono: '⚔️', color: '#E5E4E2', clase: 'plata', next: 400 };
+      if (pts < 500) return { nombre: 'Oro', icono: '👑', color: '#FFD700', clase: 'oro', next: 500 };
+      return { nombre: 'Platino', icono: '💠', color: '#00FFFF', clase: 'platino', next: 'Max' };
     }
 
     function renderizarPerfil() {
@@ -1122,7 +1189,8 @@
       document.getElementById('nombre').textContent = usuario.nombre; document.getElementById('edad').textContent = usuario.edad; document.getElementById('peso').textContent = usuario.peso; document.getElementById('altura').textContent = usuario.altura; document.getElementById('puntos').textContent = Number.isInteger(usuario.puntos) ? usuario.puntos : usuario.puntos.toFixed(1); document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos; document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
       
       const rango = obtenerRango(usuario.puntos);
-      document.getElementById('rangoBadge').textContent = `${rango.nombre} ${rango.emoji}`; 
+      // Inyectamos la medalla y abajo el nombre
+      document.getElementById('rangoBadge').innerHTML = `${rango.icono} <div>${rango.nombre}</div>`; 
       document.getElementById('rangoBadge').style.color = rango.color; 
       document.getElementById('rangoContainer').className = 'rango-container rango-' + rango.clase;
       
