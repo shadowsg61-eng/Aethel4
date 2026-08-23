@@ -140,27 +140,25 @@
     }
 
     /* ===== ESTILOS PARA INSIGNIAS PERSONALIZADAS (IMÁGENES) ===== */
-    /* Para el perfil principal (GIGANTE, CENTRADA Y GLORIOSA) */
     .rango-badge img {
       width: 150px; 
       height: 150px; 
       object-fit: contain; 
-      filter: drop-shadow(0 0 25px currentColor); /* Resplandor masivo */
+      filter: drop-shadow(0 0 25px currentColor); 
       margin: 0;
       animation: floatMedal 3s ease-in-out infinite;
-      transform: scale(1.6); /* <--- ESTE ES EL TRUCO PARA HACERLA MASIVA */
+      transform: scale(1.6); 
     }
     
-    /* Para la lista lateral de amigos (pequeño y ordenado) */
     .badge-rango img {
       width: 40px; 
       height: 40px; 
       object-fit: contain; 
       filter: drop-shadow(0 0 10px currentColor); 
-      transform: scale(1.2); /* Un ligero aumento visual aquí también */
+      transform: scale(1.2); 
     }
 
-    /* ===== RANGO CONTAINER NUEVO (DISEÑO VERTICAL CENTRADO) ===== */
+    /* ===== RANGO CONTAINER ===== */
     .rango-container { 
       position: relative; 
       background: rgba(0, 0, 0, 0.3); 
@@ -170,7 +168,7 @@
       border-width: 1px; 
       border-style: solid; 
       display: flex; 
-      flex-direction: column; /* Apilado */
+      flex-direction: column; 
       align-items: center; 
       justify-content: center; 
       gap: 16px; 
@@ -186,7 +184,7 @@
       font-weight: 700; 
       line-height: 1; 
       display: flex; 
-      flex-direction: column; /* Medalla arriba, Texto abajo */
+      flex-direction: column; 
       align-items: center; 
       gap: 12px; 
     }
@@ -234,6 +232,11 @@
     .btn-vote:hover { transform: scale(1.1); }
     .btn-vote.up:hover { color: #2ECC71; border-color: #2ECC71; background: rgba(46, 204, 113, 0.1); }
     .btn-vote.down:hover { color: #E74C3C; border-color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
+    
+    /* ESTILO ESPECIAL PARA EL VOTO DE DIOS */
+    .btn-vote.admin-god { color: #F39C12; border-color: #F39C12; box-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
+    .btn-vote.admin-god:hover { background: rgba(243, 156, 18, 0.15); transform: scale(1.15); }
+
     .vote-count { font-size: 13px; color: #E8E6E3; font-weight: 500; }
     
     .vote-status { font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 12px; }
@@ -272,6 +275,10 @@
     .amigo-info { flex: 1; }
     .amigo-nombre { color: #E8E6E3; font-size: 14px; font-weight: 500; transition: color 0.3s; }
     .amigo-item:hover .amigo-nombre { color: #2ECC71; }
+    
+    /* MEJORA: Texto del rango en la lista de amigos */
+    .amigo-rango { color: #8A8F9A; font-size: 11px; margin-top: 4px; font-weight: 400; text-transform: uppercase; letter-spacing: 1px; }
+    
     .badge-rango { display: flex; align-items: center; font-size: 20px; margin-right: 4px; }
     .btn-delete-amigo { background: transparent; border: none; color: #5A6070; font-size: 16px; cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.3s ease; }
     .btn-delete-amigo:hover { color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
@@ -294,10 +301,10 @@
     .modal .acciones-modal .guardar { background: linear-gradient(135deg, #2ECC71, #1ABC9C); color: #0B1426; }
     .modal .acciones-modal .cancelar { background: rgba(255, 255, 255, 0.03); color: #E8E6E3; border: 1px solid rgba(46, 204, 113, 0.2); }
 
-    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
     .stat-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; text-align: center; }
     .stat-box .title { font-size: 11px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .stat-box .val { font-size: 20px; color: #E8E6E3; font-weight: 300; }
+    .stat-box .val { font-size: 18px; color: #E8E6E3; font-weight: 400; }
     .stat-box .val span { font-size: 12px; color: #5A6070; }
     
     /* MODAL EDITAR & ADMIN */
@@ -318,13 +325,12 @@
       .rango-container { 
         flex-direction: column; 
         text-align: center; 
-        gap: 20px; /* Un poco más de espacio para que no choque con el texto */
+        gap: 20px; 
         padding: 16px; 
       }
       .rango-info { align-items: center; }
       .rango-badge { font-size: 20px; justify-content: center; text-align: center; }
       
-      /* Mantenemos la escala gigante en el celular */
       .rango-badge img { width: 140px; height: 140px; transform: scale(1.6); } 
       
       .puntos-valor { font-size: 36px; }
@@ -411,11 +417,11 @@
             
             <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="puntos">0</div></div>
             
-            <!-- CONTENEDOR DE RANGO REDISEÑADO -->
+            <!-- CONTENEDOR DE RANGO REDISEÑADO CON IMC -->
             <div class="rango-container" id="rangoContainer">
               <div class="rango-info">
                 <span class="label">Liga Actual</span>
-                <span class="imc" id="progresoLiga">Calculando...</span>
+                <span class="imc" id="progresoLiga" style="text-align:center; line-height: 1.4;">Calculando...</span>
               </div>
               <div class="rango-badge" id="rangoBadge">
                 <!-- Se inyectará la Medalla gigante y el nombre -->
@@ -444,6 +450,14 @@
 
           <!-- VISTA 2: FEED DE ACTIVIDAD PERSONAL -->
           <div id="feedSection" class="hidden">
+             <!-- Filtros Feed Personal -->
+             <div class="filtros-tablon" id="filtrosFeedPersonal">
+                <button class="btn-filtro active" data-filter="todos">Todos</button>
+                <button class="btn-filtro" data-filter="ejercicio">💪 Ejercicios</button>
+                <button class="btn-filtro" data-filter="sueno">🌙 Sueño</button>
+                <button class="btn-filtro" data-filter="peso">⚖️ Pesajes</button>
+             </div>
+             
              <div id="feedContainer" class="feed-list-container"></div>
              <button class="btn-base primario" style="margin-top: 10px;" id="btnAbrirActividadFeed">+ Nuevo Registro</button>
           </div>
@@ -487,15 +501,9 @@
             
             <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="friendPuntos">0</div></div>
 
-            <!-- CONTENEDOR DE RANGO REDISEÑADO AMIGO -->
             <div class="rango-container" id="friendRangoContainer">
-              <div class="rango-info">
-                <span class="label">Liga Actual</span>
-                <span class="imc" id="friendProgresoLiga">Calculando...</span>
-              </div>
-              <div class="rango-badge" id="friendRangoBadge">
-                 <!-- Se inyectará la Medalla gigante y el nombre -->
-              </div>
+              <div class="rango-info"><span class="label">Liga Actual</span><span class="imc" id="friendProgresoLiga" style="text-align:center; line-height: 1.4;">Calculando...</span></div>
+              <div class="rango-badge" id="friendRangoBadge"></div>
             </div>
             
             <div class="criterios">
@@ -514,7 +522,7 @@
               </div>
             </div>
 
-            <!-- PANEL ADMIN VISIBLE SOLO PARA TU CORREO -->
+            <!-- PANEL ADMIN -->
             <div id="adminControlPanel" class="admin-panel hidden">
               <h3>🛡️ PANEL DE GUILD MASTER (ADMIN)</h3>
               <div class="input-group" style="margin-bottom:12px;">
@@ -535,6 +543,14 @@
           </div>
 
           <div id="friendFeedSection" class="hidden">
+             <!-- Filtros Feed Amigo -->
+             <div class="filtros-tablon" id="filtrosFeedAmigo">
+                <button class="btn-filtro active" data-filter="todos">Todos</button>
+                <button class="btn-filtro" data-filter="ejercicio">💪 Ejercicios</button>
+                <button class="btn-filtro" data-filter="sueno">🌙 Sueño</button>
+                <button class="btn-filtro" data-filter="peso">⚖️ Pesajes</button>
+             </div>
+             
              <div id="friendFeedContainer" class="feed-list-container"></div>
           </div>
         </div>
@@ -564,7 +580,25 @@
         <div class="stat-box"><div class="title">Tasa Basal (BMR)</div><div class="val" id="statBmr">0 <span>kcal</span></div></div>
         <div class="stat-box"><div class="title">Peso Ideal Est.</div><div class="val" id="statPesoIdeal">0 <span>kg</span></div></div>
       </div>
-      <div class="system-tip" id="statConsejo" style="margin-top: 20px;">Calculando datos...</div>
+
+      <!-- Barra de IMC Dinámica -->
+      <div class="criterio" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+        <span class="label">Tu IMC: <strong id="statImcNum" style="color:#2ECC71; font-size:16px;">0.0</strong></span>
+        <span class="valor" id="statImcText">Calculando...</span>
+        <div class="barra" style="margin-top:8px; height:8px;"><div id="statImcBarra" style="width: 50%;"></div></div>
+      </div>
+
+      <!-- Proyección a 3 Meses -->
+      <div class="admin-panel" style="margin-top: 20px; background: rgba(0,0,0,0.3); border-color: rgba(46, 204, 113, 0.2);">
+        <h3 style="color: #2ECC71; text-align: center; margin-bottom: 16px;">📅 Proyección de Peso Sugerido</h3>
+        <div style="display: flex; justify-content: space-between; text-align: center; font-size: 14px;">
+           <div><div style="color: #8A8F9A; font-size: 11px; margin-bottom:4px; text-transform:uppercase;">Mes 1</div><strong style="color: #E8E6E3;" id="projM1">-- kg</strong></div>
+           <div><div style="color: #8A8F9A; font-size: 11px; margin-bottom:4px; text-transform:uppercase;">Mes 2</div><strong style="color: #E8E6E3;" id="projM2">-- kg</strong></div>
+           <div><div style="color: #8A8F9A; font-size: 11px; margin-bottom:4px; text-transform:uppercase;">Mes 3</div><strong style="color: #2ECC71;" id="projM3">-- kg</strong></div>
+        </div>
+      </div>
+
+      <div class="system-tip" id="statConsejo" style="margin-top: 15px; text-align: center; font-size: 13px; color: #8A8F9A;">Calculando datos...</div>
       <div class="acciones-modal"><button class="cancelar" id="btnCerrarStats" style="width: 100%;">Cerrar Ventana</button></div>
     </div>
   </div>
@@ -598,6 +632,7 @@
         <select id="tipoRegistro">
           <option value="ejercicio">💪 Actividad Física</option>
           <option value="sueno">🌙 Calidad de Sueño</option>
+          <option value="peso">⚖️ Registro de Peso</option>
         </select>
       </div>
       
@@ -635,6 +670,11 @@
           <option value="11">11 horas</option>
           <option value="12">12 horas</option>
         </select>
+      </div>
+
+      <div class="input-group hidden" id="grupoPeso">
+        <label>Peso actual (kg)</label>
+        <input type="number" id="valorPesoActividad" step="0.1" placeholder="Ej: 78.5" />
       </div>
 
       <div class="input-group"><label>Comentario (Opcional)</label><textarea id="comentarioRegistro" placeholder="Describe cómo te fue..."></textarea></div>
@@ -679,12 +719,29 @@
   </div>
 
   <script type="module">
-    const { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp } = window.fbMethods;
-    const auth = window.fbAuth;
-    const db = window.fbDb;
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+    const firebaseConfig = {
+      apiKey: "AIzaSyAn68P9ePlPk0VJ7Grlow98c9n0T4JhQSE",
+      authDomain: "aethel-ad206.firebaseapp.com",
+      projectId: "aethel-ad206",
+      storageBucket: "aethel-ad206.firebasestorage.app",
+      messagingSenderId: "914512194225",
+      appId: "1:914512194225:web:77863181cf7a5cab4ed090"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    window.fbAuth = auth;
+    window.fbDb = db;
+    window.fbMethods = { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp };
+    
     const IMGBB_API_KEY = "37e78e69061e8c13a2e7a9c8e50503de";
-    const ADMIN_EMAIL = "noctiansa@gmail.com"; // Llave Maestra del Guild Master
+    const ADMIN_EMAIL = "noctiansa@gmail.com"; 
 
     let usuarioActualUid = null;
     let usuario = { 
@@ -698,7 +755,11 @@
     let unsubscribeAmigoFeed = null;
     let unsubscribeTablon = null;
     let postsTablonArray = [];
+    
     let filtroActualTablon = 'todos';
+    let filtroFeedPersonal = 'todos';
+    let filtroFeedAmigo = 'todos';
+    let currentAmigoHistorial = [];
     
     const categoriasNombre = { pesas: "💪 Pesas", caminadora: "🏃‍♀️ Cinta", correr_exterior: "🌲 Running", caminar: "🚶 Senderismo", ciclismo: "🚴 Ciclismo", natacion: "🏊 Natación", yoga: "🧘 Yoga", crossfit: "🏋️ CrossFit", calistenia: "🤸 Calistenia", otro: "✨ Entrenamiento" };
     let isLogin = true;
@@ -720,7 +781,6 @@
     btnTabFeed.addEventListener('click', (e) => { resetTabs(); e.target.classList.add('active'); feedSection.classList.remove('hidden'); });
     btnTabTablon.addEventListener('click', (e) => { resetTabs(); e.target.classList.add('active'); tablonSection.classList.remove('hidden'); });
 
-    // Tabs de amigos
     document.getElementById('btnTabFriendPerfil').addEventListener('click', (e) => {
       e.target.classList.add('active'); document.getElementById('btnTabFriendFeed').classList.remove('active');
       document.getElementById('friendPerfilSection').classList.remove('hidden'); document.getElementById('friendFeedSection').classList.add('hidden');
@@ -728,6 +788,26 @@
     document.getElementById('btnTabFriendFeed').addEventListener('click', (e) => {
       e.target.classList.add('active'); document.getElementById('btnTabFriendPerfil').classList.remove('active');
       document.getElementById('friendFeedSection').classList.remove('hidden'); document.getElementById('friendPerfilSection').classList.add('hidden');
+    });
+
+    // FILTROS DE FEED PERSONAL
+    document.querySelectorAll('#filtrosFeedPersonal .btn-filtro').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('#filtrosFeedPersonal .btn-filtro').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        filtroFeedPersonal = e.target.getAttribute('data-filter');
+        renderizarFeed();
+      });
+    });
+
+    // FILTROS DE FEED AMIGO
+    document.querySelectorAll('#filtrosFeedAmigo .btn-filtro').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('#filtrosFeedAmigo .btn-filtro').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        filtroFeedAmigo = e.target.getAttribute('data-filter');
+        renderizarFeedAmigo(); 
+      });
     });
 
     // DRAWER AMIGOS
@@ -805,15 +885,12 @@
       document.getElementById('friendAltura').textContent = amigoData.altura || '-';
       document.getElementById('friendTagDia').textContent = `Día de Expedición: ${amigoData.diaActual || 1}`;
 
+      const fImc = calcularIMC(amigoData.peso, amigoData.altura);
+      document.getElementById('friendProgresoLiga').innerHTML = `Faltan ${rango.next === 'Max' ? 0 : (rango.next - ptsTotales)} pts para la siguiente Liga<br><span style="color:#2ECC71; font-size:11px;">IMC Actual: ${fImc.toFixed(1)}</span>`;
+
       document.getElementById('friendRangoBadge').innerHTML = `${rango.icono} <div style="margin-top:8px;">${rango.nombre}</div>`; 
       document.getElementById('friendRangoBadge').style.color = rango.color;
       document.getElementById('friendRangoContainer').className = 'rango-container rango-' + rango.clase;
-      
-      if(rango.next !== 'Max') {
-        document.getElementById('friendProgresoLiga').textContent = `Faltan ${rango.next - ptsTotales} pts para la siguiente Liga`;
-      } else {
-        document.getElementById('friendProgresoLiga').textContent = `¡Rango Máximo Alcanzado!`;
-      }
       
       document.getElementById('friendPuntos').textContent = ptsTotales || 0;
       document.getElementById('friendKilosValor').textContent = amigoData.kilos > 0 ? `+${amigoData.kilos}` : (amigoData.kilos || 0);
@@ -847,40 +924,67 @@
         document.getElementById('friendSuenoBarra').style.width = pctSueno + '%';
       }, 100);
       
-      const fContainer = document.getElementById('friendFeedContainer');
-      fContainer.innerHTML = '<p style="color:#5A6070; font-size:13px; text-align:center; margin-top:20px;">Conectando en tiempo real...</p>';
-      
       if (unsubscribeAmigoFeed) unsubscribeAmigoFeed();
       const q = query(collection(db, "usuarios", amigoUid, "historial"), orderBy("id", "desc"));
       unsubscribeAmigoFeed = onSnapshot(q, (querySnapshot) => {
-        const historialAmigo = []; querySnapshot.forEach((docSnap) => { historialAmigo.push({ firebaseId: docSnap.id, ...docSnap.data() }); });
-        fContainer.innerHTML = '';
-        if (historialAmigo.length === 0) { fContainer.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>${amigoData.nombre} aún no ha registrado actividad.</div>`; return; }
-        const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`;
-        historialAmigo.forEach(post => {
-          const feedIcon = post.tipo === 'ejercicio' ? '💪' : '🌙';
-          const tagText = post.tipo === 'ejercicio' ? (categoriasNombre[post.categoria] || 'Actividad Física') : ('Descanso: ' + post.horas + ' horas');
-          const tagHTML = `<div class="feed-tag">${tagText}</div>`;
-          const imgHTML = post.foto ? `<img src="${post.foto}" class="feed-img">` : '';
-          const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
-          let votingHTML = '';
-          if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } 
-          else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
-          else {
-            votingHTML = `
-              <div class="vote-actions"><button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', true)" class="btn-vote up">👍</button><span class="vote-count">${post.votosPositivos || 0}/3</span><button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', false)" class="btn-vote down">👎</button></div>
-              <div class="vote-status pending">⏳ Pendiente</div>`;
-          }
-          fContainer.innerHTML += `
-            <div class="feed-item">
-              <div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${amigoData.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div></div>
-              ${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div>
-            </div>`;
-        });
+        currentAmigoHistorial = []; 
+        querySnapshot.forEach((docSnap) => { currentAmigoHistorial.push({ firebaseId: docSnap.id, ...docSnap.data() }); });
+        renderizarFeedAmigo();
       });
     };
 
-    // BOTÓN DE APLICAR CAMBIOS ADMIN
+    function renderizarFeedAmigo() {
+      const fContainer = document.getElementById('friendFeedContainer');
+      fContainer.innerHTML = '';
+      if (!currentAmigoView) return;
+
+      const { data: amigoData, rango, uid: amigoUid } = currentAmigoView;
+      const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`;
+      const esAdmin = auth.currentUser && auth.currentUser.email === ADMIN_EMAIL;
+
+      let filtrados = currentAmigoHistorial;
+      if (filtroFeedAmigo !== 'todos') {
+          filtrados = currentAmigoHistorial.filter(p => p.tipo === filtroFeedAmigo);
+      }
+
+      if (filtrados.length === 0) { 
+        fContainer.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>${amigoData.nombre} no tiene registros aquí.</div>`; 
+        return; 
+      }
+
+      filtrados.forEach(post => {
+        let feedIcon = post.tipo === 'ejercicio' ? '💪' : (post.tipo === 'sueno' ? '🌙' : '⚖️');
+        let tagText = '';
+        if (post.tipo === 'ejercicio') tagText = categoriasNombre[post.categoria] || 'Actividad Física';
+        else if (post.tipo === 'sueno') tagText = 'Descanso: ' + post.horas + ' horas';
+        else tagText = 'Registro de Peso: ' + post.valorPeso + ' kg';
+
+        const tagHTML = `<div class="feed-tag">${tagText}</div>`;
+        const imgHTML = post.foto ? `<img src="${post.foto}" class="feed-img">` : '';
+        const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
+        
+        let votingHTML = '';
+        if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } 
+        else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
+        else {
+          let btnAdmin = esAdmin ? `<button onclick="window.aprobarAdminAmigo('${amigoUid}', '${post.firebaseId}')" class="btn-vote admin-god" title="Voto de Dios (Admin)">🛡️</button>` : '';
+          votingHTML = `
+            <div class="vote-actions">
+              <button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', true)" class="btn-vote up">👍</button>
+              <span class="vote-count">${post.votosPositivos || 0}/3</span>
+              <button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', false)" class="btn-vote down">👎</button>
+              ${btnAdmin}
+            </div>
+            <div class="vote-status pending">⏳ Pendiente</div>`;
+        }
+        fContainer.innerHTML += `
+          <div class="feed-item">
+            <div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${amigoData.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div></div>
+            ${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div>
+          </div>`;
+      });
+    }
+
     document.getElementById('btnGuardarAdmin').addEventListener('click', async () => {
       if(!currentAmigoView) return;
       const nuevoAct = parseInt(document.getElementById('adminInputAct').value) || 0;
@@ -893,6 +997,9 @@
       document.getElementById('btnVolverMiPerfil').click();
     });
 
+    // ==========================================
+    // VOTACIONES DE AMIGOS (NORMALES)
+    // ==========================================
     window.votarPostAmigo = async function(amigoUid, firebaseId, esPositivo) {
       const postRef = doc(db, "usuarios", amigoUid, "historial", firebaseId);
       const postSnap = await getDoc(postRef); if(!postSnap.exists()) return; let post = postSnap.data();
@@ -907,6 +1014,7 @@
 
       if(esPositivo) {
         post.votosPositivos = (post.votosPositivos || 0) + 1;
+        
         if(post.votosPositivos >= 3) {
           post.estado = 'aprobado';
           const userRef = doc(db, "usuarios", amigoUid); const uSnap = await getDoc(userRef);
@@ -928,8 +1036,46 @@
              });
           }
         }
-      } else { post.votosNegativos = (post.votosNegativos || 0) + 1; if(post.votosNegativos >= 3) post.estado = 'rechazado'; }
+      } else { 
+        post.votosNegativos = (post.votosNegativos || 0) + 1; 
+        if(post.votosNegativos >= 3) post.estado = 'rechazado'; 
+      }
       await updateDoc(postRef, { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado, usuariosVotaron: post.usuariosVotaron });
+    };
+
+    // ==========================================
+    // VOTO DE DIOS ADMIN (AMIGOS)
+    // ==========================================
+    window.aprobarAdminAmigo = async function(amigoUid, firebaseId) {
+      if(!confirm('🛡️ ¿Usar el Poder del Guild Master para APROBAR esto inmediatamente?')) return;
+      const postRef = doc(db, "usuarios", amigoUid, "historial", firebaseId);
+      const postSnap = await getDoc(postRef); if(!postSnap.exists()) return; let post = postSnap.data();
+      if(post.estado !== 'pendiente') return;
+
+      post.votosPositivos = 3;
+      post.estado = 'aprobado';
+      if (!post.usuariosVotaron) post.usuariosVotaron = [];
+      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
+
+      const userRef = doc(db, "usuarios", amigoUid); const uSnap = await getDoc(userRef);
+      if (uSnap.exists()) {
+         let uData = uSnap.data();
+         if (post.tipo === 'ejercicio') {
+            uData.actividad = (uData.actividad || 0) + 1; 
+         } else if (post.tipo === 'sueno') {
+            uData.suenoRegistros = (uData.suenoRegistros || 0) + 1;
+            uData.suenoHorasTotal = (uData.suenoHorasTotal || 0) + post.horas;
+            if(post.horas >= 7) uData.suenoPruebas = (uData.suenoPruebas || 0) + 1;
+            else if(post.horas === 6) uData.suenoPruebas = (uData.suenoPruebas || 0) + 0.5;
+         }
+         await updateDoc(userRef, { 
+             actividad: uData.actividad, 
+             suenoRegistros: uData.suenoRegistros, 
+             suenoHorasTotal: uData.suenoHorasTotal, 
+             suenoPruebas: uData.suenoPruebas 
+         });
+      }
+      await updateDoc(postRef, { votosPositivos: post.votosPositivos, estado: post.estado, usuariosVotaron: post.usuariosVotaron });
     };
 
     document.getElementById('btnVolverMiPerfil').addEventListener('click', () => { 
@@ -1017,7 +1163,7 @@
       });
     }
 
-    const botonesFiltroTablon = document.querySelectorAll('.btn-filtro');
+    const botonesFiltroTablon = document.querySelectorAll('#tablonSection .btn-filtro');
     botonesFiltroTablon.forEach(btn => {
       btn.addEventListener('click', (e) => {
         botonesFiltroTablon.forEach(b => b.classList.remove('active')); e.target.classList.add('active');
@@ -1189,15 +1335,17 @@
       document.getElementById('nombre').textContent = usuario.nombre; document.getElementById('edad').textContent = usuario.edad; document.getElementById('peso').textContent = usuario.peso; document.getElementById('altura').textContent = usuario.altura; document.getElementById('puntos').textContent = Number.isInteger(usuario.puntos) ? usuario.puntos : usuario.puntos.toFixed(1); document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos; document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
       
       const rango = obtenerRango(usuario.puntos);
+      const mImc = calcularIMC(usuario.peso, usuario.altura);
+
       // Inyectamos la medalla y abajo el nombre
       document.getElementById('rangoBadge').innerHTML = `${rango.icono} <div>${rango.nombre}</div>`; 
       document.getElementById('rangoBadge').style.color = rango.color; 
       document.getElementById('rangoContainer').className = 'rango-container rango-' + rango.clase;
       
       if(rango.next !== 'Max') {
-        document.getElementById('progresoLiga').textContent = `Faltan ${rango.next - usuario.puntos} pts para la siguiente Liga`;
+        document.getElementById('progresoLiga').innerHTML = `Faltan ${rango.next - usuario.puntos} pts para la siguiente Liga<br><span style="color:#2ECC71; font-size:11px;">IMC Actual: ${mImc.toFixed(1)}</span>`;
       } else {
-        document.getElementById('progresoLiga').textContent = `¡Rango Máximo Alcanzado!`;
+        document.getElementById('progresoLiga').innerHTML = `¡Rango Máximo Alcanzado!<br><span style="color:#2ECC71; font-size:11px;">IMC Actual: ${mImc.toFixed(1)}</span>`;
       }
 
       const avatarEl = document.getElementById('avatar'); 
@@ -1223,24 +1371,57 @@
       }, 100);
     }
 
+    // RENDERIZAR FEED PROPIO CON FILTROS Y BOTON DE DIOS
     function renderizarFeed() {
       const feedCont = document.getElementById('feedContainer'); feedCont.innerHTML = ''; 
-      if (usuario.historial.length === 0) { feedCont.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>Aún no hay actividad.</div>`; return; }
+      const esAdmin = auth.currentUser && auth.currentUser.email === ADMIN_EMAIL;
+      
+      let filtrados = usuario.historial;
+      if(filtroFeedPersonal !== 'todos') {
+          filtrados = usuario.historial.filter(p => p.tipo === filtroFeedPersonal);
+      }
+
+      if (filtrados.length === 0) { 
+        feedCont.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>Aún no hay actividad de este tipo.</div>`; 
+        return; 
+      }
+      
       const avatarContent = usuario.avatarUrl ? `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${usuario.nombre.charAt(0).toUpperCase()}</span>`;
       const rango = obtenerRango(usuario.puntos);
 
-      usuario.historial.forEach(post => {
-        const feedIcon = post.tipo === 'ejercicio' ? '💪' : '🌙'; 
-        const tagText = post.tipo === 'ejercicio' ? (categoriasNombre[post.categoria] || 'Actividad Física') : ('Descanso: ' + post.horas + ' horas');
+      filtrados.forEach(post => {
+        let feedIcon = post.tipo === 'ejercicio' ? '💪' : (post.tipo === 'sueno' ? '🌙' : '⚖️');
+        let tagText = '';
+        if (post.tipo === 'ejercicio') tagText = categoriasNombre[post.categoria] || 'Actividad Física';
+        else if (post.tipo === 'sueno') tagText = 'Descanso: ' + post.horas + ' horas';
+        else tagText = 'Registro de Peso: ' + post.valorPeso + ' kg';
+
         const tagHTML = `<div class="feed-tag">${tagText}</div>`; 
-        const imgHTML = post.foto ? `<img src="${post.foto}" class="feed-img">` : ''; const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
+        const imgHTML = post.foto ? `<img src="${post.foto}" class="feed-img">` : ''; 
+        const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
+        
         let votingHTML = '';
-        if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } else { votingHTML = `<div class="vote-actions"><button onclick="window.votarPostPropio('${post.firebaseId}', true)" class="btn-vote up">👍</button><span class="vote-count">${post.votosPositivos || 0}/3</span><button onclick="window.votarPostPropio('${post.firebaseId}', false)" class="btn-vote down">👎</button></div><div class="vote-status pending">⏳ Pendiente</div>`; }
+        if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } 
+        else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
+        else { 
+            let btnAdmin = esAdmin ? `<button onclick="window.aprobarAdminPropio('${post.firebaseId}')" class="btn-vote admin-god" title="Aprobación Divina">🛡️</button>` : '';
+            votingHTML = `
+              <div class="vote-actions">
+                <button onclick="window.votarPostPropio('${post.firebaseId}', true)" class="btn-vote up">👍</button>
+                <span class="vote-count">${post.votosPositivos || 0}/3</span>
+                <button onclick="window.votarPostPropio('${post.firebaseId}', false)" class="btn-vote down">👎</button>
+                ${btnAdmin}
+              </div>
+              <div class="vote-status pending">⏳ Pendiente</div>`; 
+        }
+        
         feedCont.innerHTML += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions"><button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div></div>`;
       });
     }
 
-    // VOTO A POST PROPIO CON PROTECCIÓN ANTI FRAUDE
+    // ==========================================
+    // VOTACIONES NORMALES (PROPIAS)
+    // ==========================================
     window.votarPostPropio = async function(firebaseId, esPositivo) {
       const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
       
@@ -1253,6 +1434,7 @@
 
       if(esPositivo) { 
         post.votosPositivos = (post.votosPositivos || 0) + 1; 
+        
         if(post.votosPositivos >= 3) { 
           post.estado = 'aprobado'; 
           if (post.tipo === 'ejercicio') usuario.actividad = (usuario.actividad || 0) + 1;
@@ -1269,6 +1451,30 @@
         if(post.votosNegativos >= 3) post.estado = 'rechazado'; 
       }
       await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
+      await guardarDatosUsuario(); 
+    };
+
+    // ==========================================
+    // VOTO DE DIOS ADMIN (PROPIAS)
+    // ==========================================
+    window.aprobarAdminPropio = async function(firebaseId) {
+      if(!confirm('🛡️ ¿Usar el Poder del Guild Master para APROBAR esto inmediatamente?')) return;
+      const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
+      
+      post.votosPositivos = 3; 
+      post.estado = 'aprobado'; 
+      if (!post.usuariosVotaron) post.usuariosVotaron = [];
+      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
+
+      if (post.tipo === 'ejercicio') usuario.actividad = (usuario.actividad || 0) + 1;
+      else if (post.tipo === 'sueno') {
+         usuario.suenoRegistros = (usuario.suenoRegistros || 0) + 1;
+         usuario.suenoHorasTotal = (usuario.suenoHorasTotal || 0) + post.horas;
+         if(post.horas >= 7) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 1;
+         else if(post.horas === 6) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 0.5;
+      }
+      
+      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { votosPositivos: post.votosPositivos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
       await guardarDatosUsuario(); 
     };
 
@@ -1293,15 +1499,59 @@
       }
     };
 
+    // BOTÓN DE ESTADÍSTICAS VITALES (EL OJO)
     document.getElementById('btnInfoVital').addEventListener('click', () => {
-      const p = usuario.peso, a = usuario.altura * 100, e = usuario.edad, g = usuario.genero || 'M', f = parseFloat(usuario.nivelActividad) || 1.2, grasa = parseFloat(usuario.grasaCorporal);
-      let bmr = grasa > 0 ? 370 + (21.6 * (p * (1 - (grasa / 100)))) : (g === 'M' ? (10 * p) + (6.25 * a) - (5 * e) + 5 : (10 * p) + (6.25 * a) - (5 * e) - 161);
-      const tdee = bmr * f, inches = a / 2.54, pesoIdeal = g === 'M' ? 50.0 + 2.3 * (inches - 60) : 45.5 + 2.3 * (inches - 60);
-      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`; document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`; document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`; document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(pesoIdeal)} <span>kg</span>`; 
-      const imc = calcularIMC(p, usuario.altura); const txtConsejo = document.getElementById('statConsejo');
-      if (imc < 18.5) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Déficit crítico. Superávit de +300kcal requerido."; else if (imc <= 24.9) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Óptimo. Mantén tus calorías de TDEE Diario."; else if (imc <= 29.9) txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga leve. Aplica déficit de -300kcal."; else txtConsejo.innerHTML = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
+      const p = usuario.peso, a = usuario.altura, e = usuario.edad, g = usuario.genero || 'M', act = parseFloat(usuario.nivelActividad) || 1.2, grasa = parseFloat(usuario.grasaCorporal);
+      const aCm = a * 100;
+      let bmr = grasa > 0 ? 370 + (21.6 * (p * (1 - (grasa / 100)))) : (g === 'M' ? (10 * p) + (6.25 * aCm) - (5 * e) + 5 : (10 * p) + (6.25 * aCm) - (5 * e) - 161);
+      const tdee = bmr * act, inches = aCm / 2.54, pesoIdeal = g === 'M' ? 50.0 + 2.3 * (inches - 60) : 45.5 + 2.3 * (inches - 60);
+      
+      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`; 
+      document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`; 
+      document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`; 
+      document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(pesoIdeal)} <span>kg</span>`; 
+      
+      const imc = calcularIMC(p, a); 
+      let txtConsejo = "";
+      
+      // LOGICA DE LA BARRA DE IMC Y PROYECCIONES
+      let imcText = "";
+      let imcColor = "#2ECC71";
+      let imcPct = ((imc - 15) / 25) * 100; 
+      if(imcPct < 0) imcPct = 0; if(imcPct > 100) imcPct = 100;
+
+      let modM1 = 0, modM2 = 0, modM3 = 0;
+
+      if (imc < 18.5) {
+          imcText = "Déficit (Bajo Peso)"; imcColor = "#F39C12"; txtConsejo = "Superávit calórico de +300kcal requerido.";
+          modM1 = 1.0; modM2 = 2.0; modM3 = 3.0; // Ganar músculo
+      } else if (imc <= 24.9) {
+          imcText = "Peso Óptimo"; imcColor = "#2ECC71"; txtConsejo = "Óptimo. Mantén tus calorías de TDEE Diario.";
+          modM1 = -0.5; modM2 = -1.0; modM3 = -1.5; // Recomposición ligera
+      } else if (imc <= 29.9) {
+          imcText = "Sobrepeso Leve"; imcColor = "#E74C3C"; txtConsejo = "Sobrecarga leve. Aplica déficit de -300kcal.";
+          let baseLoss = 2.0 * act;
+          modM1 = -baseLoss; modM2 = -(baseLoss * 2); modM3 = -(baseLoss * 3);
+      } else {
+          imcText = "Sobrecarga (Obesidad)"; imcColor = "#E74C3C"; txtConsejo = "Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
+          let baseLoss = 2.5 * act;
+          modM1 = -baseLoss; modM2 = -(baseLoss * 2); modM3 = -(baseLoss * 3);
+      }
+
+      document.getElementById('statImcNum').textContent = imc.toFixed(1);
+      document.getElementById('statImcNum').style.color = imcColor;
+      document.getElementById('statImcText').textContent = imcText;
+      document.getElementById('statImcBarra').style.width = imcPct + "%";
+      document.getElementById('statImcBarra').style.background = imcColor;
+      document.getElementById('statConsejo').textContent = txtConsejo;
+
+      document.getElementById('projM1').textContent = (p + modM1).toFixed(1) + " kg";
+      document.getElementById('projM2').textContent = (p + modM2).toFixed(1) + " kg";
+      document.getElementById('projM3').textContent = (p + modM3).toFixed(1) + " kg";
+
       document.getElementById('modalStats').classList.remove('hidden');
     });
+
     document.getElementById('btnCerrarStats').addEventListener('click', () => document.getElementById('modalStats').classList.add('hidden'));
 
     document.getElementById('editarPerfil').addEventListener('click', () => {
@@ -1321,13 +1571,14 @@
     });
 
     document.getElementById('tipoRegistro').addEventListener('change', (e) => { 
-        if (e.target.value === 'sueno') { 
-            document.getElementById('grupoCategoria').classList.add('hidden'); 
-            document.getElementById('grupoSueno').classList.remove('hidden'); 
-        } else { 
-            document.getElementById('grupoCategoria').classList.remove('hidden'); 
-            document.getElementById('grupoSueno').classList.add('hidden'); 
-        } 
+        const val = e.target.value;
+        document.getElementById('grupoCategoria').classList.add('hidden'); 
+        document.getElementById('grupoSueno').classList.add('hidden'); 
+        document.getElementById('grupoPeso').classList.add('hidden');
+
+        if (val === 'ejercicio') document.getElementById('grupoCategoria').classList.remove('hidden'); 
+        else if (val === 'sueno') document.getElementById('grupoSueno').classList.remove('hidden'); 
+        else if (val === 'peso') document.getElementById('grupoPeso').classList.remove('hidden'); 
     });
 
     const abrirModalReg = () => { 
@@ -1339,6 +1590,7 @@
         
         document.getElementById('catEjercicio').value = '';
         document.getElementById('horasSueno').value = '';
+        document.getElementById('valorPesoActividad').value = '';
         document.getElementById('fotoRegistro').value = ''; 
         document.getElementById('comentarioRegistro').value = ''; 
         document.getElementById('modalActividad').classList.remove('hidden'); 
@@ -1352,12 +1604,14 @@
       const tipo = document.getElementById('tipoRegistro').value; 
       const categoria = document.getElementById('catEjercicio').value; 
       const horas = document.getElementById('horasSueno').value;
+      const valPeso = document.getElementById('valorPesoActividad').value;
       const comentario = document.getElementById('comentarioRegistro').value.trim(); 
       const file = document.getElementById('fotoRegistro').files[0]; 
       const btnGuardar = document.getElementById('guardarActividad');
       
       if (tipo === 'ejercicio' && !categoria) { alert("Selecciona categoría de ejercicio."); return; }
       if (tipo === 'sueno' && !horas) { alert("Selecciona las horas de sueño."); return; }
+      if (tipo === 'peso' && !valPeso) { alert("Ingresa tu peso actual."); return; }
       
       btnGuardar.textContent = 'Subiendo...'; btnGuardar.disabled = true; let fotoUrl = null;
       if (file) {
@@ -1370,6 +1624,7 @@
           tipo: tipo, 
           categoria: tipo === 'ejercicio' ? categoria : null, 
           horas: tipo === 'sueno' ? parseInt(horas) : null,
+          valorPeso: tipo === 'peso' ? parseFloat(valPeso) : null,
           comentario: comentario, 
           fecha: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' }), 
           foto: fotoUrl, 
