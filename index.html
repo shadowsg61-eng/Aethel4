@@ -154,6 +154,11 @@
     .rango-platino { border-color: rgba(0, 255, 255, 0.8); }
     .avatar.platino, .amigo-avatar.platino, .feed-avatar.platino { border-color: #00FFFF; animation: latidoPlatinoAvatar 2s infinite; }
 
+    /* CERDO IMPERIALISTA (NEGRO Y AZUL MARINO) */
+    .rango-cerdo .rango-badge { color: #1B263B; text-shadow: 0 0 25px rgba(27, 38, 59, 0.8); }
+    .rango-cerdo { border-color: rgba(0, 0, 0, 0.8); background: linear-gradient(135deg, #000000, #1B263B); }
+    .avatar.cerdo, .amigo-avatar.cerdo, .feed-avatar.cerdo { border-color: #1B263B; box-shadow: 0 0 40px rgba(0, 0, 0, 0.8); }
+
     @keyframes latidoPlatino { 0%, 100% { text-shadow: 0 0 30px rgba(0, 255, 255, 1); } 50% { text-shadow: 0 0 50px rgba(0, 255, 255, 1), 0 0 10px #fff; } }
     @keyframes latidoPlatinoAvatar { 0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.6); } 50% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.9); } }
 
@@ -1447,9 +1452,10 @@
     function obtenerRango(pts) {
       if (pts < 100) return { nombre: 'Cobre', icono: '<img src="https://i.ibb.co/81P7sWq/1000051409-removebg-preview.png" />', color: '#B87333', clase: 'cobre', next: 100 };
       if (pts < 250) return { nombre: 'Bronce', icono: '<img src="https://i.ibb.co/93wHrSDV/1000051434-removebg-preview.png" />', color: '#CD7F32', clase: 'bronce', next: 250 };
-      if (pts < 400) return { nombre: 'Plata', icono: '<img src="https://i.ibb.co/JFcHPzvQ/1000051435-removebg-preview.png" />', color: '#E5E4E2', clase: 'plata', next: 400 };
-      if (pts < 500) return { nombre: 'Oro', icono: '<img src="https://i.ibb.co/m5gMHbSH/1000051436-removebg-preview.png" />', color: '#FFD700', clase: 'oro', next: 500 };
-      return { nombre: 'Platino', icono: '<img src="https://i.ibb.co/m5PxdPgv/1000051442-removebg-preview.png" />', color: '#00FFFF', clase: 'platino', next: 'Max' };
+      if (pts < 400) return { nombre: 'Plata', icono: '<img src="https://i.postimg.cc/h41DqFXn/1000051435-removebg-preview.png" />', color: '#E5E4E2', clase: 'plata', next: 400 };
+      if (pts < 550) return { nombre: 'Oro', icono: '<img src="https://i.ibb.co/m5gMHbSH/1000051436-removebg-preview.png" />', color: '#FFD700', clase: 'oro', next: 550 };
+      if (pts < 750) return { nombre: 'Platino', icono: '<img src="https://i.ibb.co/m5PxdPgv/1000051442-removebg-preview.png" />', color: '#00FFFF', clase: 'platino', next: 750 };
+      return { nombre: 'Cerdo Imperialista', icono: '<div style="font-size: 100px; line-height: 1; margin: 0; filter: drop-shadow(0 0 25px currentColor); animation: floatMedal 3s ease-in-out infinite;">🐷🎩</div>', color: '#1B263B', clase: 'cerdo', next: 'Max' };
     }
 
     function recalcularPuntos() { 
