@@ -220,6 +220,10 @@
     .btn-vote:hover { transform: scale(1.1); }
     .btn-vote.up:hover { color: #2ECC71; border-color: #2ECC71; background: rgba(46, 204, 113, 0.1); }
     .btn-vote.down:hover { color: #E74C3C; border-color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
+    
+    /* VOTO DE DIOS */
+    .btn-vote.admin-god { color: #F39C12; border-color: #F39C12; box-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
+    .btn-vote.admin-god:hover { background: rgba(243, 156, 18, 0.15); transform: scale(1.15); }
 
     .vote-count { font-size: 13px; color: #E8E6E3; font-weight: 500; }
     
@@ -288,6 +292,7 @@
     .stat-box .title { font-size: 11px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .stat-box .val { font-size: 20px; color: #E8E6E3; font-weight: 300; }
     .stat-box .val span { font-size: 12px; color: #5A6070; }
+    /* Corrección de color para el Consejo del Ojo */
     #statConsejo { color: #E8E6E3; font-size: 14px; line-height: 1.5; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
     #statConsejo strong { color: #2ECC71; font-weight: 600; }
     
@@ -301,6 +306,7 @@
     .lightbox-close { position: absolute; top: 20px; right: 20px; font-size: 32px; color: #FFF; background: transparent; border: none; cursor: pointer; padding: 8px; z-index: 4001; line-height: 1; }
 
     /* MODAL EDITAR & ADMIN */
+    .input-group { margin-bottom: 22px; transition: all 0.3s ease; }
     .admin-panel { background: rgba(231, 76, 60, 0.1); border: 1px dashed #E74C3C; padding: 16px; border-radius: 12px; margin-top: 20px; }
     .admin-panel h3 { color: #E74C3C; font-size: 14px; margin-bottom: 10px; letter-spacing: 1px; }
 
@@ -625,7 +631,7 @@
     </div>
   </div>
 
-  <!-- MODAL ACTIVIDAD -->
+  <!-- MODAL ACTIVIDAD (MÚLTIPLES FOTOS HASTA 3) -->
   <div id="modalActividad" class="modal-overlay hidden">
     <div class="modal">
       <h2 id="tituloModalActividad">✦ Registro Diario</h2>
@@ -1064,11 +1070,13 @@
         if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } 
         else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
         else {
+          let btnAdmin = esAdmin ? `<button onclick="window.aprobarAdminAmigo('${amigoUid}', '${post.firebaseId}')" class="btn-vote admin-god" title="Voto de Dios (Admin)">🛡️</button>` : '';
           votingHTML = `
             <div class="vote-actions">
               <button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', true)" class="btn-vote up">👍</button>
               <span class="vote-count">${post.votosPositivos || 0}/3</span>
               <button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', false)" class="btn-vote down">👎</button>
+              ${btnAdmin}
             </div>
             <div class="vote-status pending">⏳ Pendiente</div>`;
         }
@@ -1105,24 +1113,19 @@
     });
 
     // ==========================================
-    // VOTACIONES DE AMIGOS (NORMALES + ADMIN BYPASS)
+    // VOTACIONES DE AMIGOS (NORMALES)
     // ==========================================
     window.votarPostAmigo = async function(amigoUid, firebaseId, esPositivo) {
       const postRef = doc(db, "usuarios", amigoUid, "historial", firebaseId);
       const postSnap = await getDoc(postRef); if(!postSnap.exists()) return; let post = postSnap.data();
       if(post.estado !== 'pendiente') return;
 
-      const esAdmin = auth.currentUser && auth.currentUser.email === ADMIN_EMAIL;
-
       if (!post.usuariosVotaron) post.usuariosVotaron = [];
-      
-      // Si NO es admin, comprobamos si ya votó
-      if (!esAdmin && post.usuariosVotaron.includes(usuarioActualUid)) {
+      if (post.usuariosVotaron.includes(usuarioActualUid)) {
           alert('🛡️ Ya votaste en esta publicación. No puedes votar dos veces.');
           return;
       }
-      
-      if(!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
+      post.usuariosVotaron.push(usuarioActualUid);
 
       if(esPositivo) {
         post.votosPositivos = (post.votosPositivos || 0) + 1;
@@ -1147,8 +1150,10 @@
                  suenoPruebas: uData.suenoPruebas 
              });
           }
+          // Notificar que se aprobó
           await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: 'Sistema', mensaje: `✅ ¡Tu evidencia ha sido validada por la Alianza!` });
         } else {
+          // Notificar que alguien votó
           await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: usuario.nombre, mensaje: `👍 A ${usuario.nombre} le pareció bien tu evidencia.` });
         }
       } else { 
@@ -1156,6 +1161,42 @@
         if(post.votosNegativos >= 3) post.estado = 'rechazado'; 
       }
       await updateDoc(postRef, { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado, usuariosVotaron: post.usuariosVotaron });
+    };
+
+    // ==========================================
+    // VOTO DE DIOS ADMIN (AMIGOS)
+    // ==========================================
+    window.aprobarAdminAmigo = async function(amigoUid, firebaseId) {
+      if(!confirm('🛡️ ¿Usar el Poder del Guild Master para APROBAR esto inmediatamente?')) return;
+      const postRef = doc(db, "usuarios", amigoUid, "historial", firebaseId);
+      const postSnap = await getDoc(postRef); if(!postSnap.exists()) return; let post = postSnap.data();
+      if(post.estado !== 'pendiente') return;
+
+      post.votosPositivos = 3;
+      post.estado = 'aprobado';
+      if (!post.usuariosVotaron) post.usuariosVotaron = [];
+      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
+
+      const userRef = doc(db, "usuarios", amigoUid); const uSnap = await getDoc(userRef);
+      if (uSnap.exists()) {
+         let uData = uSnap.data();
+         if (post.tipo === 'ejercicio') {
+            uData.actividad = (uData.actividad || 0) + 1; 
+         } else if (post.tipo === 'sueno') {
+            uData.suenoRegistros = (uData.suenoRegistros || 0) + 1;
+            uData.suenoHorasTotal = (uData.suenoHorasTotal || 0) + post.horas;
+            if(post.horas >= 7) uData.suenoPruebas = (uData.suenoPruebas || 0) + 1;
+            else if(post.horas === 6) uData.suenoPruebas = (uData.suenoPruebas || 0) + 0.5;
+         }
+         await updateDoc(userRef, { 
+             actividad: uData.actividad, 
+             suenoRegistros: uData.suenoRegistros, 
+             suenoHorasTotal: uData.suenoHorasTotal, 
+             suenoPruebas: uData.suenoPruebas 
+         });
+      }
+      await updateDoc(postRef, { votosPositivos: post.votosPositivos, estado: post.estado, usuariosVotaron: post.usuariosVotaron });
+      await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: 'Admin', mensaje: `🛡️ El Guild Master ha aprobado tu evidencia de inmediato.` });
     };
 
     document.getElementById('btnVolverMiPerfil').addEventListener('click', () => { 
@@ -1435,6 +1476,7 @@
       document.getElementById('puntos').textContent = pDisplay; 
       document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos; document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
       
+      // Banner de Penalización
       if (usuario.penalizado) {
         document.getElementById('bannerPenalizadoPropio').classList.remove('hidden');
       } else {
@@ -1477,7 +1519,7 @@
     }
 
     // ==========================================
-    // RENDERIZAR FEED PROPIO (CON BOTONES CONDICIONADOS)
+    // RENDERIZAR FEED PROPIO (CON RESTRICCIÓN MORTAL)
     // ==========================================
     function renderizarFeed() {
       const feedCont = document.getElementById('feedContainer'); feedCont.innerHTML = ''; 
@@ -1520,11 +1562,13 @@
         else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
         else { 
             if (esAdmin) {
+                let btnAdmin = `<button onclick="window.aprobarAdminPropio('${post.firebaseId}')" class="btn-vote admin-god" title="Aprobación Divina">🛡️</button>`;
                 votingHTML = `
                   <div class="vote-actions">
                     <button onclick="window.votarPostPropio('${post.firebaseId}', true)" class="btn-vote up">👍</button>
                     <span class="vote-count">${post.votosPositivos || 0}/3</span>
                     <button onclick="window.votarPostPropio('${post.firebaseId}', false)" class="btn-vote down">👎</button>
+                    ${btnAdmin}
                   </div>
                   <div class="vote-status pending">⏳ Pendiente</div>`; 
             } else {
@@ -1541,23 +1585,19 @@
     }
 
     // ==========================================
-    // VOTACIONES LIKES INFINITOS (PROPIAS)
+    // VOTACIONES NORMALES (PROPIAS - RESTRINGIDO)
     // ==========================================
     window.votarPostPropio = async function(firebaseId, esPositivo) {
-      const postRef = doc(db, "usuarios", usuarioActualUid, "historial", firebaseId);
-      const postSnap = await getDoc(postRef);
-      if(!postSnap.exists()) return; let post = postSnap.data();
-      if(post.estado !== 'pendiente') return;
+      const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
       
       const esAdmin = auth.currentUser && auth.currentUser.email === ADMIN_EMAIL;
       if (!esAdmin) {
-          alert('🛡️ Regla de la Alianza: No puedes votar por tus propias evidencias.');
+          alert('🛡️ Regla de la Alianza: No puedes votar por tus propias evidencias. Espera a que el gremio te califique.');
           return;
       }
 
       if (!post.usuariosVotaron) post.usuariosVotaron = [];
-      // Se omite el bloqueo para el Admin. Podrá clickear múltiples veces.
-      if(!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
+      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
 
       if(esPositivo) { 
         post.votosPositivos = (post.votosPositivos || 0) + 1; 
@@ -1571,19 +1611,38 @@
              if(post.horas >= 7) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 1;
              else if(post.horas === 6) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 0.5;
           }
-          await updateDoc(doc(db, "usuarios", usuarioActualUid), {
-             actividad: usuario.actividad,
-             suenoRegistros: usuario.suenoRegistros,
-             suenoHorasTotal: usuario.suenoHorasTotal,
-             suenoPruebas: usuario.suenoPruebas
-          });
         } 
       } 
       else { 
         post.votosNegativos = (post.votosNegativos || 0) + 1; 
         if(post.votosNegativos >= 3) post.estado = 'rechazado'; 
       }
-      await updateDoc(postRef, { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
+      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
+      await guardarDatosUsuario(); 
+    };
+
+    // ==========================================
+    // VOTO DE DIOS ADMIN (PROPIAS)
+    // ==========================================
+    window.aprobarAdminPropio = async function(firebaseId) {
+      if(!confirm('🛡️ ¿Usar el Poder del Guild Master para APROBAR esto inmediatamente?')) return;
+      const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
+      
+      post.votosPositivos = 3; 
+      post.estado = 'aprobado'; 
+      if (!post.usuariosVotaron) post.usuariosVotaron = [];
+      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
+
+      if (post.tipo === 'ejercicio') usuario.actividad = (usuario.actividad || 0) + 1;
+      else if (post.tipo === 'sueno') {
+         usuario.suenoRegistros = (usuario.suenoRegistros || 0) + 1;
+         usuario.suenoHorasTotal = (usuario.suenoHorasTotal || 0) + post.horas;
+         if(post.horas >= 7) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 1;
+         else if(post.horas === 6) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 0.5;
+      }
+      
+      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { votosPositivos: post.votosPositivos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
+      await guardarDatosUsuario(); 
     };
 
     window.borrarPost = async function(firebaseId) {
