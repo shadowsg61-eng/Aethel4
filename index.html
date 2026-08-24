@@ -203,7 +203,14 @@
     .feed-post-actions button:hover { background: rgba(255, 255, 255, 0.05); color: #2ECC71; }
     .feed-post-actions button.btn-delete:hover { color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
     .feed-body { color: #8A8F9A; font-size: 14px; margin-bottom: 12px; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; }
-    .feed-img { width: 100%; border-radius: 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); max-height: 300px; object-fit: cover; }
+    
+    /* GALERÍA DE FOTOS Y LIGHTBOX */
+    .feed-gallery { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .feed-img { border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); max-height: 300px; object-fit: cover; cursor: pointer; transition: transform 0.2s ease, opacity 0.2s ease; }
+    .feed-img:hover { opacity: 0.9; transform: scale(1.01); }
+    .feed-img.single { width: 100%; }
+    .feed-img.multi { flex: 1; min-width: calc(33.333% - 6px); max-height: 160px; height: 130px; }
+
     .feed-tag { display: inline-block; background: rgba(46, 204, 113, 0.1); color: #2ECC71; font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px;}
     .empty-feed { text-align: center; color: #5A6070; font-size: 14px; padding: 40px 20px; background: rgba(0,0,0,0.15); border-radius: 16px; border: 1px dashed rgba(255,255,255,0.05); }
 
@@ -213,10 +220,6 @@
     .btn-vote:hover { transform: scale(1.1); }
     .btn-vote.up:hover { color: #2ECC71; border-color: #2ECC71; background: rgba(46, 204, 113, 0.1); }
     .btn-vote.down:hover { color: #E74C3C; border-color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
-    
-    /* VOTO DE DIOS */
-    .btn-vote.admin-god { color: #F39C12; border-color: #F39C12; box-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
-    .btn-vote.admin-god:hover { background: rgba(243, 156, 18, 0.15); transform: scale(1.15); }
 
     .vote-count { font-size: 13px; color: #E8E6E3; font-weight: 500; }
     
@@ -256,7 +259,6 @@
     .amigo-info { flex: 1; }
     .amigo-nombre { color: #E8E6E3; font-size: 14px; font-weight: 500; transition: color 0.3s; }
     .amigo-item:hover .amigo-nombre { color: #2ECC71; }
-    /* Corrección de color para el rango en el menú lateral */
     .amigo-rango { font-size: 12px; color: #8A8F9A; margin-top: 2px; }
     .badge-rango { display: flex; align-items: center; font-size: 20px; margin-right: 4px; }
     .btn-delete-amigo { background: transparent; border: none; color: #5A6070; font-size: 16px; cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.3s ease; }
@@ -286,7 +288,6 @@
     .stat-box .title { font-size: 11px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .stat-box .val { font-size: 20px; color: #E8E6E3; font-weight: 300; }
     .stat-box .val span { font-size: 12px; color: #5A6070; }
-    /* Corrección de color para el Consejo del Ojo */
     #statConsejo { color: #E8E6E3; font-size: 14px; line-height: 1.5; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
     #statConsejo strong { color: #2ECC71; font-weight: 600; }
     
@@ -294,8 +295,12 @@
     .notif-item { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; border-left: 4px solid #2ECC71; font-size: 13px; color: #E8E6E3; }
     .notif-time { font-size: 10px; color: #8A8F9A; margin-top: 6px; display:block; }
 
+    /* MODAL LIGHTBOX PARA FOTOS COMPLETAS */
+    .lightbox-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 4000; display: flex; justify-content: center; align-items: center; padding: 16px; animation: fadeIn 0.2s ease; }
+    .lightbox-img { max-width: 95vw; max-height: 90vh; object-fit: contain; border-radius: 8px; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
+    .lightbox-close { position: absolute; top: 20px; right: 20px; font-size: 32px; color: #FFF; background: transparent; border: none; cursor: pointer; padding: 8px; z-index: 4001; line-height: 1; }
+
     /* MODAL EDITAR & ADMIN */
-    .input-group { margin-bottom: 22px; transition: all 0.3s ease; }
     .admin-panel { background: rgba(231, 76, 60, 0.1); border: 1px dashed #E74C3C; padding: 16px; border-radius: 12px; margin-top: 20px; }
     .admin-panel h3 { color: #E74C3C; font-size: 14px; margin-bottom: 10px; letter-spacing: 1px; }
 
@@ -579,6 +584,12 @@
     </div>
   </div>
 
+  <!-- ===== MODAL LIGHTBOX FOTOS ===== -->
+  <div id="lightboxOverlay" class="lightbox-overlay hidden">
+    <button class="lightbox-close" id="btnCerrarLightbox">×</button>
+    <img src="" id="lightboxImg" class="lightbox-img" alt="Foto completa" />
+  </div>
+
   <!-- ===== MODALES RESTANTES ===== -->
   <div id="modalStats" class="modal-overlay hidden">
     <div class="modal">
@@ -669,7 +680,10 @@
       </div>
 
       <div class="input-group"><label>Comentario (Opcional)</label><textarea id="comentarioRegistro" placeholder="Describe cómo te fue..."></textarea></div>
-      <div class="input-group"><label>📷 Evidencia Fotográfica</label><input type="file" id="fotoRegistro" accept="image/png, image/jpeg, image/jpg, image/webp" style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px dashed #2ECC71; border-radius: 8px; width: 100%; color: #E8E6E3; cursor: pointer;" /></div>
+      <div class="input-group">
+        <label>📷 Evidencias Fotográficas (Máximo 3 fotos)</label>
+        <input type="file" id="fotoRegistro" accept="image/png, image/jpeg, image/jpg, image/webp" multiple style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px dashed #2ECC71; border-radius: 8px; width: 100%; color: #E8E6E3; cursor: pointer;" />
+      </div>
       <div class="acciones-modal"><button class="cancelar" id="cancelarActividad">Cancelar</button><button class="guardar" id="guardarActividad">Someter a Votación</button></div>
     </div>
   </div>
@@ -784,6 +798,20 @@
     document.getElementById('btnTabFriendFeed').addEventListener('click', (e) => {
       e.target.classList.add('active'); document.getElementById('btnTabFriendPerfil').classList.remove('active');
       document.getElementById('friendFeedSection').classList.remove('hidden'); document.getElementById('friendPerfilSection').classList.add('hidden');
+    });
+
+    // SISTEMA DE LIGHTBOX (FOTOS COMPLETAS)
+    window.abrirFotoCompleta = function(url) {
+      document.getElementById('lightboxImg').src = url;
+      document.getElementById('lightboxOverlay').classList.remove('hidden');
+    };
+    document.getElementById('btnCerrarLightbox').addEventListener('click', () => {
+      document.getElementById('lightboxOverlay').classList.add('hidden');
+    });
+    document.getElementById('lightboxOverlay').addEventListener('click', (e) => {
+      if (e.target.id === 'lightboxOverlay') {
+        document.getElementById('lightboxOverlay').classList.add('hidden');
+      }
     });
 
     // SISTEMA DE NOTIFICACIONES
@@ -1021,27 +1049,33 @@
         else tagText = 'Registro de Peso: ' + post.valorPeso + ' kg';
 
         const tagHTML = `<div class="feed-tag">${tagText}</div>`;
-        const imgHTML = post.foto ? `<img src="${post.foto}" class="feed-img">` : '';
+        
+        let fotosArray = post.fotos || (post.foto ? [post.foto] : []);
+        let galleryHTML = '';
+        if (fotosArray.length > 0) {
+          const imgCls = fotosArray.length === 1 ? 'single' : 'multi';
+          const imgTags = fotosArray.map(u => `<img src="${u}" class="feed-img ${imgCls}" onclick="window.abrirFotoCompleta('${u}')" title="Toca para ver en grande">`).join('');
+          galleryHTML = `<div class="feed-gallery">${imgTags}</div>`;
+        }
+        
         const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
         
         let votingHTML = '';
         if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } 
         else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
         else {
-          let btnAdmin = esAdmin ? `<button onclick="window.aprobarAdminAmigo('${amigoUid}', '${post.firebaseId}')" class="btn-vote admin-god" title="Voto de Dios (Admin)">🛡️</button>` : '';
           votingHTML = `
             <div class="vote-actions">
               <button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', true)" class="btn-vote up">👍</button>
               <span class="vote-count">${post.votosPositivos || 0}/3</span>
               <button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', false)" class="btn-vote down">👎</button>
-              ${btnAdmin}
             </div>
             <div class="vote-status pending">⏳ Pendiente</div>`;
         }
         fContainer.innerHTML += `
           <div class="feed-item">
             <div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${amigoData.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div></div>
-            ${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div>
+            ${comentarioHTML}${galleryHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div>
           </div>`;
       });
     }
@@ -1071,19 +1105,24 @@
     });
 
     // ==========================================
-    // VOTACIONES DE AMIGOS (NORMALES)
+    // VOTACIONES DE AMIGOS (NORMALES + ADMIN BYPASS)
     // ==========================================
     window.votarPostAmigo = async function(amigoUid, firebaseId, esPositivo) {
       const postRef = doc(db, "usuarios", amigoUid, "historial", firebaseId);
       const postSnap = await getDoc(postRef); if(!postSnap.exists()) return; let post = postSnap.data();
       if(post.estado !== 'pendiente') return;
 
+      const esAdmin = auth.currentUser && auth.currentUser.email === ADMIN_EMAIL;
+
       if (!post.usuariosVotaron) post.usuariosVotaron = [];
-      if (post.usuariosVotaron.includes(usuarioActualUid)) {
+      
+      // Si NO es admin, comprobamos si ya votó
+      if (!esAdmin && post.usuariosVotaron.includes(usuarioActualUid)) {
           alert('🛡️ Ya votaste en esta publicación. No puedes votar dos veces.');
           return;
       }
-      post.usuariosVotaron.push(usuarioActualUid);
+      
+      if(!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
 
       if(esPositivo) {
         post.votosPositivos = (post.votosPositivos || 0) + 1;
@@ -1108,10 +1147,8 @@
                  suenoPruebas: uData.suenoPruebas 
              });
           }
-          // Notificar que se aprobó
           await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: 'Sistema', mensaje: `✅ ¡Tu evidencia ha sido validada por la Alianza!` });
         } else {
-          // Notificar que alguien votó
           await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: usuario.nombre, mensaje: `👍 A ${usuario.nombre} le pareció bien tu evidencia.` });
         }
       } else { 
@@ -1119,42 +1156,6 @@
         if(post.votosNegativos >= 3) post.estado = 'rechazado'; 
       }
       await updateDoc(postRef, { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado, usuariosVotaron: post.usuariosVotaron });
-    };
-
-    // ==========================================
-    // VOTO DE DIOS ADMIN (AMIGOS)
-    // ==========================================
-    window.aprobarAdminAmigo = async function(amigoUid, firebaseId) {
-      if(!confirm('🛡️ ¿Usar el Poder del Guild Master para APROBAR esto inmediatamente?')) return;
-      const postRef = doc(db, "usuarios", amigoUid, "historial", firebaseId);
-      const postSnap = await getDoc(postRef); if(!postSnap.exists()) return; let post = postSnap.data();
-      if(post.estado !== 'pendiente') return;
-
-      post.votosPositivos = 3;
-      post.estado = 'aprobado';
-      if (!post.usuariosVotaron) post.usuariosVotaron = [];
-      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
-
-      const userRef = doc(db, "usuarios", amigoUid); const uSnap = await getDoc(userRef);
-      if (uSnap.exists()) {
-         let uData = uSnap.data();
-         if (post.tipo === 'ejercicio') {
-            uData.actividad = (uData.actividad || 0) + 1; 
-         } else if (post.tipo === 'sueno') {
-            uData.suenoRegistros = (uData.suenoRegistros || 0) + 1;
-            uData.suenoHorasTotal = (uData.suenoHorasTotal || 0) + post.horas;
-            if(post.horas >= 7) uData.suenoPruebas = (uData.suenoPruebas || 0) + 1;
-            else if(post.horas === 6) uData.suenoPruebas = (uData.suenoPruebas || 0) + 0.5;
-         }
-         await updateDoc(userRef, { 
-             actividad: uData.actividad, 
-             suenoRegistros: uData.suenoRegistros, 
-             suenoHorasTotal: uData.suenoHorasTotal, 
-             suenoPruebas: uData.suenoPruebas 
-         });
-      }
-      await updateDoc(postRef, { votosPositivos: post.votosPositivos, estado: post.estado, usuariosVotaron: post.usuariosVotaron });
-      await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: 'Admin', mensaje: `🛡️ El Guild Master ha aprobado tu evidencia de inmediato.` });
     };
 
     document.getElementById('btnVolverMiPerfil').addEventListener('click', () => { 
@@ -1434,7 +1435,6 @@
       document.getElementById('puntos').textContent = pDisplay; 
       document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos; document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
       
-      // Banner de Penalización
       if (usuario.penalizado) {
         document.getElementById('bannerPenalizadoPropio').classList.remove('hidden');
       } else {
@@ -1468,7 +1468,7 @@
       
       document.getElementById('suenoValor').textContent = `${pSueno} / 30`;
       document.getElementById('suenoPromedio').textContent = `Promedio: ${prom}h`;
-      let pctSueno = (pSueno / 30) * 100; if(pctSueno > 100) pctSueno = 100;
+      let pctSueno = (pSueno / 30) * 100; if(pctSueno > 100) pctSueno = 100; 
       
       setTimeout(() => { 
         document.getElementById('actividadBarra').style.width = pctAct + '%'; 
@@ -1477,7 +1477,7 @@
     }
 
     // ==========================================
-    // RENDERIZAR FEED PROPIO (CON RESTRICCIÓN MORTAL)
+    // RENDERIZAR FEED PROPIO (CON BOTONES CONDICIONADOS)
     // ==========================================
     function renderizarFeed() {
       const feedCont = document.getElementById('feedContainer'); feedCont.innerHTML = ''; 
@@ -1504,7 +1504,15 @@
         else tagText = 'Registro de Peso: ' + post.valorPeso + ' kg';
 
         const tagHTML = `<div class="feed-tag">${tagText}</div>`; 
-        const imgHTML = post.foto ? `<img src="${post.foto}" class="feed-img">` : ''; 
+        
+        let fotosArray = post.fotos || (post.foto ? [post.foto] : []);
+        let galleryHTML = '';
+        if (fotosArray.length > 0) {
+          const imgCls = fotosArray.length === 1 ? 'single' : 'multi';
+          const imgTags = fotosArray.map(u => `<img src="${u}" class="feed-img ${imgCls}" onclick="window.abrirFotoCompleta('${u}')" title="Toca para ver en grande">`).join('');
+          galleryHTML = `<div class="feed-gallery">${imgTags}</div>`;
+        }
+        
         const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
         
         let votingHTML = '';
@@ -1512,13 +1520,11 @@
         else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
         else { 
             if (esAdmin) {
-                let btnAdmin = `<button onclick="window.aprobarAdminPropio('${post.firebaseId}')" class="btn-vote admin-god" title="Aprobación Divina">🛡️</button>`;
                 votingHTML = `
                   <div class="vote-actions">
                     <button onclick="window.votarPostPropio('${post.firebaseId}', true)" class="btn-vote up">👍</button>
                     <span class="vote-count">${post.votosPositivos || 0}/3</span>
                     <button onclick="window.votarPostPropio('${post.firebaseId}', false)" class="btn-vote down">👎</button>
-                    ${btnAdmin}
                   </div>
                   <div class="vote-status pending">⏳ Pendiente</div>`; 
             } else {
@@ -1530,24 +1536,28 @@
             }
         }
         
-        feedCont.innerHTML += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions"><button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>${comentarioHTML}${imgHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div></div>`;
+        feedCont.innerHTML += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions"><button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>${comentarioHTML}${galleryHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div></div>`;
       });
     }
 
     // ==========================================
-    // VOTACIONES NORMALES (PROPIAS - RESTRINGIDO)
+    // VOTACIONES LIKES INFINITOS (PROPIAS)
     // ==========================================
     window.votarPostPropio = async function(firebaseId, esPositivo) {
-      const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
+      const postRef = doc(db, "usuarios", usuarioActualUid, "historial", firebaseId);
+      const postSnap = await getDoc(postRef);
+      if(!postSnap.exists()) return; let post = postSnap.data();
+      if(post.estado !== 'pendiente') return;
       
       const esAdmin = auth.currentUser && auth.currentUser.email === ADMIN_EMAIL;
       if (!esAdmin) {
-          alert('🛡️ Regla de la Alianza: No puedes votar por tus propias evidencias. Espera a que el gremio te califique.');
+          alert('🛡️ Regla de la Alianza: No puedes votar por tus propias evidencias.');
           return;
       }
 
       if (!post.usuariosVotaron) post.usuariosVotaron = [];
-      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
+      // Se omite el bloqueo para el Admin. Podrá clickear múltiples veces.
+      if(!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
 
       if(esPositivo) { 
         post.votosPositivos = (post.votosPositivos || 0) + 1; 
@@ -1561,38 +1571,19 @@
              if(post.horas >= 7) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 1;
              else if(post.horas === 6) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 0.5;
           }
+          await updateDoc(doc(db, "usuarios", usuarioActualUid), {
+             actividad: usuario.actividad,
+             suenoRegistros: usuario.suenoRegistros,
+             suenoHorasTotal: usuario.suenoHorasTotal,
+             suenoPruebas: usuario.suenoPruebas
+          });
         } 
       } 
       else { 
         post.votosNegativos = (post.votosNegativos || 0) + 1; 
         if(post.votosNegativos >= 3) post.estado = 'rechazado'; 
       }
-      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
-      await guardarDatosUsuario(); 
-    };
-
-    // ==========================================
-    // VOTO DE DIOS ADMIN (PROPIAS)
-    // ==========================================
-    window.aprobarAdminPropio = async function(firebaseId) {
-      if(!confirm('🛡️ ¿Usar el Poder del Guild Master para APROBAR esto inmediatamente?')) return;
-      const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
-      
-      post.votosPositivos = 3; 
-      post.estado = 'aprobado'; 
-      if (!post.usuariosVotaron) post.usuariosVotaron = [];
-      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
-
-      if (post.tipo === 'ejercicio') usuario.actividad = (usuario.actividad || 0) + 1;
-      else if (post.tipo === 'sueno') {
-         usuario.suenoRegistros = (usuario.suenoRegistros || 0) + 1;
-         usuario.suenoHorasTotal = (usuario.suenoHorasTotal || 0) + post.horas;
-         if(post.horas >= 7) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 1;
-         else if(post.horas === 6) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 0.5;
-      }
-      
-      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { votosPositivos: post.votosPositivos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
-      await guardarDatosUsuario(); 
+      await updateDoc(postRef, { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
     };
 
     window.borrarPost = async function(firebaseId) {
@@ -1712,17 +1703,47 @@
       const horas = document.getElementById('horasSueno').value;
       const valPeso = document.getElementById('valorPesoActividad').value;
       const comentario = document.getElementById('comentarioRegistro').value.trim(); 
-      const file = document.getElementById('fotoRegistro').files[0]; 
+      const fileInput = document.getElementById('fotoRegistro');
+      const files = Array.from(fileInput.files);
       const btnGuardar = document.getElementById('guardarActividad');
       
       if (tipo === 'ejercicio' && !categoria) { alert("Selecciona categoría de ejercicio."); return; }
       if (tipo === 'sueno' && !horas) { alert("Selecciona las horas de sueño."); return; }
       if (tipo === 'peso' && !valPeso) { alert("Ingresa tu peso actual."); return; }
       
-      btnGuardar.textContent = 'Subiendo...'; btnGuardar.disabled = true; let fotoUrl = null;
-      if (file) {
-        const formData = new FormData(); formData.append('image', file);
-        try { const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData }); const data = await res.json(); if (data.success) fotoUrl = data.data.url; else { alert('Error subiendo imagen.'); btnGuardar.textContent = 'Someter a Votación'; btnGuardar.disabled = false; return; } } catch (error) { alert('Error de conexión.'); btnGuardar.textContent = 'Someter a Votación'; btnGuardar.disabled = false; return; }
+      if (files.length > 3) {
+        alert("Máximo 3 fotos permitidas por registro.");
+        return;
+      }
+
+      btnGuardar.textContent = 'Subiendo evidencias...'; 
+      btnGuardar.disabled = true; 
+      
+      let fotosUrls = [];
+      if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const f = files[i];
+          btnGuardar.textContent = `Subiendo foto ${i + 1}/${files.length}...`;
+          const formData = new FormData(); 
+          formData.append('image', f);
+          try { 
+            const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData }); 
+            const data = await res.json(); 
+            if (data.success) {
+              fotosUrls.push(data.data.url);
+            } else { 
+              alert('Error al subir una de las imágenes.'); 
+              btnGuardar.textContent = 'Someter a Votación'; 
+              btnGuardar.disabled = false; 
+              return; 
+            } 
+          } catch (error) { 
+            alert('Error de conexión al subir imágenes.'); 
+            btnGuardar.textContent = 'Someter a Votación'; 
+            btnGuardar.disabled = false; 
+            return; 
+          }
+        }
       }
       
       const nuevoPost = { 
@@ -1733,7 +1754,8 @@
           valorPeso: tipo === 'peso' ? parseFloat(valPeso) : null,
           comentario: comentario, 
           fecha: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' }), 
-          foto: fotoUrl, 
+          fotos: fotosUrls,
+          foto: fotosUrls.length > 0 ? fotosUrls[0] : null, // Retrocompatibilidad
           votosPositivos: 0, 
           votosNegativos: 0, 
           usuariosVotaron: [], 
@@ -1743,7 +1765,6 @@
       try { 
           await addDoc(collection(db, "usuarios", usuarioActualUid, "historial"), nuevoPost); 
           
-          // Notificar a la Alianza que subiste algo
           await addDoc(collection(db, "notificaciones"), {
             id: Date.now(), para: 'global', creadorNombre: usuario.nombre,
             mensaje: `📸 Tu amigo ${usuario.nombre} acaba de subir una nueva prueba.`
