@@ -48,6 +48,7 @@
     .header .icon {
       font-size: 28px; color: #2ECC71; display: block; margin-bottom: 4px;
       text-shadow: 0 0 20px rgba(46, 204, 113, 0.3); animation: pulseGlow 2s ease-in-out infinite;
+      will-change: text-shadow; /* Optimizacion GPU */
     }
     @keyframes pulseGlow { 0%, 100% { text-shadow: 0 0 20px rgba(46, 204, 113, 0.3); } 50% { text-shadow: 0 0 40px rgba(46, 204, 113, 0.6); } }
     .header h1 { font-size: 26px; letter-spacing: 8px; color: #E8E6E3; font-weight: 300; }
@@ -132,6 +133,7 @@
       background: rgba(231, 76, 60, 0.15); border: 1px solid #E74C3C; color: #E74C3C;
       padding: 10px; border-radius: 12px; text-align: center; font-weight: bold;
       font-size: 14px; margin-bottom: 16px; animation: pulseRed 2s infinite;
+      will-change: box-shadow; /* Optimizacion GPU */
     }
     @keyframes pulseRed { 0%, 100% { box-shadow: 0 0 10px rgba(231, 76, 60, 0.2); } 50% { box-shadow: 0 0 20px rgba(231, 76, 60, 0.5); } }
 
@@ -152,29 +154,25 @@
     .rango-oro { border-color: rgba(255, 215, 0, 0.6); }
     .avatar.oro, .amigo-avatar.oro, .feed-avatar.oro { border-color: #FFD700; box-shadow: 0 0 40px rgba(255, 215, 0, 0.5); }
 
-    .rango-platino .rango-badge { color: #00FFFF; animation: latidoPlatino 2s infinite; }
+    .rango-platino .rango-badge { color: #00FFFF; animation: latidoPlatino 2s infinite; will-change: text-shadow; }
     .rango-platino { border-color: rgba(0, 255, 255, 0.8); }
-    .avatar.platino, .amigo-avatar.platino, .feed-avatar.platino { border-color: #00FFFF; animation: latidoPlatinoAvatar 2s infinite; }
+    .avatar.platino, .amigo-avatar.platino, .feed-avatar.platino { border-color: #00FFFF; animation: latidoPlatinoAvatar 2s infinite; will-change: box-shadow; }
 
     /* CERDO IMPERIALISTA (TEXTO NEGRO CON DEGRADADO AZUL MEDIANOCHE) */
     .rango-cerdo { border-color: rgba(0, 0, 0, 0.8); background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(27,38,59,0.6)); }
     .rango-cerdo .rango-badge div {
       background: linear-gradient(135deg, #000000, #191970);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      -webkit-text-stroke: 1px #5DADE2; 
-      filter: drop-shadow(0 0 15px rgba(25, 25, 112, 0.8));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-text-stroke: 1px #5DADE2; filter: drop-shadow(0 0 15px rgba(25, 25, 112, 0.8));
     }
     .avatar.cerdo, .amigo-avatar.cerdo, .feed-avatar.cerdo { border-color: #1B263B; box-shadow: 0 0 40px rgba(0, 0, 0, 0.8); }
 
     @keyframes latidoPlatino { 0%, 100% { text-shadow: 0 0 30px rgba(0, 255, 255, 1); } 50% { text-shadow: 0 0 50px rgba(0, 255, 255, 1), 0 0 10px #fff; } }
     @keyframes latidoPlatinoAvatar { 0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.6); } 50% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.9); } }
-
-    @keyframes floatMedal { 0%, 100% { transform: translateY(0) scale(1.6); } 50% { transform: translateY(-8px) scale(1.6); } }
+    @keyframes floatMedal { 0%, 100% { transform: translateZ(0) translateY(0) scale(1.6); } 50% { transform: translateZ(0) translateY(-8px) scale(1.6); } }
 
     /* ===== ESTILOS PARA INSIGNIAS PERSONALIZADAS (IMÁGENES) ===== */
-    .rango-badge img { width: 150px; height: 150px; object-fit: contain; filter: drop-shadow(0 0 25px currentColor); margin: 0; animation: floatMedal 3s ease-in-out infinite; transform: scale(1.6); }
+    .rango-badge img { width: 150px; height: 150px; object-fit: contain; filter: drop-shadow(0 0 25px currentColor); margin: 0; animation: floatMedal 3s ease-in-out infinite; transform: translateZ(0) scale(1.6); will-change: transform, filter; }
     .badge-rango img { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 0 10px currentColor); transform: scale(1.2); }
 
     /* ===== RANGO CONTAINER (DISEÑO VERTICAL CENTRADO) ===== */
@@ -383,29 +381,6 @@
     }
   </style>
 
-  <!-- ================= FIREBASE SDK ================= -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAn68P9ePlPk0VJ7Grlow98c9n0T4JhQSE",
-      authDomain: "aethel-ad206.firebaseapp.com",
-      projectId: "aethel-ad206",
-      storageBucket: "aethel-ad206.firebasestorage.app",
-      messagingSenderId: "914512194225",
-      appId: "1:914512194225:web:77863181cf7a5cab4ed090"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    window.fbAuth = auth;
-    window.fbDb = db;
-    window.fbMethods = { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp, limit };
-  </script>
 </head>
 <body>
 
@@ -801,6 +776,7 @@
       appId: "1:914512194225:web:77863181cf7a5cab4ed090"
     };
 
+    // Inicialización única y segura de Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -905,13 +881,14 @@
 
     function renderizarModalNotificaciones() {
         const list = document.getElementById('listaNotificaciones');
-        list.innerHTML = '';
+        let htmlNotif = '';
         if (misNotificaciones.length === 0) {
             list.innerHTML = '<p style="text-align:center; color:#8A8F9A;">No hay alertas en el Gremio.</p>'; return;
         }
         misNotificaciones.forEach(n => {
-            list.innerHTML += `<div class="notif-item">${n.mensaje}<span class="notif-time">${new Date(n.id).toLocaleString('es-MX', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' })}</span></div>`;
+            htmlNotif += `<div class="notif-item">${n.mensaje}<span class="notif-time">${new Date(n.id).toLocaleString('es-MX', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' })}</span></div>`;
         });
+        list.innerHTML = htmlNotif;
     }
 
     function escucharNotificacionesGlobales() {
@@ -973,31 +950,46 @@
     document.getElementById('btnCloseDrawer').addEventListener('click', toggleDrawer);
     drawerOverlay.addEventListener('click', toggleDrawer);
 
+    // OPTIMIZACIÓN: Carga paralela de amigos (120fps)
     async function renderizarAmigos() {
       listaAmigosDOM.innerHTML = '<p style="color:#5A6070; font-size:13px; text-align:center; margin-top:20px;">Cargando Alianza...</p>';
       if(!usuario.amigos || usuario.amigos.length === 0) { listaAmigosDOM.innerHTML = '<p style="color:#5A6070; font-size:13px; text-align:center; margin-top:20px;">No tienes aliados aún.</p>'; return; }
-      listaAmigosDOM.innerHTML = '';
       
-      for (const nombreAmigo of usuario.amigos) {
-        const q = query(collection(db, "usuarios"), where("nombre", "==", nombreAmigo));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          const uDoc = querySnapshot.docs[0]; const amigoData = uDoc.data(); const amigoUid = uDoc.id;
-          
-          let pAct = (amigoData.actividad || 0) * 10;
-          let pSue = (amigoData.suenoPruebas || 0) * 5;
-          let pKil = Math.abs(amigoData.kilos || 0) * 50;
-          let pen = amigoData.penalizado ? 0.5 : 0;
-          let ptsTotales = pAct + pSue + pKil - pen;
-          
-          const rango = obtenerRango(ptsTotales);
-          const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `${amigoData.nombre.charAt(0).toUpperCase()}`;
-          const div = document.createElement('div'); div.className = 'amigo-item';
-          div.onclick = (e) => { if (!e.target.closest('.btn-delete-amigo')) abrirVisitaAmigo(amigoData, ptsTotales, amigoUid); };
-          div.innerHTML = `<div class="amigo-avatar ${rango.clase}">${avatarContent}</div><div class="amigo-info"><div class="amigo-nombre">${amigoData.nombre}</div><div class="amigo-rango">Liga ${rango.nombre}</div></div><div class="badge-rango" style="color: ${rango.color}">${rango.icono}</div><button class="btn-delete-amigo" onclick="window.borrarAmigoLista('${amigoData.nombre}')">🗑</button>`;
-          listaAmigosDOM.appendChild(div);
-        }
-      }
+      const promesas = usuario.amigos.map(async (nombreAmigo) => {
+          const q = query(collection(db, "usuarios"), where("nombre", "==", nombreAmigo));
+          const snap = await getDocs(q);
+          if(!snap.empty) {
+              const uDoc = snap.docs[0];
+              return { uid: uDoc.id, data: uDoc.data() };
+          }
+          return null;
+      });
+
+      const docsAmigos = await Promise.all(promesas);
+      listaAmigosDOM.innerHTML = '';
+      const fragment = document.createDocumentFragment();
+
+      docsAmigos.forEach(amigoObj => {
+          if(amigoObj) {
+              const amigoData = amigoObj.data;
+              const amigoUid = amigoObj.uid;
+              let pAct = (amigoData.actividad || 0) * 10;
+              let pSue = (amigoData.suenoPruebas || 0) * 5;
+              let pKil = Math.abs(amigoData.kilos || 0) * 50;
+              let pen = amigoData.penalizado ? 0.5 : 0;
+              let ptsTotales = pAct + pSue + pKil - pen;
+              
+              const rango = obtenerRango(ptsTotales);
+              const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `${amigoData.nombre.charAt(0).toUpperCase()}`;
+              
+              const div = document.createElement('div'); 
+              div.className = 'amigo-item';
+              div.onclick = (e) => { if (!e.target.closest('.btn-delete-amigo')) abrirVisitaAmigo(amigoData, ptsTotales, amigoUid); };
+              div.innerHTML = `<div class="amigo-avatar ${rango.clase}">${avatarContent}</div><div class="amigo-info"><div class="amigo-nombre">${amigoData.nombre}</div><div class="amigo-rango">Liga ${rango.nombre}</div></div><div class="badge-rango" style="color: ${rango.color}">${rango.icono}</div><button class="btn-delete-amigo" onclick="window.borrarAmigoLista('${amigoData.nombre}')">🗑</button>`;
+              fragment.appendChild(div);
+          }
+      });
+      listaAmigosDOM.appendChild(fragment);
     }
 
     document.getElementById('btnAgregarAmigo').addEventListener('click', async () => {
@@ -1100,9 +1092,9 @@
       });
     };
 
+    // OPTIMIZACIÓN: Inyección masiva sin Reflow
     function renderizarFeedAmigo() {
       const fContainer = document.getElementById('friendFeedContainer');
-      fContainer.innerHTML = '';
       if (!currentAmigoView) return;
 
       const { data: amigoData, rango, uid: amigoUid } = currentAmigoView;
@@ -1119,6 +1111,7 @@
         return; 
       }
 
+      let htmlArmado = '';
       filtrados.forEach(post => {
         let feedIcon = post.tipo === 'ejercicio' ? '💪' : (post.tipo === 'sueno' ? '🌙' : '⚖️');
         let tagText = '';
@@ -1152,12 +1145,13 @@
             </div>
             <div class="vote-status pending">⏳ Pendiente</div>`;
         }
-        fContainer.innerHTML += `
+        htmlArmado += `
           <div class="feed-item">
             <div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${amigoData.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div></div>
             ${comentarioHTML}${galleryHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div>
           </div>`;
       });
+      fContainer.innerHTML = htmlArmado;
     }
 
     document.getElementById('btnGuardarAdmin').addEventListener('click', async () => {
@@ -1368,14 +1362,16 @@
       });
     });
 
+    // OPTIMIZACIÓN: Inyección masiva sin Reflow
     function renderizarTablon() {
-      const tCont = document.getElementById('tablonContainer'); tCont.innerHTML = '';
+      const tCont = document.getElementById('tablonContainer');
       let filtrados = postsTablonArray;
       if(filtroActualTablon === 'rutina') filtrados = postsTablonArray.filter(p => p.tipo === 'rutina' || p.tipo === 'ambos');
       else if(filtroActualTablon === 'musica') filtrados = postsTablonArray.filter(p => p.tipo === 'musica' || p.tipo === 'ambos');
 
       if(filtrados.length === 0) { tCont.innerHTML = `<div class="empty-feed"><span class="icon">🍻</span>El tablón está vacío en esta categoría.</div>`; return; }
 
+      let htmlArmado = '';
       filtrados.forEach(post => {
         const icon = post.tipo === 'musica' ? '🎵' : (post.tipo === 'rutina' ? '📋' : '🔥');
         const tagHTML = `<div class="feed-tag">${post.tipo === 'musica' ? 'Recomendación Musical' : (post.tipo === 'rutina' ? 'Rutina de Batalla' : 'Rutina + Música')}</div>`;
@@ -1400,7 +1396,7 @@
         let claseRango = post.rangoClase || 'cobre';
         let btnBorrar = (post.uid === usuarioActualUid) ? `<button onclick="window.borrarPostTablon('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button>` : '';
 
-        tCont.innerHTML += `
+        htmlArmado += `
           <div class="feed-item">
             <div class="feed-header-item">
               <div class="feed-avatar ${claseRango}">${avatarContent}</div>
@@ -1410,6 +1406,7 @@
             ${tagHTML}${textHTML}${spotifyHTML}
           </div>`;
       });
+      tCont.innerHTML = htmlArmado;
     }
 
     window.borrarPostTablon = async function(firebaseId) {
@@ -1553,6 +1550,7 @@
       document.getElementById('puntos').textContent = pDisplay; 
       document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos; document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
       
+      // Banner de Penalización
       if (usuario.penalizado) {
         document.getElementById('bannerPenalizadoPropio').classList.remove('hidden');
       } else {
@@ -1594,11 +1592,9 @@
       }, 100);
     }
 
-    // ==========================================
-    // RENDERIZAR FEED PROPIO (CON RESTRICCIÓN MORTAL)
-    // ==========================================
+    // OPTIMIZACIÓN: Inyección masiva sin Reflow
     function renderizarFeed() {
-      const feedCont = document.getElementById('feedContainer'); feedCont.innerHTML = ''; 
+      const feedCont = document.getElementById('feedContainer');
       const esAdmin = auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
       
       let filtrados = usuario.historial;
@@ -1614,6 +1610,7 @@
       const avatarContent = usuario.avatarUrl ? `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${usuario.nombre.charAt(0).toUpperCase()}</span>`;
       const rango = obtenerRango(usuario.puntos);
 
+      let htmlArmado = '';
       filtrados.forEach(post => {
         let feedIcon = post.tipo === 'ejercicio' ? '💪' : (post.tipo === 'sueno' ? '🌙' : '⚖️');
         let tagText = '';
@@ -1656,8 +1653,9 @@
             }
         }
         
-        feedCont.innerHTML += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions"><button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>${comentarioHTML}${galleryHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div></div>`;
+        htmlArmado += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions"><button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>${comentarioHTML}${galleryHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div></div>`;
       });
+      feedCont.innerHTML = htmlArmado;
     }
 
     // ==========================================
