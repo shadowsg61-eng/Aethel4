@@ -9,7 +9,6 @@
   <link rel="apple-touch-icon" href="https://i.postimg.cc/XYz5y3pH/1000051537-removebg-preview.png">
   
   <style>
-    /* ===== RESET Y ESTILOS BASE ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { min-height: 100vh; background-color: #0B1426; }
     ::-webkit-scrollbar { width: 8px; }
@@ -33,423 +32,220 @@
       transition: background 0.5s ease;
     }
 
-    /* ===== PANTALLA DE CARGA ===== */
     .loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: #000000;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
-      opacity: 1;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
-      will-change: opacity;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      background: #000000; z-index: 9999; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; gap: 30px;
+      opacity: 1; transition: opacity 0.8s ease, visibility 0.8s ease;
     }
-    .loading-screen.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .loading-logo {
-      width: 220px;
-      height: auto;
-      object-fit: contain;
-      animation: logoEntrance 1s ease-out;
-      will-change: transform, opacity;
-    }
-    @keyframes logoEntrance {
-      from { transform: scale(0.7); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
+    .loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loading-logo { width: 220px; height: auto; object-fit: contain; animation: logoEntrance 1s ease-out; }
+    @keyframes logoEntrance { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .loading-welcome {
-      color: #FFFFFF;
-      font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
-      font-size: 22px;
-      font-weight: 400;
-      letter-spacing: 1px;
-      text-align: center;
-      animation: fadeInUp 0.6s ease-out 0.4s both;
+      color: #FFFFFF; font-family: 'Courier New', monospace; font-size: 22px;
+      letter-spacing: 1px; text-align: center; animation: fadeInUp 0.6s ease-out 0.4s both;
     }
     .loading-connecting {
-      color: #8A8F9A;
-      font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
-      font-size: 15px;
-      font-weight: 400;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      animation: fadeInUp 0.6s ease-out 0.6s both;
+      color: #8A8F9A; font-family: 'Courier New', monospace; font-size: 15px;
+      letter-spacing: 1px; display: flex; align-items: center; animation: fadeInUp 0.6s ease-out 0.6s both;
     }
-    .loading-dots {
-      display: inline-flex;
-      margin-left: 4px;
-      min-width: 30px;
-      font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
-    }
-    .loading-dot {
-      opacity: 0;
-      animation: dotPulse 1.5s infinite;
-      will-change: opacity;
-    }
+    .loading-dots { display: inline-flex; margin-left: 4px; min-width: 30px; font-family: 'Courier New', monospace; }
+    .loading-dot { opacity: 0; animation: dotPulse 1.5s infinite; }
     .loading-dot:nth-child(1) { animation-delay: 0s; }
     .loading-dot:nth-child(2) { animation-delay: 0.4s; }
     .loading-dot:nth-child(3) { animation-delay: 0.8s; }
-    @keyframes dotPulse {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 1; }
-    }
-    @keyframes fadeInUp {
-      from { transform: translateY(15px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes dotPulse { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+    @keyframes fadeInUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    .container { width: 100%; max-width: 480px; position: relative; z-index: 1; margin: auto; padding-bottom: 20px;}
-
+    .container { width: 100%; max-width: 480px; position: relative; z-index: 1; margin: auto; padding-bottom: 20px; }
     .card {
       background: rgba(19, 32, 58, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       border-radius: 24px; padding: 36px 28px 24px; border: 1px solid rgba(46, 204, 113, 0.15);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 40px rgba(46, 204, 113, 0.03);
-      transition: all 0.3s ease;
     }
-    .card:hover { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 60px rgba(46, 204, 113, 0.06); }
-
-    /* ===== HEADER ===== */
     .header { text-align: center; margin-bottom: 24px; position: relative; }
-    .logo-container {
-      display: flex; justify-content: center; align-items: center;
-      margin-bottom: 8px;
-    }
+    .logo-container { display: flex; justify-content: center; align-items: center; margin-bottom: 8px; }
     .logo-principal {
       max-width: 200px; width: 100%; height: auto;
       filter: drop-shadow(0 0 20px rgba(46, 204, 113, 0.4));
       animation: pulseLogo 3s ease-in-out infinite;
-      will-change: filter, transform;
-      transition: all 0.3s ease;
     }
-    @keyframes pulseLogo {
-      0%, 100% { filter: drop-shadow(0 0 20px rgba(46, 204, 113, 0.4)); transform: translateY(0); }
-      50% { filter: drop-shadow(0 0 40px rgba(46, 204, 113, 0.7)); transform: translateY(-5px); }
-    }
+    @keyframes pulseLogo { 0%, 100% { filter: drop-shadow(0 0 20px rgba(46, 204, 113, 0.4)); transform: translateY(0); } 50% { filter: drop-shadow(0 0 40px rgba(46, 204, 113, 0.7)); transform: translateY(-5px); } }
     .lema { font-size: 14px; color: #8A8F9A; margin-top: 4px; letter-spacing: 1px; }
 
-    .btn-hamburguesa {
-      position: absolute; right: 0; top: 0; background: transparent; border: none;
-      color: #8A8F9A; font-size: 24px; cursor: pointer; transition: all 0.3s ease; padding: 4px; z-index: 10;
-    }
-    .btn-hamburguesa:hover { color: #2ECC71; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
+    .btn-hamburguesa { position: absolute; right: 0; top: 0; background: transparent; border: none; color: #8A8F9A; font-size: 24px; cursor: pointer; padding: 4px; z-index: 10; }
+    .btn-hamburguesa:hover { color: #2ECC71; }
+    .btn-notif { position: absolute; right: 40px; top: 0; background: transparent; border: none; color: #8A8F9A; font-size: 24px; cursor: pointer; padding: 4px; z-index: 10; }
+    .btn-notif:hover { color: #F39C12; }
+    .badge-notif { position: absolute; top: 4px; right: 4px; width: 10px; height: 10px; background: #E74C3C; border-radius: 50%; border: 2px solid #13203A; }
 
-    /* CAMPANA DE NOTIFICACIONES */
-    .btn-notif {
-      position: absolute; right: 40px; top: 0; background: transparent; border: none;
-      color: #8A8F9A; font-size: 24px; cursor: pointer; transition: all 0.3s ease; padding: 4px; z-index: 10;
-    }
-    .btn-notif:hover { color: #F39C12; text-shadow: 0 0 15px rgba(243, 156, 18, 0.4); }
-    .badge-notif {
-      position: absolute; top: 4px; right: 4px; width: 10px; height: 10px; 
-      background: #E74C3C; border-radius: 50%; border: 2px solid #13203A;
-      box-shadow: 0 0 10px rgba(231, 76, 60, 0.8);
-    }
-
-    .return-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(46, 204, 113, 0.1); transition: border-color 0.3s; }
-    .return-bar button { background: transparent; border: none; color: #2ECC71; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; padding: 4px 8px; border-radius: 6px; }
+    .return-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(46, 204, 113, 0.1); }
+    .return-bar button { background: transparent; border: none; color: #2ECC71; font-size: 14px; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
     .return-bar button:hover { background: rgba(46, 204, 113, 0.1); }
 
-    /* ===== NAVEGACIÓN (TABS) ===== */
     .nav-tabs { display: flex; gap: 6px; background: rgba(0, 0, 0, 0.2); padding: 6px; border-radius: 12px; margin-bottom: 20px; }
-    .tab-btn { flex: 1; padding: 10px 4px; background: transparent; border: none; color: #8A8F9A; font-size: 13px; font-weight: 500; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; outline: none; }
+    .tab-btn { flex: 1; padding: 10px 4px; background: transparent; border: none; color: #8A8F9A; font-size: 13px; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
     .tab-btn:hover { color: #E8E6E3; }
-    .tab-btn.active { background: rgba(46, 204, 113, 0.1); color: #2ECC71; box-shadow: 0 0 15px rgba(46, 204, 113, 0.1); }
+    .tab-btn.active { background: rgba(46, 204, 113, 0.1); color: #2ECC71; }
 
-    /* ===== INPUTS ===== */
-    .input-group { margin-bottom: 22px; transition: all 0.3s ease; }
-    .input-group label { display: block; font-size: 13px; color: #8A8F9A; margin-bottom: 6px; letter-spacing: 0.5px; }
+    .input-group { margin-bottom: 22px; }
+    .input-group label { display: block; font-size: 13px; color: #8A8F9A; margin-bottom: 6px; }
     .input-group input, .input-group select, .input-group textarea {
-      width: 100%; padding: 12px 14px; background: rgba(255, 255, 255, 0.03); border: none; border-bottom: 1px solid rgba(46, 204, 113, 0.2); color: #E8E6E3; font-size: 15px; font-family: inherit; outline: none; transition: all 0.3s ease;
+      width: 100%; padding: 12px 14px; background: rgba(255, 255, 255, 0.03); border: none; border-bottom: 1px solid rgba(46, 204, 113, 0.2); color: #E8E6E3; font-size: 15px; font-family: inherit; outline: none; transition: all 0.3s;
     }
     .input-group textarea { resize: vertical; min-height: 80px; }
-    .input-group select option { background: #13203A; color: #E8E6E3; transition: background 0.3s; }
-    .input-group input:focus, .input-group select:focus, .input-group textarea:focus { border-bottom-color: #2ECC71; box-shadow: 0 4px 20px rgba(46, 204, 113, 0.1); background: rgba(255, 255, 255, 0.05); }
-    .input-group input::placeholder, .input-group textarea::placeholder { color: #5A6070; font-weight: 300; }
-    
+    .input-group select option { background: #13203A; color: #E8E6E3; }
+    .input-group input:focus, .input-group select:focus, .input-group textarea:focus { border-bottom-color: #2ECC71; background: rgba(255, 255, 255, 0.05); }
     .input-group.flex-row { display: flex; gap: 8px; align-items: flex-end; margin-bottom: 16px; }
     .input-group.flex-row input { margin-bottom: 0; }
     .input-group.flex-row button { margin-top: 0; padding: 12px; width: auto; flex-shrink: 0; }
     .row-3 { display: flex; gap: 12px; margin-bottom: 22px; }
     .row-3 > div { flex: 1; }
 
-    /* ===== BOTONES ===== */
     button.btn-base {
       width: 100%; padding: 14px; background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(26, 188, 156, 0.05));
-      border: 1px solid rgba(46, 204, 113, 0.3); color: #E8E6E3; font-size: 16px; font-weight: 500; letter-spacing: 2px; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; margin-top: 8px; position: relative; overflow: hidden;
+      border: 1px solid rgba(46, 204, 113, 0.3); color: #E8E6E3; font-size: 16px; letter-spacing: 2px; border-radius: 10px; cursor: pointer; transition: all 0.3s; margin-top: 8px;
     }
     button.btn-base:disabled { opacity: 0.5; cursor: not-allowed; }
-    button.btn-base::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(46, 204, 113, 0.1), transparent); transition: left 0.5s ease; }
-    button.btn-base:hover:not(:disabled)::before { left: 100%; }
-    button.btn-base:hover:not(:disabled) { background: linear-gradient(135deg, #2ECC71, #1ABC9C); color: #0B1426; box-shadow: 0 0 30px rgba(46, 204, 113, 0.3); border-color: #2ECC71; transform: translateY(-1px); }
-    .primario { background: linear-gradient(135deg, #2ECC71, #1ABC9C); color: #0B1426; border: none; box-shadow: 0 0 20px rgba(46, 204, 113, 0.15); }
-    .primario:hover:not(:disabled) { background: linear-gradient(135deg, #3DDC84, #26A69A) !important; box-shadow: 0 0 40px rgba(46, 204, 113, 0.3) !important; transform: translateY(-2px) !important; }
+    button.btn-base:hover:not(:disabled) { background: linear-gradient(135deg, #2ECC71, #1ABC9C); color: #0B1426; border-color: #2ECC71; }
+    .primario { background: linear-gradient(135deg, #2ECC71, #1ABC9C); color: #0B1426; border: none; }
     .secundario { background: rgba(255, 255, 255, 0.03); color: #E8E6E3; border: 1px solid rgba(46, 204, 113, 0.2); }
-    .secundario:hover:not(:disabled) { border-color: #2ECC71 !important; color: #2ECC71 !important; box-shadow: 0 0 20px rgba(46, 204, 113, 0.1) !important; background: rgba(46, 204, 113, 0.05) !important; }
-    
     .links { margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-    .links a { color: #8A8F9A; font-size: 13px; text-decoration: none; transition: all 0.3s ease; }
-    .links a:hover { color: #2ECC71; text-shadow: 0 0 20px rgba(46, 204, 113, 0.1); }
+    .links a { color: #8A8F9A; font-size: 13px; text-decoration: none; }
+    .links a:hover { color: #2ECC71; }
     .message { margin-top: 20px; text-align: center; font-size: 14px; display: none; padding: 8px; border-radius: 6px; background: rgba(0, 0, 0, 0.3); }
 
-    /* ===== PERFIL SUPERIOR Y AVATARES ===== */
-    .profile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; margin-bottom: 10px; text-align: center; }
-    .avatar { width: 120px; height: 120px; background: linear-gradient(135deg, #1A2A4A, #13203A); border-radius: 20px; display: flex; justify-content: center; align-items: center; font-size: 46px; color: #E8E6E3; font-weight: 500; border: 2px solid rgba(255,255,255,0.1); flex-shrink: 0; overflow: hidden; position: relative; transition: all 0.3s ease; }
-    .avatar img { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1; }
-    .info h2 { font-size: 24px; color: #E8E6E3; font-weight: 400; letter-spacing: 1px; }
+    .profile { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 10px; text-align: center; }
+    .avatar { width: 120px; height: 120px; background: linear-gradient(135deg, #1A2A4A, #13203A); border-radius: 20px; display: flex; justify-content: center; align-items: center; font-size: 46px; color: #E8E6E3; border: 2px solid rgba(255,255,255,0.1); overflow: hidden; }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .info h2 { font-size: 24px; color: #E8E6E3; font-weight: 400; }
     .details { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 20px; margin-top: 8px; font-size: 14px; color: #8A8F9A; }
     .details strong { color: #E8E6E3; font-weight: 500; }
-    .dia-tag { background: rgba(243, 156, 18, 0.1); color: #F39C12; border: 1px solid rgba(243, 156, 18, 0.3); font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: 500; letter-spacing: 1px; margin-bottom: 20px; }
+    .dia-tag { background: rgba(243, 156, 18, 0.1); color: #F39C12; border: 1px solid rgba(243, 156, 18, 0.3); font-size: 12px; padding: 4px 12px; border-radius: 20px; margin-bottom: 20px; }
+    .banner-penalizado { background: rgba(231, 76, 60, 0.15); border: 1px solid #E74C3C; color: #E74C3C; padding: 10px; border-radius: 12px; text-align: center; font-size: 14px; margin-bottom: 16px; }
 
-    /* BANNER MARRANO PENALIZADO */
-    .banner-penalizado {
-      background: rgba(231, 76, 60, 0.15); border: 1px solid #E74C3C; color: #E74C3C;
-      padding: 10px; border-radius: 12px; text-align: center; font-weight: bold;
-      font-size: 14px; margin-bottom: 16px; animation: pulseRed 2s infinite;
-      will-change: box-shadow; /* Optimizacion GPU */
-    }
-    @keyframes pulseRed { 0%, 100% { box-shadow: 0 0 10px rgba(231, 76, 60, 0.2); } 50% { box-shadow: 0 0 20px rgba(231, 76, 60, 0.5); } }
+    .puntos { background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 18px 20px; margin-bottom: 28px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center; }
+    .puntos-label { font-size: 13px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; }
+    .puntos-valor { font-size: 42px; font-weight: 300; background: linear-gradient(135deg, #2ECC71, #1ABC9C); -webkit-background-clip: text; background-clip: text; color: transparent; margin: 4px 0 0; line-height: 1; }
 
-    /* ===== LIGAS ELO (COLORES Y AURA NEÓN) ===== */
-    .rango-cobre .rango-badge { color: #B87333; text-shadow: 0 0 10px rgba(184, 115, 51, 0.3); }
-    .rango-cobre { border-color: rgba(184, 115, 51, 0.3); }
-    .avatar.cobre, .amigo-avatar.cobre, .feed-avatar.cobre { border-color: #B87333; box-shadow: 0 0 15px rgba(184, 115, 51, 0.2); }
+    .rango-container { background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 24px 20px; margin-bottom: 28px; border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+    .rango-info .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #8A8F9A; }
+    .rango-info .imc { font-size: 13px; color: #E8E6E3; margin-top: 6px; }
+    .rango-badge { font-size: 26px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .rango-badge img { width: 150px; height: 150px; object-fit: contain; }
 
-    .rango-bronce .rango-badge { color: #CD7F32; text-shadow: 0 0 15px rgba(205, 127, 50, 0.4); }
-    .rango-bronce { border-color: rgba(205, 127, 50, 0.4); }
-    .avatar.bronce, .amigo-avatar.bronce, .feed-avatar.bronce { border-color: #CD7F32; box-shadow: 0 0 20px rgba(205, 127, 50, 0.3); }
-
-    .rango-plata .rango-badge { color: #E5E4E2; text-shadow: 0 0 20px rgba(229, 228, 226, 0.6); }
-    .rango-plata { border-color: rgba(229, 228, 226, 0.5); }
-    .avatar.plata, .amigo-avatar.plata, .feed-avatar.plata { border-color: #E5E4E2; box-shadow: 0 0 30px rgba(229, 228, 226, 0.4); }
-
-    .rango-oro .rango-badge { color: #FFD700; text-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
-    .rango-oro { border-color: rgba(255, 215, 0, 0.6); }
-    .avatar.oro, .amigo-avatar.oro, .feed-avatar.oro { border-color: #FFD700; box-shadow: 0 0 40px rgba(255, 215, 0, 0.5); }
-
-    .rango-platino .rango-badge { color: #00FFFF; animation: latidoPlatino 2s infinite; will-change: text-shadow; }
-    .rango-platino { border-color: rgba(0, 255, 255, 0.8); }
-    .avatar.platino, .amigo-avatar.platino, .feed-avatar.platino { border-color: #00FFFF; animation: latidoPlatinoAvatar 2s infinite; will-change: box-shadow; }
-
-    /* CERDO IMPERIALISTA (TEXTO NEGRO CON DEGRADADO AZUL MEDIANOCHE) */
-    .rango-cerdo { border-color: rgba(0, 0, 0, 0.8); background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(27,38,59,0.6)); }
-    .rango-cerdo .rango-badge div {
-      background: linear-gradient(135deg, #000000, #191970);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-      -webkit-text-stroke: 1px #5DADE2; filter: drop-shadow(0 0 15px rgba(25, 25, 112, 0.8));
-    }
-    .avatar.cerdo, .amigo-avatar.cerdo, .feed-avatar.cerdo { border-color: #1B263B; box-shadow: 0 0 40px rgba(0, 0, 0, 0.8); }
-
-    @keyframes latidoPlatino { 0%, 100% { text-shadow: 0 0 30px rgba(0, 255, 255, 1); } 50% { text-shadow: 0 0 50px rgba(0, 255, 255, 1), 0 0 10px #fff; } }
-    @keyframes latidoPlatinoAvatar { 0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.6); } 50% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.9); } }
-    @keyframes floatMedal { 0%, 100% { transform: translateZ(0) translateY(0) scale(1.6); } 50% { transform: translateZ(0) translateY(-8px) scale(1.6); } }
-
-    /* ===== ESTILOS PARA INSIGNIAS PERSONALIZADAS (IMÁGENES) ===== */
-    .rango-badge img { width: 150px; height: 150px; object-fit: contain; filter: drop-shadow(0 0 25px currentColor); margin: 0; animation: floatMedal 3s ease-in-out infinite; transform: translateZ(0) scale(1.6); will-change: transform, filter; }
-    .badge-rango img { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 0 10px currentColor); transform: scale(1.2); }
-
-    /* ===== RANGO CONTAINER (DISEÑO VERTICAL CENTRADO) ===== */
-    .rango-container { position: relative; background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 24px 20px; margin-bottom: 28px; border-width: 1px; border-style: solid; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; transition: all 0.3s ease; }
-    .rango-info { display: flex; flex-direction: column; align-items: center; }
-    .rango-info .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #8A8F9A; transition: color 0.3s; }
-    .rango-info .imc { font-size: 13px; color: #E8E6E3; margin-top: 6px; font-weight: 500; transition: color 0.3s; }
-    .rango-badge { font-size: 26px; font-weight: 700; line-height: 1; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-
-    .puntos { background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 18px 20px; margin-bottom: 28px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center; transition: all 0.3s;}
-    .puntos-label { font-size: 13px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s;}
-    .puntos-valor { font-size: 42px; font-weight: 300; background: linear-gradient(135deg, #2ECC71, #1ABC9C); -webkit-background-clip: text; background-clip: text; color: transparent; margin: 4px 0 0; text-shadow: 0 0 40px rgba(46, 204, 113, 0.1); line-height: 1; transition: all 0.3s;}
-
-    /* ===== CRITERIOS ===== */
     .criterios { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
     .criterio { display: grid; grid-template-columns: 100px 1fr 50px; align-items: center; gap: 12px; }
-    .criterio .label { font-size: 13px; color: #E8E6E3; transition: color 0.3s;}
-    .criterio .valor { font-size: 13px; color: #8A8F9A; text-align: right; transition: color 0.3s;}
-    #kilosValor, #friendKilosValor { color: #2ECC71; font-weight: 600; font-size: 14px; text-shadow: 0 0 12px rgba(46, 204, 113, 0.5), 0 0 20px rgba(46, 204, 113, 0.2); transition: all 0.3s;}
-    .criterio .barra { height: 6px; background: rgba(255, 255, 255, 0.05); border-radius: 6px; overflow: hidden; box-shadow: inset 0 1px 2px rgba(0,0,0,0.3); }
-    .criterio .barra div { height: 100%; background: linear-gradient(90deg, #2ECC71, #1ABC9C); border-radius: 6px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s; box-shadow: 0 0 15px rgba(46, 204, 113, 0.1); }
-    .acciones { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px;}
-    .acciones button { flex: 1; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; min-width: 120px; }
+    .criterio .label { font-size: 13px; color: #E8E6E3; }
+    .criterio .valor { font-size: 13px; color: #8A8F9A; text-align: right; }
+    #kilosValor, #friendKilosValor { color: #2ECC71; font-weight: 600; font-size: 14px; }
+    .criterio .barra { height: 6px; background: rgba(255, 255, 255, 0.05); border-radius: 6px; overflow: hidden; }
+    .criterio .barra div { height: 100%; background: linear-gradient(90deg, #2ECC71, #1ABC9C); border-radius: 6px; transition: width 1s; }
+    .acciones { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+    .acciones button { flex: 1; padding: 12px; border-radius: 10px; font-size: 14px; cursor: pointer; border: none; min-width: 120px; }
+    .btn-stats-info { background: transparent; border: none; color: rgba(255,255,255,0.4); cursor: pointer; font-size: 24px; padding: 8px; }
+    .btn-stats-info:hover { color: #5DADE2; }
 
-    .btn-stats-info { background: transparent; border: none; color: rgba(255,255,255,0.4); cursor: pointer; font-size: 24px; transition: all 0.3s ease; padding: 8px; }
-    .btn-stats-info:hover { color: #5DADE2; text-shadow: 0 0 15px rgba(93, 173, 226, 0.6); transform: scale(1.1); }
-
-    /* ===== FEED DE ACTIVIDAD ===== */
     .feed-list-container { display: flex; flex-direction: column; gap: 16px; padding-bottom: 10px; }
-    .feed-item { background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(46, 204, 113, 0.05); border-radius: 16px; padding: 16px; animation: fadeIn 0.4s ease; transition: all 0.3s ease; }
+    .feed-item { background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(46, 204, 113, 0.05); border-radius: 16px; padding: 16px; }
     .feed-header-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .feed-avatar { width: 42px; height: 42px; border-radius: 12px; background: #1A2A4A; display: flex; justify-content: center; align-items: center; color: #E8E6E3; font-weight: 500; font-size: 16px; border: 2px solid rgba(255,255,255,0.1); overflow: hidden; flex-shrink: 0; }
+    .feed-avatar { width: 42px; height: 42px; border-radius: 12px; background: #1A2A4A; display: flex; justify-content: center; align-items: center; color: #E8E6E3; font-size: 16px; border: 2px solid rgba(255,255,255,0.1); overflow: hidden; flex-shrink: 0; }
     .feed-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .feed-meta { flex: 1; }
-    .feed-name { color: #E8E6E3; font-size: 14px; font-weight: 500; margin-bottom: 2px; transition: color 0.3s; }
-    .feed-time { color: #5A6070; font-size: 11px; display: flex; align-items: center; gap: 6px;}
+    .feed-name { color: #E8E6E3; font-size: 14px; margin-bottom: 2px; }
+    .feed-time { color: #5A6070; font-size: 11px; }
     .feed-icon { font-size: 18px; margin-right: 6px; }
     .feed-post-actions { display: flex; gap: 8px; }
-    .feed-post-actions button { background: transparent; border: none; color: #5A6070; font-size: 16px; cursor: pointer; transition: all 0.3s ease; padding: 4px; border-radius: 6px; }
-    .feed-post-actions button:hover { background: rgba(255, 255, 255, 0.05); color: #2ECC71; }
-    .feed-post-actions button.btn-delete:hover { color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
-    .feed-body { color: #8A8F9A; font-size: 14px; margin-bottom: 12px; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; transition: color 0.3s; }
-    
-    /* GALERÍA DE FOTOS Y LIGHTBOX */
+    .feed-post-actions button { background: transparent; border: none; color: #5A6070; font-size: 16px; cursor: pointer; padding: 4px; border-radius: 6px; transition: all 0.3s; }
+    .feed-post-actions button:hover { background: rgba(255, 255, 255, 0.05); }
+    .feed-post-actions button.btn-delete:hover { color: #E74C3C; }
+    .feed-post-actions button.btn-edit-post:hover { color: #F39C12; }
+    .feed-body { color: #8A8F9A; font-size: 14px; margin-bottom: 12px; line-height: 1.5; }
+    .edited-tag { display: inline-block; background: rgba(243, 156, 18, 0.1); color: #F39C12; font-size: 10px; padding: 2px 8px; border-radius: 4px; margin-left: 8px; font-style: italic; }
     .feed-gallery { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-    .feed-img { border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); max-height: 300px; object-fit: cover; cursor: pointer; transition: transform 0.2s ease, opacity 0.2s ease; }
-    .feed-img:hover { opacity: 0.9; transform: scale(1.01); }
+    .feed-img { border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); max-height: 300px; object-fit: cover; cursor: pointer; }
     .feed-img.single { width: 100%; }
     .feed-img.multi { flex: 1; min-width: calc(33.333% - 6px); max-height: 160px; height: 130px; }
-
-    .feed-tag { display: inline-block; background: rgba(46, 204, 113, 0.1); color: #2ECC71; font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; transition: all 0.3s;}
-    .empty-feed { text-align: center; color: #5A6070; font-size: 14px; padding: 40px 20px; background: rgba(0,0,0,0.15); border-radius: 16px; border: 1px dashed rgba(255,255,255,0.05); transition: all 0.3s;}
-
-    .feed-voting { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; transition: border-color 0.3s; }
+    .feed-tag { display: inline-block; background: rgba(46, 204, 113, 0.1); color: #2ECC71; font-size: 11px; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
+    .empty-feed { text-align: center; color: #5A6070; font-size: 14px; padding: 40px 20px; border: 1px dashed rgba(255,255,255,0.05); border-radius: 16px; }
+    .feed-voting { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
     .vote-actions { display: flex; align-items: center; gap: 12px; }
-    .btn-vote { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); color: #8A8F9A; font-size: 16px; border-radius: 50%; width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s ease; }
-    .btn-vote:hover { transform: scale(1.1); }
-    .btn-vote.up:hover { color: #2ECC71; border-color: #2ECC71; background: rgba(46, 204, 113, 0.1); }
-    .btn-vote.down:hover { color: #E74C3C; border-color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
-    
-    /* VOTO DE DIOS */
-    .btn-vote.admin-god { color: #F39C12; border-color: #F39C12; box-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
-    .btn-vote.admin-god:hover { background: rgba(243, 156, 18, 0.15); transform: scale(1.15); }
+    .btn-vote { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); color: #8A8F9A; font-size: 16px; border-radius: 50%; width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+    .btn-vote.up:hover { color: #2ECC71; border-color: #2ECC71; }
+    .btn-vote.down:hover { color: #E74C3C; border-color: #E74C3C; }
+    .btn-vote.admin-god { color: #F39C12; border-color: #F39C12; }
+    .vote-count { font-size: 13px; color: #E8E6E3; }
+    .vote-status { font-size: 12px; padding: 4px 10px; border-radius: 12px; }
+    .vote-status.pending { color: #F39C12; }
+    .vote-status.approved { color: #2ECC71; background: rgba(46, 204, 113, 0.1); }
+    .vote-status.rejected { color: #E74C3C; }
 
-    .vote-count { font-size: 13px; color: #E8E6E3; font-weight: 500; transition: color 0.3s;}
-    
-    .vote-status { font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 12px; transition: all 0.3s;}
-    .vote-status.pending { color: #F39C12; background: rgba(243, 156, 18, 0.1); }
-    .vote-status.approved { color: #2ECC71; background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.2); width: 100%; text-align: center; padding: 8px;}
-    .vote-status.rejected { color: #E74C3C; background: rgba(231, 76, 60, 0.1); width: 100%; text-align: center; padding: 8px;}
+    .comments-section { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
+    .comments-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; max-height: 300px; overflow-y: auto; }
+    .comment-item { background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 10px; border: 1px solid rgba(255,255,255,0.03); }
+    .comment-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .comment-avatar { width: 24px; height: 24px; border-radius: 50%; background: #1A2A4A; display: flex; justify-content: center; align-items: center; color: #E8E6E3; font-size: 10px; overflow: hidden; flex-shrink: 0; }
+    .comment-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .comment-author { color: #E8E6E3; font-size: 12px; font-weight: 500; }
+    .comment-time { color: #5A6070; font-size: 10px; margin-left: auto; }
+    .comment-text { color: #A1A1AA; font-size: 12px; line-height: 1.4; word-wrap: break-word; }
+    .comment-input-container { display: flex; gap: 8px; align-items: center; }
+    .comment-input-container input { flex: 1; padding: 10px 12px; background: rgba(255, 255, 255, 0.03); border: none; border-bottom: 1px solid rgba(46, 204, 113, 0.2); color: #E8E6E3; font-size: 12px; outline: none; border-radius: 8px; }
+    .comment-input-container input:focus { border-bottom-color: #2ECC71; }
+    .btn-send-comment { background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); color: #2ECC71; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 14px; transition: all 0.3s; flex-shrink: 0; }
+    .btn-send-comment:hover { background: #2ECC71; color: #0B1426; }
 
-    /* ===== TABLÓN DEL GREMIO ===== */
     .filtros-tablon { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
-    .btn-filtro { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); color: #8A8F9A; padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all 0.3s; }
-    .btn-filtro:hover { color: #E8E6E3; }
+    .btn-filtro { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); color: #8A8F9A; padding: 8px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; }
     .btn-filtro.active { background: rgba(46, 204, 113, 0.1); color: #2ECC71; border-color: #2ECC71; }
-    
-    .spotify-link-card { display: flex; align-items: center; gap: 14px; background: rgba(30, 215, 96, 0.08); border: 1px solid rgba(30, 215, 96, 0.2); padding: 12px; border-radius: 12px; text-decoration: none; margin-top: 10px; transition: all 0.3s ease; }
-    .spotify-link-card:hover { background: rgba(30, 215, 96, 0.15); transform: translateY(-2px); border-color: rgba(30, 215, 96, 0.4); }
-    .spotify-link-cover { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #000; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-    .spotify-link-info { display: flex; flex-direction: column; overflow: hidden; }
-    .spotify-link-title { color: #FFF; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
-    .spotify-link-subtitle { color: #1ED760; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+    .spotify-link-card { display: flex; align-items: center; gap: 14px; background: rgba(30, 215, 96, 0.08); border: 1px solid rgba(30, 215, 96, 0.2); padding: 12px; border-radius: 12px; text-decoration: none; margin-top: 10px; }
+    .spotify-link-cover { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
+    .spotify-link-title { color: #FFF; font-size: 14px; }
+    .spotify-link-subtitle { color: #1ED760; font-size: 12px; }
 
-    /* ===== MENÚ LATERAL ===== */
-    .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
     .drawer-overlay.active { opacity: 1; pointer-events: auto; }
-    .drawer { position: fixed; top: 0; right: -100%; width: 320px; max-width: 100%; height: 100%; background: rgba(15, 26, 46, 0.95); border-left: 1px solid rgba(46, 204, 113, 0.2); box-shadow: -20px 0 50px rgba(0,0,0,0.8); z-index: 2001; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 24px; }
+    .drawer { position: fixed; top: 0; right: -100%; width: 320px; max-width: 100%; height: 100%; background: rgba(15, 26, 46, 0.95); border-left: 1px solid rgba(46, 204, 113, 0.2); z-index: 2001; transition: right 0.4s; display: flex; flex-direction: column; padding: 24px; }
     .drawer.active { right: 0; }
     .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .drawer-header h2 { color: #E8E6E3; font-size: 20px; font-weight: 300; letter-spacing: 2px; transition: color 0.3s; }
-    .drawer-header h2 span { color: #2ECC71; transition: color 0.3s;}
-    .close-drawer { background: transparent; border: none; color: #8A8F9A; font-size: 24px; cursor: pointer; transition: color 0.3s ease; }
+    .drawer-header h2 { color: #E8E6E3; font-size: 20px; font-weight: 300; }
+    .drawer-header h2 span { color: #2ECC71; }
+    .close-drawer { background: transparent; border: none; color: #8A8F9A; font-size: 24px; cursor: pointer; }
     .close-drawer:hover { color: #E74C3C; }
-    .amigos-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-right: -8px; padding-right: 8px; }
-    .amigo-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); cursor: pointer; transition: all 0.3s ease; }
-    .amigo-item:hover { background: rgba(46, 204, 113, 0.05); border-color: rgba(46, 204, 113, 0.2); }
-    .amigo-avatar { width: 40px; height: 40px; border-radius: 12px; background: #1A2A4A; display: flex; justify-content: center; align-items: center; color: #E8E6E3; font-weight: 500; font-size: 16px; border: 2px solid rgba(255,255,255,0.1); overflow: hidden;}
+    .amigos-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .amigo-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 12px; cursor: pointer; }
+    .amigo-item:hover { background: rgba(46, 204, 113, 0.05); }
+    .amigo-avatar { width: 40px; height: 40px; border-radius: 12px; background: #1A2A4A; display: flex; justify-content: center; align-items: center; color: #E8E6E3; overflow: hidden; }
     .amigo-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .amigo-info { flex: 1; }
-    .amigo-nombre { color: #E8E6E3; font-size: 14px; font-weight: 500; transition: color 0.3s; }
-    .amigo-item:hover .amigo-nombre { color: #2ECC71; }
-    .amigo-rango { font-size: 12px; color: #8A8F9A; margin-top: 2px; }
-    .badge-rango { display: flex; align-items: center; font-size: 20px; margin-right: 4px; }
-    .btn-delete-amigo { background: transparent; border: none; color: #5A6070; font-size: 16px; cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.3s ease; }
-    .btn-delete-amigo:hover { color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
-    .drawer-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); transition: border-color 0.3s; }
-    .btn-logout { width: 100%; background: transparent; border: 1px solid rgba(231, 76, 60, 0.2); color: #E74C3C; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 8px; }
-    .btn-logout:hover { background: rgba(231, 76, 60, 0.1); box-shadow: 0 0 15px rgba(231, 76, 60, 0.2); }
+    .amigo-nombre { color: #E8E6E3; font-size: 14px; }
+    .amigo-rango { font-size: 12px; color: #8A8F9A; }
+    .btn-delete-amigo { background: transparent; border: none; color: #5A6070; font-size: 16px; cursor: pointer; }
+    .btn-delete-amigo:hover { color: #E74C3C; }
+    .drawer-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+    .btn-logout { width: 100%; background: transparent; border: 1px solid rgba(231, 76, 60, 0.2); color: #E74C3C; padding: 12px; border-radius: 10px; font-size: 14px; cursor: pointer; }
+    .btn-logout:hover { background: rgba(231, 76, 60, 0.1); }
 
     .hidden { display: none !important; }
-
-    /* ===== MODAL NOTIFICACIONES ===== */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(8px); animation: fadeIn 0.3s; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .modal { background: #13203A; border-radius: 24px; padding: 32px 24px; max-width: 420px; width: 90%; border: 1px solid rgba(46, 204, 113, 0.2); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 60px rgba(46, 204, 113, 0.05); animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; transition: all 0.3s ease; }
+    .modal { background: #13203A; border-radius: 24px; padding: 32px 24px; max-width: 420px; width: 90%; border: 1px solid rgba(46, 204, 113, 0.2); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); animation: slideUp 0.3s; max-height: 90vh; overflow-y: auto; }
     @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    
-    .modal h2 { color: #E8E6E3; font-weight: 300; letter-spacing: 2px; margin-bottom: 24px; text-align: center; transition: color 0.3s; }
-    .modal h2::after { content: '✦'; display: block; font-size: 18px; color: #2ECC71; margin-top: 4px; text-shadow: 0 0 20px rgba(46, 204, 113, 0.3); transition: color 0.3s, text-shadow 0.3s; }
+    .modal h2 { color: #E8E6E3; font-weight: 300; letter-spacing: 2px; margin-bottom: 24px; text-align: center; }
+    .modal h2::after { content: '✦'; display: block; font-size: 18px; color: #2ECC71; margin-top: 4px; }
     .modal .acciones-modal { display: flex; gap: 12px; margin-top: 20px; }
-    .modal .acciones-modal button { flex: 1; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; }
-    .modal .acciones-modal .guardar { background: linear-gradient(135deg, #2ECC71, #1ABC9C); color: #0B1426; transition: all 0.3s; }
-    .modal .acciones-modal .cancelar { background: rgba(255, 255, 255, 0.03); color: #E8E6E3; border: 1px solid rgba(46, 204, 113, 0.2); transition: all 0.3s; }
-
-    /* ESTADISTICAS */
-    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-    .stat-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; text-align: center; transition: all 0.3s; }
-    .stat-box .title { font-size: 11px; color: #8A8F9A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; transition: color 0.3s;}
-    .stat-box .val { font-size: 20px; color: #E8E6E3; font-weight: 300; transition: color 0.3s;}
-    .stat-box .val span { font-size: 12px; color: #5A6070; transition: color 0.3s;}
-    /* Corrección de color para el Consejo del Ojo */
-    #statConsejo { color: #E8E6E3; font-size: 14px; line-height: 1.5; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s;}
-    #statConsejo strong { color: #2ECC71; font-weight: 600; transition: color 0.3s;}
-    
-    /* ITEMS DE NOTIFICACIONES */
-    .notif-item { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; border-left: 4px solid #2ECC71; font-size: 13px; color: #E8E6E3; transition: all 0.3s; }
-    .notif-time { font-size: 10px; color: #8A8F9A; margin-top: 6px; display:block; transition: color 0.3s; }
-
-    /* MODAL LIGHTBOX PARA FOTOS COMPLETAS */
-    .lightbox-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 4000; display: flex; justify-content: center; align-items: center; padding: 16px; animation: fadeIn 0.2s ease; }
-    .lightbox-img { max-width: 95vw; max-height: 90vh; object-fit: contain; border-radius: 8px; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
-    .lightbox-close { position: absolute; top: 20px; right: 20px; font-size: 32px; color: #FFF; background: transparent; border: none; cursor: pointer; padding: 8px; z-index: 4001; line-height: 1; }
-
-    /* MODAL EDITAR & ADMIN */
-    .input-group { margin-bottom: 22px; transition: all 0.3s ease; }
+    .modal .acciones-modal button { flex: 1; padding: 12px; border-radius: 10px; font-size: 14px; cursor: pointer; border: none; }
+    .modal .acciones-modal .guardar { background: linear-gradient(135deg, #2ECC71, #1ABC9C); color: #0B1426; }
+    .modal .acciones-modal .cancelar { background: rgba(255, 255, 255, 0.03); color: #E8E6E3; border: 1px solid rgba(46, 204, 113, 0.2); }
+    .lightbox-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 4000; display: flex; justify-content: center; align-items: center; padding: 16px; }
+    .lightbox-img { max-width: 95vw; max-height: 90vh; object-fit: contain; border-radius: 8px; }
+    .lightbox-close { position: absolute; top: 20px; right: 20px; font-size: 32px; color: #FFF; background: transparent; border: none; cursor: pointer; }
     .admin-panel { background: rgba(231, 76, 60, 0.1); border: 1px dashed #E74C3C; padding: 16px; border-radius: 12px; margin-top: 20px; }
-    .admin-panel h3 { color: #E74C3C; font-size: 14px; margin-bottom: 10px; letter-spacing: 1px; }
-
-    /* CONSOLA SECRETA */
+    .admin-panel h3 { color: #E74C3C; font-size: 14px; margin-bottom: 10px; }
     .btn-secreto { position: absolute; bottom: 5px; right: 20px; color: rgba(255,255,255,0.1); cursor: pointer; font-size: 12px; font-family: monospace; z-index: 50; }
-    .modal-consola { background: #000; border: 1px solid #E74C3C; box-shadow: 0 0 40px rgba(231, 76, 60, 0.2); transition: all 0.3s;}
-    .consola-output { font-family: monospace; color: #2ECC71; font-size: 12px; height: 120px; overflow-y: auto; margin-bottom: 12px; text-align: left; padding: 8px; background: rgba(255,255,255,0.05); transition: color 0.3s;}
+    .modal-consola { background: #000; border: 1px solid #E74C3C; }
+    .consola-output { font-family: monospace; color: #2ECC71; font-size: 12px; height: 120px; overflow-y: auto; margin-bottom: 12px; padding: 8px; }
     .consola-input { font-family: monospace; background: transparent; border: none; border-bottom: 1px solid #E74C3C; color: #E74C3C; width: 100%; padding: 8px; outline: none; }
-
-    /* ==========================================
-       THEME RED (ALTERNO - NEGRO Y DETALLES ROJOS)
-       ========================================== */
-    body.theme-red { background: linear-gradient(145deg, #050505, #111111, #000000); }
-    body.theme-red::before { background: radial-gradient(circle at 20% 30%, rgba(231, 76, 60, 0.03) 0%, transparent 60%), radial-gradient(circle at 80% 70%, rgba(231, 76, 60, 0.03) 0%, transparent 60%); }
-    body.theme-red .card { background: rgba(15, 15, 15, 0.85); border-color: rgba(231, 76, 60, 0.15); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 40px rgba(231, 76, 60, 0.03); }
-    body.theme-red .logo-principal { filter: drop-shadow(0 0 20px rgba(231, 76, 60, 0.4)); }
-    body.theme-red .btn-hamburguesa:hover { color: #E74C3C; text-shadow: 0 0 15px rgba(231, 76, 60, 0.4); }
-    body.theme-red .return-bar button { color: #E74C3C; }
-    body.theme-red .return-bar button:hover { background: rgba(231, 76, 60, 0.1); }
-    body.theme-red .tab-btn.active { background: rgba(231, 76, 60, 0.1); color: #E74C3C; box-shadow: 0 0 15px rgba(231, 76, 60, 0.1); }
-    body.theme-red .input-group input:focus, body.theme-red .input-group select:focus, body.theme-red .input-group textarea:focus { border-bottom-color: #E74C3C; box-shadow: 0 4px 20px rgba(231, 76, 60, 0.1); }
-    body.theme-red button.btn-base { background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.05)); border-color: rgba(231, 76, 60, 0.3); }
-    body.theme-red button.btn-base::before { background: linear-gradient(90deg, transparent, rgba(231, 76, 60, 0.1), transparent); }
-    body.theme-red button.btn-base:hover:not(:disabled) { background: linear-gradient(135deg, #E74C3C, #C0392B); box-shadow: 0 0 30px rgba(231, 76, 60, 0.3); border-color: #E74C3C; color: #0B1426; }
-    body.theme-red .primario { background: linear-gradient(135deg, #E74C3C, #C0392B); box-shadow: 0 0 20px rgba(231, 76, 60, 0.15); color: #FFF; }
-    body.theme-red .primario:hover:not(:disabled) { background: linear-gradient(135deg, #FF6B5B, #D35400) !important; box-shadow: 0 0 40px rgba(231, 76, 60, 0.3) !important; }
-    body.theme-red .secundario { border-color: rgba(231, 76, 60, 0.2); }
-    body.theme-red .secundario:hover:not(:disabled) { border-color: #E74C3C !important; color: #E74C3C !important; box-shadow: 0 0 20px rgba(231, 76, 60, 0.1) !important; background: rgba(231, 76, 60, 0.05) !important; }
-    body.theme-red .links a:hover { color: #E74C3C; text-shadow: 0 0 20px rgba(231, 76, 60, 0.1); }
-    body.theme-red .puntos-valor { background: linear-gradient(135deg, #E74C3C, #C0392B); -webkit-background-clip: text; color: transparent; text-shadow: 0 0 40px rgba(231, 76, 60, 0.1); }
-    body.theme-red #kilosValor, body.theme-red #friendKilosValor { color: #E74C3C; text-shadow: 0 0 12px rgba(231, 76, 60, 0.5); }
-    body.theme-red .criterio .barra div { background: linear-gradient(90deg, #E74C3C, #C0392B); box-shadow: 0 0 15px rgba(231, 76, 60, 0.1); }
-    body.theme-red .feed-tag { background: rgba(231, 76, 60, 0.1); color: #E74C3C; }
-    body.theme-red .btn-vote.up:hover { color: #E74C3C; border-color: #E74C3C; background: rgba(231, 76, 60, 0.1); }
-    body.theme-red .vote-status.approved { color: #E74C3C; background: rgba(231, 76, 60, 0.1); border-color: rgba(231, 76, 60, 0.2); }
-    body.theme-red .btn-filtro.active { background: rgba(231, 76, 60, 0.1); color: #E74C3C; border-color: #E74C3C; }
-    body.theme-red .drawer { background: rgba(10, 10, 10, 0.95); border-left-color: rgba(231, 76, 60, 0.2); }
-    body.theme-red .drawer-header h2 span { color: #E74C3C; }
-    body.theme-red .amigo-item:hover { background: rgba(231, 76, 60, 0.05); border-color: rgba(231, 76, 60, 0.2); }
-    body.theme-red .amigo-item:hover .amigo-nombre { color: #E74C3C; }
-    body.theme-red .modal { background: #0A0A0A; border-color: rgba(231, 76, 60, 0.2); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 60px rgba(231, 76, 60, 0.05); }
-    body.theme-red .modal h2::after { color: #E74C3C; text-shadow: 0 0 20px rgba(231, 76, 60, 0.3); }
-    body.theme-red #statConsejo strong { color: #E74C3C; }
-    body.theme-red .notif-item { border-left-color: #E74C3C; }
-    body.theme-red .consola-output { color: #E74C3C; }
-    body.theme-red ::-webkit-scrollbar-thumb { background: rgba(231, 76, 60, 0.3); }
-    body.theme-red ::-webkit-scrollbar-thumb:hover { background: rgba(231, 76, 60, 0.5); }
-    body.theme-red .btn-stats-info:hover { color: #E74C3C; text-shadow: 0 0 15px rgba(231, 76, 60, 0.6); }
 
     @media (max-width: 520px) {
       .card { padding: 24px 16px 16px; }
@@ -457,33 +253,24 @@
       .loading-logo { width: 160px; }
       .loading-welcome { font-size: 18px; }
       .loading-connecting { font-size: 13px; }
-      .rango-container { flex-direction: column; text-align: center; gap: 20px; padding: 16px; }
-      .rango-info { align-items: center; }
-      .rango-badge { font-size: 20px; justify-content: center; text-align: center; }
-      .rango-badge img { width: 140px; height: 140px; transform: scale(1.6); } 
+      .rango-badge img { width: 140px; height: 140px; }
       .puntos-valor { font-size: 36px; }
       .drawer { width: 85%; }
     }
   </style>
-
 </head>
 <body>
 
-  <!-- ===== PANTALLA DE CARGA (SOLO AUTO-LOGIN) ===== -->
   <div id="loadingScreen" class="loading-screen hidden">
     <img src="https://i.postimg.cc/XYz5y3pH/1000051537-removebg-preview.png" alt="Aethel 4 Logo" class="loading-logo" />
     <div class="loading-welcome" id="loadingWelcome">Welcome</div>
-    <div class="loading-connecting">
-      Connecting<span class="loading-dots"><span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></span>
-    </div>
+    <div class="loading-connecting">Connecting<span class="loading-dots"><span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></span></div>
   </div>
 
   <div class="container">
     <div class="card">
       <div class="header" id="mainHeader">
-        <button id="btnNotificaciones" class="btn-notif hidden" title="Notificaciones">
-          🔔<span id="badgeNotif" class="badge-notif hidden"></span>
-        </button>
+        <button id="btnNotificaciones" class="btn-notif hidden" title="Notificaciones">🔔<span id="badgeNotif" class="badge-notif hidden"></span></button>
         <button id="btnMenuAmigos" class="btn-hamburguesa hidden" title="Gremio / Amigos">☰</button>
         <div class="logo-container">
           <img src="https://i.postimg.cc/XYz5y3pH/1000051537-removebg-preview.png" alt="Aethel 4 Logo" class="logo-principal" />
@@ -491,13 +278,12 @@
         <p class="lema" id="lemaLogin">"Nobleza por esfuerzo."</p>
       </div>
 
-      <!-- ===== LOGIN / REGISTRO ===== -->
       <div id="loginSection">
         <form id="authForm">
           <div class="input-group"><label for="email">Correo Electrónico</label><input type="email" id="email" placeholder="ejemplo@correo.com" /></div>
           <div class="input-group"><label for="password">Contraseña</label><input type="password" id="password" placeholder="••••••••" /></div>
           <div id="regFields" class="hidden">
-            <div class="input-group"><label for="regNombre">Nombre de Usuario (Para añadirte)</label><input type="text" id="regNombre" placeholder="Ej: Jinwoo" /></div>
+            <div class="input-group"><label for="regNombre">Nombre de Usuario</label><input type="text" id="regNombre" placeholder="Ej: Jinwoo" /></div>
             <div class="row-3">
               <div><label style="display:block; font-size:13px; color:#8A8F9A; margin-bottom:6px;">Edad</label><input type="number" id="regEdad" placeholder="28" style="width:100%; padding:12px 14px; background:rgba(255,255,255,0.03); border:none; border-bottom:1px solid rgba(46,204,113,0.2); color:#E8E6E3; outline:none;" /></div>
               <div><label style="display:block; font-size:13px; color:#8A8F9A; margin-bottom:6px;">Peso (kg)</label><input type="number" id="regPeso" placeholder="78.5" step="0.1" style="width:100%; padding:12px 14px; background:rgba(255,255,255,0.03); border:none; border-bottom:1px solid rgba(46,204,113,0.2); color:#E8E6E3; outline:none;" /></div>
@@ -505,9 +291,9 @@
             </div>
             <div class="input-group flex-row" style="margin-bottom: 22px;">
               <div style="flex:1;"><label>Género</label><select id="regGenero" style="width:100%; padding:12px 14px; background:rgba(255,255,255,0.03); border:none; border-bottom:1px solid rgba(46,204,113,0.2); color:#E8E6E3; outline:none;"><option value="M">Masculino</option><option value="F">Femenino</option></select></div>
-              <div style="flex:1;"><label>% Grasa (Opcional)</label><input type="number" id="regGrasa" placeholder="Ej: 15" step="0.1" style="width:100%; padding:12px 14px; background:rgba(255,255,255,0.03); border:none; border-bottom:1px solid rgba(46,204,113,0.2); color:#E8E6E3; outline:none;"/></div>
+              <div style="flex:1;"><label>% Grasa</label><input type="number" id="regGrasa" placeholder="15" step="0.1" style="width:100%; padding:12px 14px; background:rgba(255,255,255,0.03); border:none; border-bottom:1px solid rgba(46,204,113,0.2); color:#E8E6E3; outline:none;"/></div>
             </div>
-            <div class="input-group"><label>Nivel de Actividad General</label><select id="regActividad"><option value="1.2">Sedentario (Trabajo de oficina)</option><option value="1.375">Ligero (1-3 días/semana)</option><option value="1.55">Moderado (3-5 días/semana)</option><option value="1.725">Activo (6-7 días/semana)</option><option value="1.9">Muy Activo (Atleta/Doble sesión)</option></select></div>
+            <div class="input-group"><label>Nivel de Actividad</label><select id="regActividad"><option value="1.2">Sedentario</option><option value="1.375">Ligero</option><option value="1.55">Moderado</option><option value="1.725">Activo</option><option value="1.9">Muy Activo</option></select></div>
           </div>
           <button type="button" class="btn-base primario" id="btnAction">Iniciar sesión</button>
           <div class="links"><a href="#" id="toggleLink">¿No tienes cuenta? Regístrate</a><a href="#" id="resetLink">¿Olvidaste tu contraseña?</a></div>
@@ -515,17 +301,13 @@
         <div id="message" class="message"></div>
       </div>
 
-      <!-- ===== CONTENEDOR PRINCIPAL LOGUEADO ===== -->
       <div id="loggedInContainer" class="hidden">
-        
         <div class="nav-tabs">
           <button class="tab-btn active" id="btnTabPerfil">👤 Perfil</button>
           <button class="tab-btn" id="btnTabFeed">📸 Actividad</button>
           <button class="tab-btn" id="btnTabTablon">🍻 Tablón</button>
         </div>
-
         <div>
-          <!-- VISTA 1: PERFIL -->
           <div id="perfilSection">
             <div class="profile">
               <div class="avatar" id="avatar">?</div>
@@ -540,57 +322,35 @@
               </div>
             </div>
             <div style="text-align: center;"><div class="dia-tag" id="tagDiaActual">Día de Expedición: 1</div></div>
-            
             <div id="bannerPenalizadoPropio" class="banner-penalizado hidden">⚠️ Este Marrano esta penalizado (-0.5 XP) ⚠️</div>
-            
             <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="puntos">0</div></div>
-            
             <div class="rango-container" id="rangoContainer">
-              <div class="rango-info">
-                <span class="label">Liga Actual</span>
-                <span class="imc" id="progresoLiga">Calculando...</span>
-              </div>
+              <div class="rango-info"><span class="label">Liga Actual</span><span class="imc" id="progresoLiga">Calculando...</span></div>
               <div class="rango-badge" id="rangoBadge"></div>
             </div>
-            
             <div class="criterios">
               <div class="criterio"><span class="label">Kilos Bajados/Subidos</span><span class="valor" id="kilosValor">0</span><div></div></div>
-              
-              <div class="criterio">
-                <span class="label">Actividad Física</span>
-                <span class="valor" id="actividadValor">0 / 30</span>
-                <div class="barra"><div id="actividadBarra" style="width: 0%;"></div></div>
-              </div>
-              
-              <div class="criterio">
-                <span class="label">Descanso (Sueño)<br><span id="suenoPromedio" style="color:#5DADE2;font-size:10px;">Promedio: 0.0h</span></span>
-                <span class="valor" id="suenoValor">0 / 30</span>
-                <div class="barra"><div id="suenoBarra" style="width: 0%;"></div></div>
-              </div>
+              <div class="criterio"><span class="label">Actividad Física</span><span class="valor" id="actividadValor">0 / 30</span><div class="barra"><div id="actividadBarra" style="width: 0%;"></div></div></div>
+              <div class="criterio"><span class="label">Descanso (Sueño)<br><span id="suenoPromedio" style="color:#5DADE2;font-size:10px;">Promedio: 0.0h</span></span><span class="valor" id="suenoValor">0 / 30</span><div class="barra"><div id="suenoBarra" style="width: 0%;"></div></div></div>
             </div>
-
             <div class="acciones"><button class="btn-base secundario" id="editarPerfil">✎ Editar perfil</button><button class="btn-base primario" id="btnAbrirActividad">+ Registrar</button></div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
-                <button id="btnThemeToggle" class="btn-stats-info" title="Alternar Tema Oscuro/Rojo">🎨</button>
+                <button id="btnThemeToggle" class="btn-stats-info" title="Alternar Tema">🎨</button>
                 <button id="btnInfoVital" class="btn-stats-info" title="Estadísticas Vitales">👁</button>
             </div>
           </div>
 
-          <!-- VISTA 2: FEED DE ACTIVIDAD PERSONAL -->
           <div id="feedSection" class="hidden">
-             <!-- Filtros Feed Personal -->
              <div class="filtros-tablon" id="filtrosFeedPersonal">
                 <button class="btn-filtro active" data-filter="todos">Todos</button>
                 <button class="btn-filtro" data-filter="ejercicio">💪 Ejercicios</button>
                 <button class="btn-filtro" data-filter="sueno">🌙 Sueño</button>
                 <button class="btn-filtro" data-filter="peso">⚖️ Pesajes</button>
              </div>
-             
              <div id="feedContainer" class="feed-list-container"></div>
              <button class="btn-base primario" style="margin-top: 10px;" id="btnAbrirActividadFeed">+ Nuevo Registro</button>
           </div>
 
-          <!-- VISTA 3: TABLÓN DEL GREMIO -->
           <div id="tablonSection" class="hidden">
              <div class="filtros-tablon">
                 <button class="btn-filtro active" data-filter="todos">Todos</button>
@@ -600,11 +360,9 @@
              <div id="tablonContainer" class="feed-list-container"></div>
              <button class="btn-base primario" style="margin-top: 10px;" id="btnAbrirTablon">+ Aportar al Gremio</button>
           </div>
-
         </div>
       </div>
 
-      <!-- ===== CONTENEDOR AMIGO ===== -->
       <div id="friendContainer" class="hidden">
         <div class="return-bar"><button id="btnVolverMiPerfil">← Volver a mi perfil</button></div>
         <div class="nav-tabs">
@@ -612,7 +370,6 @@
           <button class="tab-btn" id="btnTabFriendFeed">📸 Actividad</button>
         </div>
         <div>
-          <!-- PERFIL DE AMIGO -->
           <div id="friendPerfilSection">
             <div class="profile" style="margin-bottom: 20px;">
               <div class="avatar" id="friendAvatar">?</div>
@@ -627,78 +384,44 @@
               </div>
             </div>
             <div style="text-align: center;"><div class="dia-tag" id="friendTagDia">Día de Expedición: 1</div></div>
-            
             <div id="bannerPenalizadoAmigo" class="banner-penalizado hidden">⚠️ Este Marrano esta penalizado (-0.5 XP) ⚠️</div>
-            
             <div class="puntos"><div class="puntos-label">Puntos de Experiencia (EXP)</div><div class="puntos-valor" id="friendPuntos">0</div></div>
-
             <div class="rango-container" id="friendRangoContainer">
               <div class="rango-info"><span class="label">Liga Actual</span><span class="imc" id="friendProgresoLiga">Calculando...</span></div>
               <div class="rango-badge" id="friendRangoBadge"></div>
             </div>
-            
             <div class="criterios">
               <div class="criterio"><span class="label">Kilos Bajados/Subidos</span><span class="valor" id="friendKilosValor">0</span><div></div></div>
-              
-              <div class="criterio">
-                <span class="label">Actividad Física</span>
-                <span class="valor" id="friendActividadValor">0 / 30</span>
-                <div class="barra"><div id="friendActividadBarra" style="width: 0%;"></div></div>
-              </div>
-
-              <div class="criterio">
-                <span class="label">Descanso (Sueño)<br><span id="friendSuenoPromedio" style="color:#5DADE2;font-size:10px;">Promedio: 0.0h</span></span>
-                <span class="valor" id="friendSuenoValor">0 / 30</span>
-                <div class="barra"><div id="friendSuenoBarra" style="width: 0%;"></div></div>
-              </div>
+              <div class="criterio"><span class="label">Actividad Física</span><span class="valor" id="friendActividadValor">0 / 30</span><div class="barra"><div id="friendActividadBarra" style="width: 0%;"></div></div></div>
+              <div class="criterio"><span class="label">Descanso (Sueño)<br><span id="friendSuenoPromedio" style="color:#5DADE2;font-size:10px;">Promedio: 0.0h</span></span><span class="valor" id="friendSuenoValor">0 / 30</span><div class="barra"><div id="friendSuenoBarra" style="width: 0%;"></div></div></div>
             </div>
-
-            <!-- PANEL ADMIN -->
             <div id="adminControlPanel" class="admin-panel hidden">
               <h3>🛡️ PANEL DE GUILD MASTER (ADMIN)</h3>
-              
               <div class="input-group" style="margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; background: rgba(231,76,60,0.1); padding: 10px; border-radius: 8px; border: 1px solid rgba(231,76,60,0.3);">
                 <label style="margin:0; color:#E74C3C; font-weight:bold; font-size:14px;">Castigar por Marrano (-0.5 XP):</label>
                 <input type="checkbox" id="adminTogglePenalizacion" style="width:22px; height:22px; cursor:pointer;" />
               </div>
-
-              <div class="input-group" style="margin-bottom:12px;">
-                <label>Ajustar Entrenamientos aprobados:</label>
-                <input type="number" id="adminInputAct" style="padding:8px;" />
-              </div>
-              <div class="input-group" style="margin-bottom:12px;">
-                <label>Ajustar Pruebas de Sueño válidas:</label>
-                <input type="number" id="adminInputSueno" step="0.5" style="padding:8px;" />
-              </div>
-              <div class="input-group" style="margin-bottom:12px;">
-                <label>Ajustar Kilos (Ej: 2.5 o -1.0):</label>
-                <input type="number" id="adminInputKilos" step="0.1" style="padding:8px;" />
-              </div>
+              <div class="input-group" style="margin-bottom:12px;"><label>Ajustar Entrenamientos aprobados:</label><input type="number" id="adminInputAct" style="padding:8px;" /></div>
+              <div class="input-group" style="margin-bottom:12px;"><label>Ajustar Pruebas de Sueño válidas:</label><input type="number" id="adminInputSueno" step="0.5" style="padding:8px;" /></div>
+              <div class="input-group" style="margin-bottom:12px;"><label>Ajustar Kilos (Ej: 2.5 o -1.0):</label><input type="number" id="adminInputKilos" step="0.1" style="padding:8px;" /></div>
               <button class="btn-base primario" id="btnGuardarAdmin" style="padding:10px; font-size:14px; letter-spacing:1px;">Aplicar Cambios Admin</button>
             </div>
-
           </div>
-
           <div id="friendFeedSection" class="hidden">
-             <!-- Filtros Feed Amigo -->
              <div class="filtros-tablon" id="filtrosFeedAmigo">
                 <button class="btn-filtro active" data-filter="todos">Todos</button>
                 <button class="btn-filtro" data-filter="ejercicio">💪 Ejercicios</button>
                 <button class="btn-filtro" data-filter="sueno">🌙 Sueño</button>
                 <button class="btn-filtro" data-filter="peso">⚖️ Pesajes</button>
              </div>
-             
              <div id="friendFeedContainer" class="feed-list-container"></div>
           </div>
         </div>
       </div>
     </div>
-    
-    <!-- EL BOTÓN SECRETO -->
     <span class="btn-secreto" id="btnOpenConsole">_</span>
   </div>
 
-  <!-- ===== DRAWER AMIGOS ===== -->
   <div class="drawer-overlay" id="drawerOverlay"></div>
   <div class="drawer" id="drawerAmigos">
     <div class="drawer-header"><h2>✦ Red <span>Alianza</span></h2><button class="close-drawer" id="btnCloseDrawer">×</button></div>
@@ -707,75 +430,63 @@
     <div class="drawer-footer"><button id="btnLogout" class="btn-logout">🚪 Cerrar sesión</button></div>
   </div>
 
-  <!-- ===== MODAL NOTIFICACIONES ===== -->
   <div id="modalNotif" class="modal-overlay hidden">
     <div class="modal">
       <h2>🔔 Notificaciones</h2>
-      <div id="listaNotificaciones" style="display:flex; flex-direction:column; gap:12px; max-height: 350px; overflow-y:auto; margin-bottom: 20px;">
-          <!-- Se inyectan notificaciones aquí -->
-      </div>
+      <div id="listaNotificaciones" style="display:flex; flex-direction:column; gap:12px; max-height: 350px; overflow-y:auto; margin-bottom: 20px;"></div>
       <div class="acciones-modal"><button class="cancelar" id="btnCerrarNotif" style="width: 100%;">Cerrar Panel</button></div>
     </div>
   </div>
 
-  <!-- ===== MODAL LIGHTBOX FOTOS ===== -->
   <div id="lightboxOverlay" class="lightbox-overlay hidden">
     <button class="lightbox-close" id="btnCerrarLightbox">×</button>
     <img src="" id="lightboxImg" class="lightbox-img" alt="Foto completa" />
   </div>
 
-  <!-- ===== MODALES RESTANTES ===== -->
   <div id="modalStats" class="modal-overlay hidden">
     <div class="modal">
       <h2>✦ Ventana de Estado</h2>
-      <div class="stat-grid">
-        <div class="stat-box"><div class="title">TDEE Diario</div><div class="val" id="statTdeeDiario">0 <span>kcal</span></div></div>
-        <div class="stat-box"><div class="title">TDEE Semanal</div><div class="val" id="statTdeeSemanal">0 <span>kcal</span></div></div>
-        <div class="stat-box"><div class="title">Tasa Basal (BMR)</div><div class="val" id="statBmr">0 <span>kcal</span></div></div>
-        <div class="stat-box"><div class="title">Peso Ideal Est.</div><div class="val" id="statPesoIdeal">0 <span>kg</span></div></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
+        <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:#8A8F9A;">TDEE Diario</div><div id="statTdeeDiario" style="font-size:20px; color:#E8E6E3;">0 <span style="font-size:12px;">kcal</span></div></div>
+        <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:#8A8F9A;">TDEE Semanal</div><div id="statTdeeSemanal" style="font-size:20px; color:#E8E6E3;">0 <span style="font-size:12px;">kcal</span></div></div>
+        <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:#8A8F9A;">BMR</div><div id="statBmr" style="font-size:20px; color:#E8E6E3;">0 <span style="font-size:12px;">kcal</span></div></div>
+        <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:#8A8F9A;">Peso Ideal</div><div id="statPesoIdeal" style="font-size:20px; color:#E8E6E3;">0 <span style="font-size:12px;">kg</span></div></div>
       </div>
-      <div id="statConsejo">Calculando datos...</div>
-      <div class="acciones-modal"><button class="cancelar" id="btnCerrarStats" style="width: 100%;">Cerrar Ventana</button></div>
+      <div id="statConsejo" style="color:#E8E6E3; font-size:14px; line-height:1.5; background:rgba(0,0,0,0.2); padding:14px; border-radius:12px;">Calculando...</div>
+      <div class="acciones-modal"><button class="cancelar" id="btnCerrarStats" style="width: 100%;">Cerrar</button></div>
     </div>
   </div>
 
-  <div id="modalEditar" class="modal-overlay hidden">
+  <div id="modalEditarPost" class="modal-overlay hidden">
     <div class="modal">
-      <h2>✎ Editar perfil</h2>
-      <div class="input-group"><label>📷 Avatar de Perfil (Opcional)</label><input type="file" id="editAvatarFile" accept="image/png, image/jpeg, image/jpg, image/webp" style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px dashed #2ECC71; border-radius: 8px; width: 100%; color: #E8E6E3; cursor: pointer;" /></div>
-      <div class="input-group"><label>Nombre</label><input type="text" id="editNombre" /></div>
-      <div class="row-3">
-        <div><label style="display:block; font-size:13px; color:#8A8F9A; margin-bottom:6px;">Edad</label><input type="number" id="editEdad" style="width:100%; padding:12px 14px; background:rgba(255,255,255,0.03); border:none; border-bottom:1px solid rgba(46,204,113,0.2); color:#E8E6E3; outline:none;" /></div>
-        <div><label style="display:block; font-size:13px; color:#8A8F9A; margin-bottom:6px;">Peso (kg)</label><input type="number" id="editPeso" step="0.1" style="width:100%; padding:12px 14px; background:rgba(255,255,255,0.03); border:none; border-bottom:1px solid rgba(46,204,113,0.2); color:#E8E6E3; outline:none;" /></div>
-        <div><label style="display:block; font-size:13px; color:#8A8F9A; margin-bottom:6px;">Altura (m)</label><input type="number" id="editAltura" step="0.01" style="width:100%; padding:12px 14px; background:rgba(255,255,255,0.03); border:none; border-bottom:1px solid rgba(46,204,113,0.2); color:#E8E6E3; outline:none;" /></div>
-      </div>
-      <div class="input-group flex-row" style="margin-bottom: 22px;">
-        <div style="flex:1;"><label>Género</label><select id="editGenero" style="width:100%; padding:12px 14px; background:rgba(255,255,255,0.03); border:none; border-bottom:1px solid rgba(46,204,113,0.2); color:#E8E6E3; outline:none;"><option value="M">Masculino</option><option value="F">Femenino</option></select></div>
-        <div style="flex:1;"><label>% Grasa</label><input type="number" id="editGrasa" step="0.1" style="width:100%; padding:12px 14px; background:rgba(255,255,255,0.03); border:none; border-bottom:1px solid rgba(46,204,113,0.2); color:#E8E6E3; outline:none;"/></div>
-      </div>
-      <div class="input-group"><label>Nivel de Actividad</label><select id="editActividad"><option value="1.2">Sedentario</option><option value="1.375">Ligero</option><option value="1.55">Moderado</option><option value="1.725">Activo</option><option value="1.9">Muy Activo</option></select></div>
-      <div class="input-group"><label>Kilos Bajados/Subidos</label><input type="number" id="editKilos" step="0.1" /></div>
-      <div class="acciones-modal"><button class="cancelar" id="cancelarEditar">Cancelar</button><button class="guardar" id="guardarEditar">Guardar</button></div>
-    </div>
-  </div>
-
-  <!-- MODAL ACTIVIDAD (MÚLTIPLES FOTOS HASTA 3) -->
-  <div id="modalActividad" class="modal-overlay hidden">
-    <div class="modal">
-      <h2 id="tituloModalActividad">✦ Registro Diario</h2>
-      <div class="input-group">
-        <label>¿Qué deseas registrar?</label>
-        <select id="tipoRegistro">
-          <option value="ejercicio">💪 Actividad Física</option>
-          <option value="sueno">🌙 Calidad de Sueño</option>
-          <option value="peso">⚖️ Registro de Peso</option>
+      <h2>✎ Editar Publicación</h2>
+      
+      <div class="input-group hidden" id="editPostGrupoSueno">
+        <label>🌙 Horas de Sueño</label>
+        <select id="editPostHorasSueno">
+          <option value="1">1 hora</option>
+          <option value="2">2 horas</option>
+          <option value="3">3 horas</option>
+          <option value="4">4 horas</option>
+          <option value="5">5 horas</option>
+          <option value="6">6 horas</option>
+          <option value="7">7 horas (Óptimo)</option>
+          <option value="8">8 horas (Óptimo)</option>
+          <option value="9">9 horas</option>
+          <option value="10">10 horas</option>
+          <option value="11">11 horas</option>
+          <option value="12">12 horas</option>
         </select>
       </div>
       
-      <div class="input-group" id="grupoCategoria">
-        <label>Categoría de Ejercicio</label>
-        <select id="catEjercicio">
-          <option value="" disabled selected>Selecciona una opción...</option>
+      <div class="input-group hidden" id="editPostGrupoPeso">
+        <label>⚖️ Peso (kg)</label>
+        <input type="number" id="editPostValorPeso" step="0.1" placeholder="Ej: 78.5" />
+      </div>
+      
+      <div class="input-group hidden" id="editPostGrupoCategoria">
+        <label>💪 Categoría de Ejercicio</label>
+        <select id="editPostCategoria">
           <option value="pesas">💪 Gimnasio / Pesas</option>
           <option value="caminadora">🏃‍♀️ Cinta de correr</option>
           <option value="correr_exterior">🌲 Running</option>
@@ -788,72 +499,62 @@
           <option value="otro">✨ Otro</option>
         </select>
       </div>
+      
+      <div class="input-group"><label>Comentario</label><textarea id="editPostComentario" placeholder="Edita tu comentario..."></textarea></div>
+      <div class="input-group"><label>Agregar más fotos (Opcional)</label><input type="file" id="editPostFotos" accept="image/png, image/jpeg, image/jpg, image/webp" multiple style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px dashed #2ECC71; border-radius: 8px; width: 100%; color: #E8E6E3; cursor: pointer;" /></div>
+      <div class="acciones-modal"><button class="cancelar" id="cancelarEditarPost">Cancelar</button><button class="guardar" id="guardarEditarPost">Guardar Cambios</button></div>
+    </div>
+  </div>
 
-      <div class="input-group hidden" id="grupoSueno">
-        <label>¿Cuántas horas dormiste?</label>
-        <select id="horasSueno">
-          <option value="" disabled selected>Selecciona las horas...</option>
-          <option value="1">1 hora</option>
-          <option value="2">2 horas</option>
-          <option value="3">3 horas</option>
-          <option value="4">4 horas</option>
-          <option value="5">5 horas (Déficit Crítico)</option>
-          <option value="6">6 horas (Supervivencia)</option>
-          <option value="7">7 horas (Óptimo)</option>
-          <option value="8">8 horas (Óptimo)</option>
-          <option value="9">9 horas</option>
-          <option value="10">10 horas</option>
-          <option value="11">11 horas</option>
-          <option value="12">12 horas</option>
-        </select>
+  <div id="modalEditar" class="modal-overlay hidden">
+    <div class="modal">
+      <h2>✎ Editar perfil</h2>
+      <div class="input-group"><label>📷 Avatar de Perfil</label><input type="file" id="editAvatarFile" accept="image/png, image/jpeg, image/jpg, image/webp" style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px dashed #2ECC71; border-radius: 8px; width: 100%; color: #E8E6E3; cursor: pointer;" /></div>
+      <div class="input-group"><label>Nombre</label><input type="text" id="editNombre" /></div>
+      <div class="row-3">
+        <div><label>Edad</label><input type="number" id="editEdad" /></div>
+        <div><label>Peso</label><input type="number" id="editPeso" step="0.1" /></div>
+        <div><label>Altura</label><input type="number" id="editAltura" step="0.01" /></div>
       </div>
+      <div class="input-group flex-row">
+        <div style="flex:1;"><label>Género</label><select id="editGenero"><option value="M">Masculino</option><option value="F">Femenino</option></select></div>
+        <div style="flex:1;"><label>% Grasa</label><input type="number" id="editGrasa" step="0.1" /></div>
+      </div>
+      <div class="input-group"><label>Nivel de Actividad</label><select id="editActividad"><option value="1.2">Sedentario</option><option value="1.375">Ligero</option><option value="1.55">Moderado</option><option value="1.725">Activo</option><option value="1.9">Muy Activo</option></select></div>
+      <div class="input-group"><label>Kilos Bajados/Subidos</label><input type="number" id="editKilos" step="0.1" /></div>
+      <div class="acciones-modal"><button class="cancelar" id="cancelarEditar">Cancelar</button><button class="guardar" id="guardarEditar">Guardar</button></div>
+    </div>
+  </div>
 
-      <div class="input-group hidden" id="grupoPeso">
-        <label>Peso actual (kg)</label>
-        <input type="number" id="valorPesoActividad" step="0.1" placeholder="Ej: 78.5" />
-      </div>
-
-      <div class="input-group"><label>Comentario (Opcional)</label><textarea id="comentarioRegistro" placeholder="Describe cómo te fue..."></textarea></div>
-      <div class="input-group">
-        <label>📷 Evidencias Fotográficas (Máximo 3 fotos)</label>
-        <input type="file" id="fotoRegistro" accept="image/png, image/jpeg, image/jpg, image/webp" multiple style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px dashed #2ECC71; border-radius: 8px; width: 100%; color: #E8E6E3; cursor: pointer;" />
-      </div>
+  <div id="modalActividad" class="modal-overlay hidden">
+    <div class="modal">
+      <h2 id="tituloModalActividad">✦ Registro Diario</h2>
+      <div class="input-group"><label>¿Qué deseas registrar?</label><select id="tipoRegistro"><option value="ejercicio">💪 Actividad Física</option><option value="sueno">🌙 Calidad de Sueño</option><option value="peso">⚖️ Registro de Peso</option></select></div>
+      <div class="input-group" id="grupoCategoria"><label>Categoría de Ejercicio</label><select id="catEjercicio"><option value="" disabled selected>Selecciona...</option><option value="pesas">💪 Gimnasio / Pesas</option><option value="caminadora">🏃‍♀️ Cinta de correr</option><option value="correr_exterior">🌲 Running</option><option value="caminar">🚶 Senderismo</option><option value="ciclismo">🚴 Ciclismo</option><option value="natacion">🏊 Natación</option><option value="yoga">🧘 Yoga</option><option value="crossfit">🏋️ CrossFit</option><option value="calistenia">🤸 Calistenia</option><option value="otro">✨ Otro</option></select></div>
+      <div class="input-group hidden" id="grupoSueno"><label>¿Cuántas horas dormiste?</label><select id="horasSueno"><option value="" disabled selected>Selecciona...</option><option value="1">1 hora</option><option value="2">2 horas</option><option value="3">3 horas</option><option value="4">4 horas</option><option value="5">5 horas</option><option value="6">6 horas</option><option value="7">7 horas</option><option value="8">8 horas</option><option value="9">9 horas</option><option value="10">10 horas</option><option value="11">11 horas</option><option value="12">12 horas</option></select></div>
+      <div class="input-group hidden" id="grupoPeso"><label>Peso actual (kg)</label><input type="number" id="valorPesoActividad" step="0.1" placeholder="Ej: 78.5" /></div>
+      <div class="input-group"><label>Comentario</label><textarea id="comentarioRegistro" placeholder="Describe cómo te fue..."></textarea></div>
+      <div class="input-group"><label>📷 Evidencias (Máximo 3)</label><input type="file" id="fotoRegistro" accept="image/png, image/jpeg, image/jpg, image/webp" multiple style="padding: 10px; background: rgba(0,0,0,0.2); border: 1px dashed #2ECC71; border-radius: 8px; width: 100%; color: #E8E6E3; cursor: pointer;" /></div>
       <div class="acciones-modal"><button class="cancelar" id="cancelarActividad">Cancelar</button><button class="guardar" id="guardarActividad">Someter a Votación</button></div>
     </div>
   </div>
 
-  <!-- MODAL TABLÓN DEL GREMIO -->
   <div id="modalTablon" class="modal-overlay hidden">
     <div class="modal">
       <h2>🍻 Aporte al Gremio</h2>
-      <div class="input-group">
-        <label>¿Qué vas a compartir?</label>
-        <select id="tipoTablon">
-          <option value="" disabled selected>Selecciona una opción...</option>
-          <option value="rutina">📋 Solo Rutina</option>
-          <option value="musica">🎵 Solo Música</option>
-          <option value="ambos">🔥 Rutina + Música</option>
-        </select>
-      </div>
-      <div class="input-group hidden" id="grupoRutinaTablon">
-        <label>Tu Rutina o Consejo</label>
-        <textarea id="textoTablon" placeholder="Ej: Hoy destrocé pierna con 4x10 Sentadillas..."></textarea>
-      </div>
-      <div class="input-group hidden" id="grupoMusicaTablon">
-        <label>Link de Spotify (Canción o Playlist)</label>
-        <input type="text" id="linkSpotify" placeholder="Pega aquí el enlace de Spotify..." />
-      </div>
+      <div class="input-group"><label>¿Qué vas a compartir?</label><select id="tipoTablon"><option value="" disabled selected>Selecciona...</option><option value="rutina">📋 Solo Rutina</option><option value="musica">🎵 Solo Música</option><option value="ambos">🔥 Rutina + Música</option></select></div>
+      <div class="input-group hidden" id="grupoRutinaTablon"><label>Tu Rutina o Consejo</label><textarea id="textoTablon" placeholder="Ej: Hoy destrocé pierna..."></textarea></div>
+      <div class="input-group hidden" id="grupoMusicaTablon"><label>Link de Spotify</label><input type="text" id="linkSpotify" placeholder="Pega aquí el enlace..." /></div>
       <div class="acciones-modal"><button class="cancelar" id="cancelarTablon">Cancelar</button><button class="guardar" id="guardarTablon">Publicar</button></div>
     </div>
   </div>
 
-  <!-- CONSOLA SECRETA -->
   <div id="modalConsole" class="modal-overlay hidden">
     <div class="modal modal-consola">
-      <h2 style="color: #E74C3C; font-family: monospace; font-size: 18px; text-align: left; margin-bottom: 10px;">>_ ROOT_ACCESS (GUILD MASTER)</h2>
-      <div id="consoleOutput" class="consola-output">Conexión establecida...<br>Escribe un comando (/resetdia, /pasardia).</div>
+      <h2 style="color: #E74C3C; font-family: monospace; font-size: 18px; text-align: left; margin-bottom: 10px;">>_ ROOT_ACCESS</h2>
+      <div id="consoleOutput" class="consola-output">Conexión establecida...</div>
       <input type="text" id="consoleInput" class="consola-input" placeholder="Comando..." autocomplete="off"/>
-      <div class="acciones-modal"><button class="cancelar" id="btnCloseConsole" style="width: 100%; margin-top: 10px;">Cerrar Terminal</button></div>
+      <div class="acciones-modal"><button class="cancelar" id="btnCloseConsole" style="width: 100%; margin-top: 10px;">Cerrar</button></div>
     </div>
   </div>
 
@@ -871,14 +572,12 @@
       appId: "1:914512194225:web:77863181cf7a5cab4ed090"
     };
 
-    // Inicialización única y segura de Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
     window.fbAuth = auth;
     window.fbDb = db;
-    window.fbMethods = { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, where, onSnapshot, serverTimestamp, limit };
     
     const IMGBB_API_KEY = "37e78e69061e8c13a2e7a9c8e50503de";
     const ADMIN_EMAIL = "oconersg@gmail.com"; 
@@ -905,47 +604,23 @@
     let filtroFeedPersonal = 'todos';
     let filtroFeedAmigo = 'todos';
     let currentAmigoHistorial = [];
+    let postEditandoId = null;
     
     const categoriasNombre = { pesas: "💪 Pesas", caminadora: "🏃‍♀️ Cinta", correr_exterior: "🌲 Running", caminar: "🚶 Senderismo", ciclismo: "🚴 Ciclismo", natacion: "🏊 Natación", yoga: "🧘 Yoga", crossfit: "🏋️ CrossFit", calistenia: "🤸 Calistenia", otro: "✨ Entrenamiento" };
     let isLogin = true;
-    let isAutoLogin = true; // Por defecto asume auto-login
-    let primeraCarga = true; // Para detectar primer onAuthStateChanged
+    let isAutoLogin = true;
+    let primeraCarga = true;
 
-    // SISTEMA DE THEME TOGGLE
-    const btnThemeToggle = document.getElementById('btnThemeToggle');
-    if(localStorage.getItem('theme') === 'red') {
-      document.body.classList.add('theme-red');
-    }
-    btnThemeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('theme-red');
-      if (document.body.classList.contains('theme-red')) {
-        localStorage.setItem('theme', 'red');
-      } else {
-        localStorage.setItem('theme', 'blue');
-      }
-    });
-
-    // Función para mostrar pantalla de carga
-    function mostrarPantallaCarga(user) {
+    function mostrarPantallaCarga() {
       const loadingScreen = document.getElementById('loadingScreen');
       const loadingWelcome = document.getElementById('loadingWelcome');
-      
-      // Actualizar el nombre del usuario
       loadingWelcome.textContent = `Welcome ${usuario.nombre}`;
-      
-      // Mostrar pantalla de carga
       loadingScreen.classList.remove('hidden');
-      
-      // Ocultar después de 2.5 segundos
-      setTimeout(() => {
-        loadingScreen.classList.add('hidden');
-      }, 2500);
-      
-      // Marcar que ya se mostró
+      setTimeout(() => { loadingScreen.classList.add('hidden'); }, 2500);
       isAutoLogin = false;
     }
 
-    // TABS Y NAVEGACIÓN
+    // ===== TABS =====
     const btnTabPerfil = document.getElementById('btnTabPerfil');
     const btnTabFeed = document.getElementById('btnTabFeed');
     const btnTabTablon = document.getElementById('btnTabTablon');
@@ -971,21 +646,15 @@
       document.getElementById('friendFeedSection').classList.remove('hidden'); document.getElementById('friendPerfilSection').classList.add('hidden');
     });
 
-    // SISTEMA DE LIGHTBOX (FOTOS COMPLETAS)
+    // ===== LIGHTBOX =====
     window.abrirFotoCompleta = function(url) {
       document.getElementById('lightboxImg').src = url;
       document.getElementById('lightboxOverlay').classList.remove('hidden');
     };
-    document.getElementById('btnCerrarLightbox').addEventListener('click', () => {
-      document.getElementById('lightboxOverlay').classList.add('hidden');
-    });
-    document.getElementById('lightboxOverlay').addEventListener('click', (e) => {
-      if (e.target.id === 'lightboxOverlay') {
-        document.getElementById('lightboxOverlay').classList.add('hidden');
-      }
-    });
+    document.getElementById('btnCerrarLightbox').addEventListener('click', () => document.getElementById('lightboxOverlay').classList.add('hidden'));
+    document.getElementById('lightboxOverlay').addEventListener('click', (e) => { if (e.target.id === 'lightboxOverlay') document.getElementById('lightboxOverlay').classList.add('hidden'); });
 
-    // SISTEMA DE NOTIFICACIONES
+    // ===== NOTIFICACIONES =====
     document.getElementById('btnNotificaciones').addEventListener('click', () => {
         lastNotifCheck = Date.now();
         localStorage.setItem('lastNotifCheck', lastNotifCheck);
@@ -994,16 +663,14 @@
         renderizarModalNotificaciones();
         document.getElementById('modalNotif').classList.remove('hidden');
     });
-    document.getElementById('btnCerrarNotif').addEventListener('click', () => { document.getElementById('modalNotif').classList.add('hidden'); });
+    document.getElementById('btnCerrarNotif').addEventListener('click', () => document.getElementById('modalNotif').classList.add('hidden'));
 
     function renderizarModalNotificaciones() {
         const list = document.getElementById('listaNotificaciones');
         let htmlNotif = '';
-        if (misNotificaciones.length === 0) {
-            list.innerHTML = '<p style="text-align:center; color:#8A8F9A;">No hay alertas en el Gremio.</p>'; return;
-        }
+        if (misNotificaciones.length === 0) { list.innerHTML = '<p style="text-align:center; color:#8A8F9A;">No hay alertas.</p>'; return; }
         misNotificaciones.forEach(n => {
-            htmlNotif += `<div class="notif-item">${n.mensaje}<span class="notif-time">${new Date(n.id).toLocaleString('es-MX', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' })}</span></div>`;
+            htmlNotif += `<div style="background:rgba(0,0,0,0.2); padding:12px; border-radius:10px; border-left:4px solid #2ECC71; font-size:13px; color:#E8E6E3;">${n.mensaje}<span style="font-size:10px; color:#8A8F9A; display:block; margin-top:6px;">${new Date(n.id).toLocaleString('es-MX', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' })}</span></div>`;
         });
         list.innerHTML = htmlNotif;
     }
@@ -1019,7 +686,6 @@
                 let esParaMi = false;
                 if (noti.para === usuarioActualUid) esParaMi = true;
                 if (noti.para === 'global' && usuario.amigos && usuario.amigos.includes(noti.creadorNombre)) esParaMi = true;
-
                 if (esParaMi) {
                     misNotificaciones.push(noti);
                     if (noti.id > lastNotifCheck) notifsNoLeidas++;
@@ -1027,14 +693,11 @@
             });
             if(notifsNoLeidas > 0) document.getElementById('badgeNotif').classList.remove('hidden');
             else document.getElementById('badgeNotif').classList.add('hidden');
-            
-            if(!document.getElementById('modalNotif').classList.contains('hidden')){
-                renderizarModalNotificaciones();
-            }
+            if(!document.getElementById('modalNotif').classList.contains('hidden')) renderizarModalNotificaciones();
         });
     }
 
-    // FILTROS DE FEED PERSONAL
+    // ===== FILTROS =====
     document.querySelectorAll('#filtrosFeedPersonal .btn-filtro').forEach(btn => {
       btn.addEventListener('click', (e) => {
         document.querySelectorAll('#filtrosFeedPersonal .btn-filtro').forEach(b => b.classList.remove('active'));
@@ -1044,7 +707,6 @@
       });
     });
 
-    // FILTROS DE FEED AMIGO
     document.querySelectorAll('#filtrosFeedAmigo .btn-filtro').forEach(btn => {
       btn.addEventListener('click', (e) => {
         document.querySelectorAll('#filtrosFeedAmigo .btn-filtro').forEach(b => b.classList.remove('active'));
@@ -1054,7 +716,7 @@
       });
     });
 
-    // DRAWER AMIGOS
+    // ===== DRAWER =====
     const drawerOverlay = document.getElementById('drawerOverlay');
     const drawerAmigos = document.getElementById('drawerAmigos');
     const listaAmigosDOM = document.getElementById('listaAmigosDOM');
@@ -1067,18 +729,14 @@
     document.getElementById('btnCloseDrawer').addEventListener('click', toggleDrawer);
     drawerOverlay.addEventListener('click', toggleDrawer);
 
-    // OPTIMIZACIÓN: Carga paralela de amigos (120fps)
     async function renderizarAmigos() {
-      listaAmigosDOM.innerHTML = '<p style="color:#5A6070; font-size:13px; text-align:center; margin-top:20px;">Cargando Alianza...</p>';
-      if(!usuario.amigos || usuario.amigos.length === 0) { listaAmigosDOM.innerHTML = '<p style="color:#5A6070; font-size:13px; text-align:center; margin-top:20px;">No tienes aliados aún.</p>'; return; }
+      listaAmigosDOM.innerHTML = '<p style="color:#5A6070; text-align:center; margin-top:20px;">Cargando...</p>';
+      if(!usuario.amigos || usuario.amigos.length === 0) { listaAmigosDOM.innerHTML = '<p style="color:#5A6070; text-align:center; margin-top:20px;">No tienes aliados.</p>'; return; }
       
       const promesas = usuario.amigos.map(async (nombreAmigo) => {
           const q = query(collection(db, "usuarios"), where("nombre", "==", nombreAmigo));
           const snap = await getDocs(q);
-          if(!snap.empty) {
-              const uDoc = snap.docs[0];
-              return { uid: uDoc.id, data: uDoc.data() };
-          }
+          if(!snap.empty) { const uDoc = snap.docs[0]; return { uid: uDoc.id, data: uDoc.data() }; }
           return null;
       });
 
@@ -1095,14 +753,12 @@
               let pKil = Math.abs(amigoData.kilos || 0) * 50;
               let pen = amigoData.penalizado ? 0.5 : 0;
               let ptsTotales = pAct + pSue + pKil - pen;
-              
               const rango = obtenerRango(ptsTotales);
-              const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `${amigoData.nombre.charAt(0).toUpperCase()}`;
-              
+              const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%;height:100%;object-fit:cover;" />` : amigoData.nombre.charAt(0).toUpperCase();
               const div = document.createElement('div'); 
               div.className = 'amigo-item';
               div.onclick = (e) => { if (!e.target.closest('.btn-delete-amigo')) abrirVisitaAmigo(amigoData, ptsTotales, amigoUid); };
-              div.innerHTML = `<div class="amigo-avatar ${rango.clase}">${avatarContent}</div><div class="amigo-info"><div class="amigo-nombre">${amigoData.nombre}</div><div class="amigo-rango">Liga ${rango.nombre}</div></div><div class="badge-rango" style="color: ${rango.color}">${rango.icono}</div><button class="btn-delete-amigo" onclick="window.borrarAmigoLista('${amigoData.nombre}')">🗑</button>`;
+              div.innerHTML = `<div class="amigo-avatar ${rango.clase}">${avatarContent}</div><div class="amigo-info"><div class="amigo-nombre">${amigoData.nombre}</div><div class="amigo-rango">Liga ${rango.nombre}</div></div><button class="btn-delete-amigo" onclick="window.borrarAmigoLista('${amigoData.nombre}')">🗑</button>`;
               fragment.appendChild(div);
           }
       });
@@ -1112,59 +768,46 @@
     document.getElementById('btnAgregarAmigo').addEventListener('click', async () => {
       const nom = document.getElementById('inputBuscarAmigo').value.trim(); if(!nom) return;
       if (nom === usuario.nombre) { alert('No puedes agregarte a ti mismo.'); return; }
-      if (usuario.amigos && usuario.amigos.includes(nom)) { alert('Esta persona ya está en tu Alianza.'); return; }
+      if (usuario.amigos && usuario.amigos.includes(nom)) { alert('Ya está en tu Alianza.'); return; }
       try {
         const q = query(collection(db, "usuarios"), where("nombre", "==", nom)); const querySnapshot = await getDocs(q);
-        if (querySnapshot.empty) alert('Usuario no encontrado. (Revisa mayúsculas y minúsculas).');
-        else { if(!usuario.amigos) usuario.amigos = []; usuario.amigos.push(nom); await guardarDatosUsuario(); document.getElementById('inputBuscarAmigo').value = ''; alert(`¡${nom} se ha unido a tu Alianza!`); renderizarAmigos(); }
-      } catch (error) { alert('Hubo un error al buscar. Intenta de nuevo.'); }
+        if (querySnapshot.empty) alert('Usuario no encontrado.');
+        else { if(!usuario.amigos) usuario.amigos = []; usuario.amigos.push(nom); await guardarDatosUsuario(); document.getElementById('inputBuscarAmigo').value = ''; alert(`${nom} se ha unido.`); renderizarAmigos(); }
+      } catch (error) { alert('Error al buscar.'); }
     });
 
     window.borrarAmigoLista = async function(nombreAmigo) {
-      if(confirm(`¿Desvincular a ${nombreAmigo} de tu Alianza?`)) { usuario.amigos = usuario.amigos.filter(n => n !== nombreAmigo); await guardarDatosUsuario(); renderizarAmigos(); }
+      if(confirm(`¿Desvincular a ${nombreAmigo}?`)) { usuario.amigos = usuario.amigos.filter(n => n !== nombreAmigo); await guardarDatosUsuario(); renderizarAmigos(); }
     };
 
-    // VISITA AMIGO EN TIEMPO REAL CON PERFIL COMPLETO Y PANEL ADMIN
+    // ===== VISITA AMIGO =====
     window.abrirVisitaAmigo = function(amigoData, ptsTotales, amigoUid) {
       const rango = obtenerRango(ptsTotales);
       currentAmigoView = { data: amigoData, rango: rango, uid: amigoUid };
       if (drawerAmigos.classList.contains('active')) toggleDrawer();
-      
       document.getElementById('loggedInContainer').classList.add('hidden'); 
       document.getElementById('friendContainer').classList.remove('hidden'); 
       document.getElementById('btnTabFriendPerfil').click();
       
       const fAvatar = document.getElementById('friendAvatar');
       fAvatar.className = `avatar ${rango.clase}`;
-      if (amigoData.avatarUrl) fAvatar.innerHTML = `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover; border-radius:14px;" />`; 
+      if (amigoData.avatarUrl) fAvatar.innerHTML = `<img src="${amigoData.avatarUrl}" style="width:100%;height:100%;object-fit:cover;" />`; 
       else fAvatar.innerHTML = `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`; 
       
       document.getElementById('friendNombre').textContent = amigoData.nombre;
       document.getElementById('friendEdad').textContent = amigoData.edad || '-';
       document.getElementById('friendPeso').textContent = amigoData.peso || '-';
       document.getElementById('friendAltura').textContent = amigoData.altura || '-';
-      
       let amImc = calcularIMC(amigoData.peso, amigoData.altura);
       document.getElementById('friendImcValor').textContent = amImc > 0 ? amImc.toFixed(1) : '-';
-      
       document.getElementById('friendTagDia').textContent = `Día de Expedición: ${amigoData.diaActual || 1}`;
-
-      // Banner de Penalización
-      if (amigoData.penalizado) {
-        document.getElementById('bannerPenalizadoAmigo').classList.remove('hidden');
-      } else {
-        document.getElementById('bannerPenalizadoAmigo').classList.add('hidden');
-      }
+      if (amigoData.penalizado) document.getElementById('bannerPenalizadoAmigo').classList.remove('hidden');
+      else document.getElementById('bannerPenalizadoAmigo').classList.add('hidden');
 
       document.getElementById('friendRangoBadge').innerHTML = `${rango.icono} <div style="margin-top:8px;">${rango.nombre}</div>`; 
-      document.getElementById('friendRangoBadge').style.color = rango.color;
       document.getElementById('friendRangoContainer').className = 'rango-container rango-' + rango.clase;
-      
-      if(rango.next !== 'Max') {
-        document.getElementById('friendProgresoLiga').textContent = `Faltan ${rango.next - ptsTotales} pts para la siguiente Liga`;
-      } else {
-        document.getElementById('friendProgresoLiga').textContent = `¡Rango Máximo Alcanzado!`;
-      }
+      if(rango.next !== 'Max') document.getElementById('friendProgresoLiga').textContent = `Faltan ${rango.next - ptsTotales} pts`;
+      else document.getElementById('friendProgresoLiga').textContent = `Rango Máximo`;
       
       let pDisplay = Number.isInteger(ptsTotales) ? ptsTotales : ptsTotales.toFixed(1);
       document.getElementById('friendPuntos').textContent = pDisplay;
@@ -1178,12 +821,10 @@
       let fSuenoReg = amigoData.suenoRegistros || 0;
       let fSuenoHoras = amigoData.suenoHorasTotal || 0;
       let prom = fSuenoReg > 0 ? (fSuenoHoras / fSuenoReg).toFixed(1) : "0.0";
-
       document.getElementById('friendSuenoValor').textContent = `${fSueno} / 30`;
       document.getElementById('friendSuenoPromedio').textContent = `Promedio: ${prom}h`;
       let pctSueno = (fSueno / 30) * 100; if (pctSueno > 100) pctSueno = 100;
 
-      // VALIDACIÓN ADMIN SUPREMO
       const panelAdmin = document.getElementById('adminControlPanel');
       if (auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
           panelAdmin.classList.remove('hidden');
@@ -1191,9 +832,7 @@
           document.getElementById('adminInputSueno').value = fSueno;
           document.getElementById('adminInputKilos').value = amigoData.kilos || 0;
           document.getElementById('adminTogglePenalizacion').checked = amigoData.penalizado || false;
-      } else {
-          panelAdmin.classList.add('hidden');
-      }
+      } else { panelAdmin.classList.add('hidden'); }
 
       setTimeout(() => {
         document.getElementById('friendActividadBarra').style.width = pctAct + '%';
@@ -1209,139 +848,286 @@
       });
     };
 
-    // OPTIMIZACIÓN: Inyección masiva sin Reflow
-    function renderizarFeedAmigo() {
-      const fContainer = document.getElementById('friendFeedContainer');
-      if (!currentAmigoView) return;
+    // ===== COMENTARIOS =====
+    window.enviarComentario = async function(firebaseId) {
+      const input = document.getElementById(`inputComentario_${firebaseId}`);
+      const texto = input.value.trim();
+      if (!texto) return;
+      const post = usuario.historial.find(p => p.firebaseId === firebaseId);
+      if (!post) return;
+      const nuevoComentario = {
+        nombre: usuario.nombre,
+        avatarUrl: usuario.avatarUrl || null,
+        texto: texto,
+        fecha: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' }),
+        uid: usuarioActualUid
+      };
+      const comentarios = post.comentarios || [];
+      comentarios.push(nuevoComentario);
+      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { comentarios: comentarios });
+      input.value = '';
+    };
 
-      const { data: amigoData, rango, uid: amigoUid } = currentAmigoView;
+    window.enviarComentarioAmigo = async function(amigoUid, firebaseId) {
+      const input = document.getElementById(`inputComentario_${firebaseId}`);
+      const texto = input.value.trim();
+      if (!texto) return;
+      const postRef = doc(db, "usuarios", amigoUid, "historial", firebaseId);
+      const postSnap = await getDoc(postRef);
+      if (!postSnap.exists()) return;
+      const post = postSnap.data();
+      const nuevoComentario = {
+        nombre: usuario.nombre,
+        avatarUrl: usuario.avatarUrl || null,
+        texto: texto,
+        fecha: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' }),
+        uid: usuarioActualUid
+      };
+      const comentarios = post.comentarios || [];
+      comentarios.push(nuevoComentario);
+      await updateDoc(postRef, { comentarios: comentarios });
+      input.value = '';
+    };
+
+    // ===== EDITAR PUBLICACIÓN =====
+    window.abrirEditarPost = function(firebaseId) {
+      const post = usuario.historial.find(p => p.firebaseId === firebaseId);
+      if (!post) return;
+      postEditandoId = firebaseId;
+      
+      document.getElementById('editPostGrupoSueno').classList.add('hidden');
+      document.getElementById('editPostGrupoPeso').classList.add('hidden');
+      document.getElementById('editPostGrupoCategoria').classList.add('hidden');
+      
+      if (post.tipo === 'sueno') {
+        document.getElementById('editPostGrupoSueno').classList.remove('hidden');
+        document.getElementById('editPostHorasSueno').value = post.horas || 7;
+      } else if (post.tipo === 'peso') {
+        document.getElementById('editPostGrupoPeso').classList.remove('hidden');
+        document.getElementById('editPostValorPeso').value = post.valorPeso || '';
+      } else if (post.tipo === 'ejercicio') {
+        document.getElementById('editPostGrupoCategoria').classList.remove('hidden');
+        document.getElementById('editPostCategoria').value = post.categoria || 'pesas';
+      }
+      
+      document.getElementById('editPostComentario').value = post.comentario || '';
+      document.getElementById('editPostFotos').value = '';
+      document.getElementById('modalEditarPost').classList.remove('hidden');
+    };
+
+    document.getElementById('cancelarEditarPost').addEventListener('click', () => {
+      document.getElementById('modalEditarPost').classList.add('hidden');
+      postEditandoId = null;
+    });
+
+    document.getElementById('guardarEditarPost').addEventListener('click', async () => {
+      if (!postEditandoId) return;
+      const post = usuario.historial.find(p => p.firebaseId === postEditandoId);
+      if (!post) return;
+      
+      const nuevoComentario = document.getElementById('editPostComentario').value.trim();
+      const fileInput = document.getElementById('editPostFotos');
+      const files = Array.from(fileInput.files);
+      const btnGuardar = document.getElementById('guardarEditarPost');
+      btnGuardar.textContent = '...'; btnGuardar.disabled = true;
+      
+      let nuevasFotos = [];
+      if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const formData = new FormData();
+          formData.append('image', files[i]);
+          try {
+            const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData });
+            const data = await res.json();
+            if (data.success) nuevasFotos.push(data.data.url);
+          } catch (error) { console.log('Error subiendo foto'); }
+        }
+      }
+      
+      const datosActualizados = {
+        comentario: nuevoComentario,
+        editado: true,
+        fechaEdicion: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' })
+      };
+      
+      if (post.tipo === 'sueno') {
+        const nuevasHoras = parseInt(document.getElementById('editPostHorasSueno').value);
+        datosActualizados.horas = nuevasHoras;
+        
+        if (post.estado === 'aprobado') {
+          const horasViejas = post.horas || 0;
+          usuario.suenoRegistros = Math.max(0, (usuario.suenoRegistros || 0) - 1);
+          usuario.suenoHorasTotal = Math.max(0, (usuario.suenoHorasTotal || 0) - horasViejas);
+          if (horasViejas >= 7) usuario.suenoPruebas = Math.max(0, (usuario.suenoPruebas || 0) - 1);
+          else if (horasViejas === 6) usuario.suenoPruebas = Math.max(0, (usuario.suenoPruebas || 0) - 0.5);
+          
+          usuario.suenoRegistros = (usuario.suenoRegistros || 0) + 1;
+          usuario.suenoHorasTotal = (usuario.suenoHorasTotal || 0) + nuevasHoras;
+          if (nuevasHoras >= 7) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 1;
+          else if (nuevasHoras === 6) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 0.5;
+          
+          await guardarDatosUsuario();
+        }
+      } else if (post.tipo === 'peso') {
+        const nuevoPeso = parseFloat(document.getElementById('editPostValorPeso').value);
+        if (!isNaN(nuevoPeso)) datosActualizados.valorPeso = nuevoPeso;
+      } else if (post.tipo === 'ejercicio') {
+        const nuevaCategoria = document.getElementById('editPostCategoria').value;
+        datosActualizados.categoria = nuevaCategoria;
+      }
+      
+      if (nuevasFotos.length > 0) {
+        const fotosActuales = post.fotos || [];
+        const todasLasFotos = [...fotosActuales, ...nuevasFotos];
+        datosActualizados.fotos = todasLasFotos;
+        datosActualizados.foto = todasLasFotos[0];
+      }
+      
+      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", postEditandoId), datosActualizados);
+      
+      document.getElementById('modalEditarPost').classList.add('hidden');
+      postEditandoId = null;
+      btnGuardar.textContent = 'Guardar Cambios'; btnGuardar.disabled = false;
+    });
+
+    // ===== RENDERIZAR FEED PROPIO =====
+    function renderizarFeed() {
+      const feedCont = document.getElementById('feedContainer');
       const esAdmin = auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-      const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`;
+      
+      let filtrados = usuario.historial || [];
+      if(filtroFeedPersonal !== 'todos') filtrados = filtrados.filter(p => p.tipo === filtroFeedPersonal);
 
-      let filtrados = currentAmigoHistorial;
-      if (filtroFeedAmigo !== 'todos') {
-          filtrados = currentAmigoHistorial.filter(p => p.tipo === filtroFeedAmigo);
-      }
-
-      if (filtrados.length === 0) { 
-        fContainer.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>${amigoData.nombre} no tiene registros aquí.</div>`; 
-        return; 
-      }
+      if (filtrados.length === 0) { feedCont.innerHTML = `<div class="empty-feed">Sin actividad.</div>`; return; }
+      
+      const avatarContent = usuario.avatarUrl ? `<img src="${usuario.avatarUrl}" style="width:100%;height:100%;object-fit:cover;" />` : `<span>${usuario.nombre.charAt(0).toUpperCase()}</span>`;
+      const rango = obtenerRango(usuario.puntos);
 
       let htmlArmado = '';
       filtrados.forEach(post => {
         let feedIcon = post.tipo === 'ejercicio' ? '💪' : (post.tipo === 'sueno' ? '🌙' : '⚖️');
-        let tagText = '';
-        if (post.tipo === 'ejercicio') tagText = categoriasNombre[post.categoria] || 'Actividad Física';
-        else if (post.tipo === 'sueno') tagText = 'Descanso: ' + post.horas + ' horas';
-        else tagText = 'Registro de Peso: ' + post.valorPeso + ' kg';
-
-        const tagHTML = `<div class="feed-tag">${tagText}</div>`;
+        let tagText = post.tipo === 'ejercicio' ? (categoriasNombre[post.categoria] || 'Actividad') : (post.tipo === 'sueno' ? 'Descanso: ' + post.horas + 'h' : 'Peso: ' + post.valorPeso + 'kg');
+        const editedTag = post.editado ? '<span class="edited-tag">✎ Editado</span>' : '';
+        const tagHTML = `<div class="feed-tag">${tagText}${editedTag}</div>`;
         
         let fotosArray = post.fotos || (post.foto ? [post.foto] : []);
         let galleryHTML = '';
         if (fotosArray.length > 0) {
           const imgCls = fotosArray.length === 1 ? 'single' : 'multi';
-          const imgTags = fotosArray.map(u => `<img src="${u}" class="feed-img ${imgCls}" onclick="window.abrirFotoCompleta('${u}')" title="Toca para ver en grande">`).join('');
+          const imgTags = fotosArray.map(u => `<img src="${u}" class="feed-img ${imgCls}" onclick="window.abrirFotoCompleta('${u}')">`).join('');
           galleryHTML = `<div class="feed-gallery">${imgTags}</div>`;
         }
         
         const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
         
         let votingHTML = '';
-        if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } 
-        else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
+        if (post.estado === 'aprobado') votingHTML = `<div class="vote-status approved">✅ Validado</div>`; 
+        else if (post.estado === 'rechazado') votingHTML = `<div class="vote-status rejected">❌ Rechazado</div>`; 
         else {
-          let btnAdmin = esAdmin ? `<button onclick="window.aprobarAdminAmigo('${amigoUid}', '${post.firebaseId}')" class="btn-vote admin-god" title="Voto de Dios (Admin)">🛡️</button>` : '';
-          votingHTML = `
-            <div class="vote-actions">
-              <button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', true)" class="btn-vote up">👍</button>
-              <span class="vote-count">${post.votosPositivos || 0}/3</span>
-              <button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', false)" class="btn-vote down">👎</button>
-              ${btnAdmin}
-            </div>
-            <div class="vote-status pending">⏳ Pendiente</div>`;
+            if (esAdmin) {
+                let btnAdmin = `<button onclick="window.aprobarAdminPropio('${post.firebaseId}')" class="btn-vote admin-god">🛡️</button>`;
+                votingHTML = `<div class="vote-actions"><button onclick="window.votarPostPropio('${post.firebaseId}', true)" class="btn-vote up">👍</button><span class="vote-count">${post.votosPositivos || 0}/3</span><button onclick="window.votarPostPropio('${post.firebaseId}', false)" class="btn-vote down">👎</button>${btnAdmin}</div><div class="vote-status pending">⏳ Pendiente</div>`; 
+            } else {
+                votingHTML = `<div class="vote-actions" style="justify-content:center; width:100%;"><span class="vote-count">${post.votosPositivos || 0}/3 votos</span></div><div class="vote-status pending">⏳ Pendiente</div>`; 
+            }
         }
-        htmlArmado += `
-          <div class="feed-item">
-            <div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${amigoData.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div></div>
-            ${comentarioHTML}${galleryHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div>
-          </div>`;
+        
+        const btnEditar = `<button onclick="window.abrirEditarPost('${post.firebaseId}')" title="Editar" class="btn-edit-post">✎</button>`;
+        
+        const comentarios = post.comentarios || [];
+        let comentariosHTML = '';
+        if (comentarios.length > 0) {
+          comentariosHTML = '<div class="comments-list">';
+          comentarios.forEach(c => {
+            const cAvatar = c.avatarUrl ? `<img src="${c.avatarUrl}" style="width:100%;height:100%;object-fit:cover;" />` : c.nombre.charAt(0).toUpperCase();
+            comentariosHTML += `<div class="comment-item"><div class="comment-header"><div class="comment-avatar">${cAvatar}</div><span class="comment-author">${c.nombre}</span><span class="comment-time">${c.fecha}</span></div><div class="comment-text">${c.texto}</div></div>`;
+          });
+          comentariosHTML += '</div>';
+        }
+        
+        htmlArmado += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}${editedTag}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions">${btnEditar}<button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>${comentarioHTML}${galleryHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div><div class="comments-section">${comentariosHTML}<div class="comment-input-container"><input type="text" id="inputComentario_${post.firebaseId}" placeholder="Escribe un comentario..." /><button class="btn-send-comment" onclick="window.enviarComentario('${post.firebaseId}')">➤</button></div></div></div>`;
+      });
+      feedCont.innerHTML = htmlArmado;
+    }
+
+    // ===== RENDERIZAR FEED AMIGO =====
+    function renderizarFeedAmigo() {
+      const fContainer = document.getElementById('friendFeedContainer');
+      if (!currentAmigoView) return;
+      const { data: amigoData, rango, uid: amigoUid } = currentAmigoView;
+      const esAdmin = auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+      const avatarContent = amigoData.avatarUrl ? `<img src="${amigoData.avatarUrl}" style="width:100%;height:100%;object-fit:cover;" />` : `<span>${amigoData.nombre.charAt(0).toUpperCase()}</span>`;
+
+      let filtrados = currentAmigoHistorial || [];
+      if (filtroFeedAmigo !== 'todos') filtrados = filtrados.filter(p => p.tipo === filtroFeedAmigo);
+
+      if (filtrados.length === 0) { fContainer.innerHTML = `<div class="empty-feed">Sin registros.</div>`; return; }
+
+      let htmlArmado = '';
+      filtrados.forEach(post => {
+        let feedIcon = post.tipo === 'ejercicio' ? '💪' : (post.tipo === 'sueno' ? '🌙' : '⚖️');
+        let tagText = post.tipo === 'ejercicio' ? (categoriasNombre[post.categoria] || 'Actividad') : (post.tipo === 'sueno' ? 'Descanso: ' + post.horas + 'h' : 'Peso: ' + post.valorPeso + 'kg');
+        const editedTag = post.editado ? '<span class="edited-tag">✎ Editado</span>' : '';
+        const tagHTML = `<div class="feed-tag">${tagText}${editedTag}</div>`;
+        let fotosArray = post.fotos || (post.foto ? [post.foto] : []);
+        let galleryHTML = '';
+        if (fotosArray.length > 0) {
+          const imgCls = fotosArray.length === 1 ? 'single' : 'multi';
+          const imgTags = fotosArray.map(u => `<img src="${u}" class="feed-img ${imgCls}" onclick="window.abrirFotoCompleta('${u}')">`).join('');
+          galleryHTML = `<div class="feed-gallery">${imgTags}</div>`;
+        }
+        const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
+        
+        let votingHTML = '';
+        if (post.estado === 'aprobado') votingHTML = `<div class="vote-status approved">✅ Validado</div>`; 
+        else if (post.estado === 'rechazado') votingHTML = `<div class="vote-status rejected">❌ Rechazado</div>`; 
+        else {
+          let btnAdmin = esAdmin ? `<button onclick="window.aprobarAdminAmigo('${amigoUid}', '${post.firebaseId}')" class="btn-vote admin-god">🛡️</button>` : '';
+          votingHTML = `<div class="vote-actions"><button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', true)" class="btn-vote up">👍</button><span class="vote-count">${post.votosPositivos || 0}/3</span><button onclick="window.votarPostAmigo('${amigoUid}', '${post.firebaseId}', false)" class="btn-vote down">👎</button>${btnAdmin}</div><div class="vote-status pending">⏳ Pendiente</div>`;
+        }
+        
+        const comentarios = post.comentarios || [];
+        let comentariosHTML = '';
+        if (comentarios.length > 0) {
+          comentariosHTML = '<div class="comments-list">';
+          comentarios.forEach(c => {
+            const cAvatar = c.avatarUrl ? `<img src="${c.avatarUrl}" style="width:100%;height:100%;object-fit:cover;" />` : c.nombre.charAt(0).toUpperCase();
+            comentariosHTML += `<div class="comment-item"><div class="comment-header"><div class="comment-avatar">${cAvatar}</div><span class="comment-author">${c.nombre}</span><span class="comment-time">${c.fecha}</span></div><div class="comment-text">${c.texto}</div></div>`;
+          });
+          comentariosHTML += '</div>';
+        }
+        
+        htmlArmado += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${amigoData.nombre}${editedTag}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div></div>${comentarioHTML}${galleryHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div><div class="comments-section">${comentariosHTML}<div class="comment-input-container"><input type="text" id="inputComentario_${post.firebaseId}" placeholder="Escribe un comentario..." /><button class="btn-send-comment" onclick="window.enviarComentarioAmigo('${amigoUid}', '${post.firebaseId}')">➤</button></div></div></div>`;
       });
       fContainer.innerHTML = htmlArmado;
     }
 
-    document.getElementById('btnGuardarAdmin').addEventListener('click', async () => {
-      if(!currentAmigoView) return;
-      const nuevoAct = parseInt(document.getElementById('adminInputAct').value) || 0;
-      const nuevoSueno = parseFloat(document.getElementById('adminInputSueno').value) || 0;
-      const nuevoKilos = parseFloat(document.getElementById('adminInputKilos').value) || 0;
-      const nuevaPenalizacion = document.getElementById('adminTogglePenalizacion').checked;
-      
-      const penalizacionPrevia = currentAmigoView.data.penalizado || false;
-
-      const amigoRef = doc(db, "usuarios", currentAmigoView.uid);
-      await updateDoc(amigoRef, { actividad: nuevoAct, suenoPruebas: nuevoSueno, kilos: nuevoKilos, penalizado: nuevaPenalizacion });
-      
-      // Notificación de Penalización al Gremio
-      if(nuevaPenalizacion && !penalizacionPrevia){
-          await addDoc(collection(db, "notificaciones"), {
-            id: Date.now(), para: 'global', creadorNombre: currentAmigoView.data.nombre,
-            mensaje: `⚠️ ¡El Marrano de ${currentAmigoView.data.nombre} ha sido penalizado por el Guild Master!`
-          });
-      }
-
-      alert('🛡️ Liga y parámetros del aliado ajustados por el Guild Master.');
-      document.getElementById('btnVolverMiPerfil').click();
-    });
-
-    // ==========================================
-    // VOTACIONES DE AMIGOS (NORMALES)
-    // ==========================================
+    // ===== VOTACIONES =====
     window.votarPostAmigo = async function(amigoUid, firebaseId, esPositivo) {
       const postRef = doc(db, "usuarios", amigoUid, "historial", firebaseId);
       const postSnap = await getDoc(postRef); if(!postSnap.exists()) return; let post = postSnap.data();
       if(post.estado !== 'pendiente') return;
-
       const esAdmin = auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-
       if (!post.usuariosVotaron) post.usuariosVotaron = [];
-      if (post.usuariosVotaron.includes(usuarioActualUid) && !esAdmin) {
-          alert('🛡️ Ya votaste en esta publicación. No puedes votar dos veces.');
-          return;
-      }
-      if (!post.usuariosVotaron.includes(usuarioActualUid)) {
-          post.usuariosVotaron.push(usuarioActualUid);
-      }
-
+      if (post.usuariosVotaron.includes(usuarioActualUid) && !esAdmin) { alert('Ya votaste.'); return; }
+      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
       if(esPositivo) {
         post.votosPositivos = (post.votosPositivos || 0) + 1;
-        
         if(post.votosPositivos >= 3) {
           post.estado = 'aprobado';
           const userRef = doc(db, "usuarios", amigoUid); const uSnap = await getDoc(userRef);
           if (uSnap.exists()) {
              let uData = uSnap.data();
-             if (post.tipo === 'ejercicio') {
-                uData.actividad = (uData.actividad || 0) + 1; 
-             } else if (post.tipo === 'sueno') {
+             if (post.tipo === 'ejercicio') uData.actividad = (uData.actividad || 0) + 1; 
+             else if (post.tipo === 'sueno') {
                 uData.suenoRegistros = (uData.suenoRegistros || 0) + 1;
                 uData.suenoHorasTotal = (uData.suenoHorasTotal || 0) + post.horas;
                 if(post.horas >= 7) uData.suenoPruebas = (uData.suenoPruebas || 0) + 1;
                 else if(post.horas === 6) uData.suenoPruebas = (uData.suenoPruebas || 0) + 0.5;
              }
-             await updateDoc(userRef, { 
-                 actividad: uData.actividad, 
-                 suenoRegistros: uData.suenoRegistros, 
-                 suenoHorasTotal: uData.suenoHorasTotal, 
-                 suenoPruebas: uData.suenoPruebas 
-             });
+             await updateDoc(userRef, { actividad: uData.actividad, suenoRegistros: uData.suenoRegistros, suenoHorasTotal: uData.suenoHorasTotal, suenoPruebas: uData.suenoPruebas });
           }
-          // Notificar que se aprobó
-          await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: 'Sistema', mensaje: `✅ ¡Tu evidencia ha sido validada por la Alianza!` });
-        } else {
-          // Notificar que alguien votó
-          await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: usuario.nombre, mensaje: `👍 A ${usuario.nombre} le pareció bien tu evidencia.` });
+          await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: 'Sistema', mensaje: `✅ ¡Tu evidencia ha sido validada!` });
         }
       } else { 
         post.votosNegativos = (post.votosNegativos || 0) + 1; 
@@ -1350,49 +1136,94 @@
       await updateDoc(postRef, { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado, usuariosVotaron: post.usuariosVotaron });
     };
 
-    // ==========================================
-    // VOTO DE DIOS ADMIN (AMIGOS)
-    // ==========================================
     window.aprobarAdminAmigo = async function(amigoUid, firebaseId) {
-      if(!confirm('🛡️ ¿Usar el Poder del Guild Master para APROBAR esto inmediatamente?')) return;
+      if(!confirm('¿Aprobar inmediatamente?')) return;
       const postRef = doc(db, "usuarios", amigoUid, "historial", firebaseId);
       const postSnap = await getDoc(postRef); if(!postSnap.exists()) return; let post = postSnap.data();
       if(post.estado !== 'pendiente') return;
-
-      post.votosPositivos = 3;
-      post.estado = 'aprobado';
+      post.votosPositivos = 3; post.estado = 'aprobado';
       if (!post.usuariosVotaron) post.usuariosVotaron = [];
       if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
-
       const userRef = doc(db, "usuarios", amigoUid); const uSnap = await getDoc(userRef);
       if (uSnap.exists()) {
          let uData = uSnap.data();
-         if (post.tipo === 'ejercicio') {
-            uData.actividad = (uData.actividad || 0) + 1; 
-         } else if (post.tipo === 'sueno') {
+         if (post.tipo === 'ejercicio') uData.actividad = (uData.actividad || 0) + 1; 
+         else if (post.tipo === 'sueno') {
             uData.suenoRegistros = (uData.suenoRegistros || 0) + 1;
             uData.suenoHorasTotal = (uData.suenoHorasTotal || 0) + post.horas;
             if(post.horas >= 7) uData.suenoPruebas = (uData.suenoPruebas || 0) + 1;
             else if(post.horas === 6) uData.suenoPruebas = (uData.suenoPruebas || 0) + 0.5;
          }
-         await updateDoc(userRef, { 
-             actividad: uData.actividad, 
-             suenoRegistros: uData.suenoRegistros, 
-             suenoHorasTotal: uData.suenoHorasTotal, 
-             suenoPruebas: uData.suenoPruebas 
-         });
+         await updateDoc(userRef, { actividad: uData.actividad, suenoRegistros: uData.suenoRegistros, suenoHorasTotal: uData.suenoHorasTotal, suenoPruebas: uData.suenoPruebas });
       }
       await updateDoc(postRef, { votosPositivos: post.votosPositivos, estado: post.estado, usuariosVotaron: post.usuariosVotaron });
-      await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: 'Admin', mensaje: `🛡️ El Guild Master ha aprobado tu evidencia de inmediato.` });
+      await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: amigoUid, creadorNombre: 'Admin', mensaje: `🛡️ El Guild Master aprobó tu evidencia.` });
     };
 
-    document.getElementById('btnVolverMiPerfil').addEventListener('click', () => { 
-      if (unsubscribeAmigoFeed) unsubscribeAmigoFeed();
-      document.getElementById('friendContainer').classList.add('hidden'); 
-      document.getElementById('loggedInContainer').classList.remove('hidden'); 
-    });
+    window.votarPostPropio = async function(firebaseId, esPositivo) {
+      const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
+      const esAdmin = auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+      if (!esAdmin) { alert('No puedes votar tus propias evidencias.'); return; }
+      if (!post.usuariosVotaron) post.usuariosVotaron = [];
+      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
+      if(esPositivo) { 
+        post.votosPositivos = (post.votosPositivos || 0) + 1; 
+        if(post.votosPositivos >= 3) { 
+          post.estado = 'aprobado'; 
+          if (post.tipo === 'ejercicio') usuario.actividad = (usuario.actividad || 0) + 1;
+          else if (post.tipo === 'sueno') {
+             usuario.suenoRegistros = (usuario.suenoRegistros || 0) + 1;
+             usuario.suenoHorasTotal = (usuario.suenoHorasTotal || 0) + post.horas;
+             if(post.horas >= 7) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 1;
+             else if(post.horas === 6) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 0.5;
+          }
+        } 
+      } else { 
+        post.votosNegativos = (post.votosNegativos || 0) + 1; 
+        if(post.votosNegativos >= 3) post.estado = 'rechazado'; 
+      }
+      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
+      await guardarDatosUsuario(); 
+    };
 
-    // ===== LÓGICA DEL TABLÓN GLOBAL Y TARJETAS SPOTIFY =====
+    window.aprobarAdminPropio = async function(firebaseId) {
+      if(!confirm('¿Aprobar inmediatamente?')) return;
+      const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
+      post.votosPositivos = 3; post.estado = 'aprobado'; 
+      if (!post.usuariosVotaron) post.usuariosVotaron = [];
+      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
+      if (post.tipo === 'ejercicio') usuario.actividad = (usuario.actividad || 0) + 1;
+      else if (post.tipo === 'sueno') {
+         usuario.suenoRegistros = (usuario.suenoRegistros || 0) + 1;
+         usuario.suenoHorasTotal = (usuario.suenoHorasTotal || 0) + post.horas;
+         if(post.horas >= 7) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 1;
+         else if(post.horas === 6) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 0.5;
+      }
+      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { votosPositivos: post.votosPositivos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
+      await guardarDatosUsuario(); 
+    };
+
+    window.borrarPost = async function(firebaseId) {
+      if(confirm('¿Eliminar este registro?')) {
+        const index = usuario.historial.findIndex(p => p.firebaseId === firebaseId);
+        if(index > -1) { 
+          const post = usuario.historial[index]; 
+          await deleteDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId)); 
+          if(post.estado === 'aprobado') { 
+             if (post.tipo === 'ejercicio' && usuario.actividad > 0) usuario.actividad--; 
+             else if (post.tipo === 'sueno') {
+                 usuario.suenoRegistros = Math.max(0, (usuario.suenoRegistros || 0) - 1);
+                 usuario.suenoHorasTotal = Math.max(0, (usuario.suenoHorasTotal || 0) - post.horas);
+                 if (post.horas >= 7) usuario.suenoPruebas = Math.max(0, (usuario.suenoPruebas || 0) - 1);
+                 else if (post.horas === 6) usuario.suenoPruebas = Math.max(0, (usuario.suenoPruebas || 0) - 0.5);
+             }
+             await guardarDatosUsuario(); 
+          } 
+        }
+      }
+    };
+
+    // ===== TABLÓN =====
     const selectTipoTablon = document.getElementById('tipoTablon');
     const grpRutinaT = document.getElementById('grupoRutinaTablon');
     const grpMusicaT = document.getElementById('grupoMusicaTablon');
@@ -1407,28 +1238,22 @@
 
     document.getElementById('btnAbrirTablon').addEventListener('click', () => {
       document.getElementById('textoTablon').value = ''; document.getElementById('linkSpotify').value = '';
-      selectTipoTablon.value = ''; 
-      selectTipoTablon.dispatchEvent(new Event('change'));
+      selectTipoTablon.value = ''; selectTipoTablon.dispatchEvent(new Event('change'));
       document.getElementById('modalTablon').classList.remove('hidden');
     });
-    
     document.getElementById('cancelarTablon').addEventListener('click', () => document.getElementById('modalTablon').classList.add('hidden'));
 
     document.getElementById('guardarTablon').addEventListener('click', async () => {
       const tipo = selectTipoTablon.value; 
       const texto = document.getElementById('textoTablon').value.trim(); 
       const link = document.getElementById('linkSpotify').value.trim();
-      
-      if(!tipo) { alert('Selecciona qué vas a compartir en el Tablón.'); return; }
+      if(!tipo) { alert('Selecciona qué vas a compartir.'); return; }
       if(tipo === 'rutina' && !texto) { alert('Escribe tu rutina.'); return; }
       if(tipo === 'musica' && !link) { alert('Pega el link de Spotify.'); return; }
       if(tipo === 'ambos' && (!texto || !link)) { alert('Llena ambos campos.'); return; }
-
       const btnG = document.getElementById('guardarTablon'); 
-      btnG.textContent = 'Extrayendo música...'; btnG.disabled = true;
-      
+      btnG.textContent = '...'; btnG.disabled = true;
       const avatarContent = usuario.avatarUrl || '';
-      
       let metaSpotify = null;
       if (tipo === 'musica' || tipo === 'ambos') {
          metaSpotify = { cover: '', title: 'Abrir en Spotify', url: link };
@@ -1442,9 +1267,7 @@
            }
          } catch(e) { console.log("Carátula no disponible."); }
       }
-
       const miRango = obtenerRango(usuario.puntos).clase;
-
       const nuevoAporte = {
         uid: usuarioActualUid, nombre: usuario.nombre, avatarUrl: avatarContent,
         rangoClase: miRango,
@@ -1452,12 +1275,10 @@
         fecha: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' }),
         timestamp: serverTimestamp()
       };
-
       try {
         await addDoc(collection(db, "tablon"), nuevoAporte);
         document.getElementById('modalTablon').classList.add('hidden');
-      } catch(err) { alert('Error al publicar en el tablón.'); }
-      
+      } catch(err) { alert('Error al publicar.'); }
       btnG.textContent = 'Publicar'; btnG.disabled = false;
     });
 
@@ -1479,99 +1300,69 @@
       });
     });
 
-    // OPTIMIZACIÓN: Inyección masiva sin Reflow
     function renderizarTablon() {
       const tCont = document.getElementById('tablonContainer');
-      let filtrados = postsTablonArray;
-      if(filtroActualTablon === 'rutina') filtrados = postsTablonArray.filter(p => p.tipo === 'rutina' || p.tipo === 'ambos');
-      else if(filtroActualTablon === 'musica') filtrados = postsTablonArray.filter(p => p.tipo === 'musica' || p.tipo === 'ambos');
-
-      if(filtrados.length === 0) { tCont.innerHTML = `<div class="empty-feed"><span class="icon">🍻</span>El tablón está vacío en esta categoría.</div>`; return; }
-
+      let filtrados = postsTablonArray || [];
+      if(filtroActualTablon === 'rutina') filtrados = filtrados.filter(p => p.tipo === 'rutina' || p.tipo === 'ambos');
+      else if(filtroActualTablon === 'musica') filtrados = filtrados.filter(p => p.tipo === 'musica' || p.tipo === 'ambos');
+      if(filtrados.length === 0) { tCont.innerHTML = `<div class="empty-feed">Tablón vacío.</div>`; return; }
       let htmlArmado = '';
       filtrados.forEach(post => {
         const icon = post.tipo === 'musica' ? '🎵' : (post.tipo === 'rutina' ? '📋' : '🔥');
         const tagHTML = `<div class="feed-tag">${post.tipo === 'musica' ? 'Recomendación Musical' : (post.tipo === 'rutina' ? 'Rutina de Batalla' : 'Rutina + Música')}</div>`;
         const textHTML = post.texto ? `<div class="feed-body">${post.texto}</div>` : '';
-        
         let spotifyHTML = '';
         if (post.tipo === 'musica' || post.tipo === 'ambos') {
           const meta = post.spotifyMeta || { cover: '', title: 'Abrir en Spotify', url: '' };
           const coverTag = meta.cover ? `<img src="${meta.cover}" class="spotify-link-cover" />` : `<div class="spotify-link-cover" style="display:flex;align-items:center;justify-content:center;font-size:24px;">🎵</div>`;
-          spotifyHTML = `
-            <a href="${meta.url}" target="_blank" class="spotify-link-card">
-              ${coverTag}
-              <div class="spotify-link-info">
-                <span class="spotify-link-title">${meta.title}</span>
-                <span class="spotify-link-subtitle">Escuchar en Spotify 🎧</span>
-              </div>
-            </a>
-          `;
+          spotifyHTML = `<a href="${meta.url}" target="_blank" class="spotify-link-card">${coverTag}<div class="spotify-link-info"><span class="spotify-link-title">${meta.title}</span><span class="spotify-link-subtitle">Escuchar en Spotify 🎧</span></div></a>`;
         }
-
-        let avatarContent = post.avatarUrl ? `<img src="${post.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${post.nombre.charAt(0).toUpperCase()}</span>`;
+        let avatarContent = post.avatarUrl ? `<img src="${post.avatarUrl}" style="width:100%;height:100%;object-fit:cover;" />` : `<span>${post.nombre.charAt(0).toUpperCase()}</span>`;
         let claseRango = post.rangoClase || 'cobre';
         let btnBorrar = (post.uid === usuarioActualUid) ? `<button onclick="window.borrarPostTablon('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button>` : '';
-
-        htmlArmado += `
-          <div class="feed-item">
-            <div class="feed-header-item">
-              <div class="feed-avatar ${claseRango}">${avatarContent}</div>
-              <div class="feed-meta"><div class="feed-name">${post.nombre}</div><div class="feed-time"><span class="feed-icon">${icon}</span> ${post.fecha}</div></div>
-              <div class="feed-post-actions">${btnBorrar}</div>
-            </div>
-            ${tagHTML}${textHTML}${spotifyHTML}
-          </div>`;
+        htmlArmado += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar ${claseRango}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${post.nombre}</div><div class="feed-time"><span class="feed-icon">${icon}</span> ${post.fecha}</div></div><div class="feed-post-actions">${btnBorrar}</div></div>${tagHTML}${textHTML}${spotifyHTML}</div>`;
       });
       tCont.innerHTML = htmlArmado;
     }
 
     window.borrarPostTablon = async function(firebaseId) {
-      if(confirm('¿Retirar este aporte del Gremio?')) { await deleteDoc(doc(db, "tablon", firebaseId)); }
+      if(confirm('¿Retirar este aporte?')) { await deleteDoc(doc(db, "tablon", firebaseId)); }
     };
 
-    // ===== CONSOLA SECRETA =====
-    const modalConsole = document.getElementById('modalConsole'); const consoleInput = document.getElementById('consoleInput'); const consoleOutput = document.getElementById('consoleOutput');
+    // ===== CONSOLA =====
+    const modalConsole = document.getElementById('modalConsole'); 
+    const consoleInput = document.getElementById('consoleInput'); 
+    const consoleOutput = document.getElementById('consoleOutput');
     document.getElementById('btnOpenConsole').addEventListener('click', () => { modalConsole.classList.remove('hidden'); consoleInput.focus(); });
     document.getElementById('btnCloseConsole').addEventListener('click', () => { modalConsole.classList.add('hidden'); });
 
     consoleInput.addEventListener('keypress', async (e) => {
       if(e.key === 'Enter') {
-        const cmd = e.target.value.trim().toLowerCase(); e.target.value = ''; consoleOutput.innerHTML += `<br><span style="color:#FFF">> ${cmd}</span>`;
+        const cmd = e.target.value.trim().toLowerCase(); e.target.value = ''; consoleOutput.innerHTML += `<br>> ${cmd}`;
         if (cmd === '/resetdia') {
-          consoleOutput.innerHTML += `<br><span style="color:#F39C12">[!] Conectando a Base de Datos Global...</span>`;
           const usersSnap = await getDocs(collection(db, "usuarios"));
           for (const uDoc of usersSnap.docs) await updateDoc(doc(db, "usuarios", uDoc.id), { diaActual: 1 });
-          usuario.diaActual = 1; renderizarPerfil(); consoleOutput.innerHTML += `<br><span style="color:#2ECC71">[OK] El reloj global ha vuelto al Día 1. Estadísticas intactas.</span>`;
-        } 
-        else if (cmd === '/pasardia') {
-          consoleOutput.innerHTML += `<br><span style="color:#5DADE2">[*] Modificando reloj global...</span>`;
+          usuario.diaActual = 1; renderizarPerfil(); consoleOutput.innerHTML += `<br>[OK] Día reset.`;
+        } else if (cmd === '/pasardia') {
           let nuevoDiaGlobal = (usuario.diaActual || 1) + 1;
           const usersSnap = await getDocs(collection(db, "usuarios"));
           for (const uDoc of usersSnap.docs) await updateDoc(doc(db, "usuarios", uDoc.id), { diaActual: nuevoDiaGlobal });
-          usuario.diaActual = nuevoDiaGlobal; renderizarPerfil(); consoleOutput.innerHTML += `<br><span style="color:#2ECC71">[OK] Servidor Global avanzado al Día ${nuevoDiaGlobal}.</span>`;
-        } else { consoleOutput.innerHTML += `<br><span style="color:#E74C3C">Error: Comando desconocido. Comandos válidos: /resetdia, /pasardia</span>`; }
+          usuario.diaActual = nuevoDiaGlobal; renderizarPerfil(); consoleOutput.innerHTML += `<br>[OK] Día ${nuevoDiaGlobal}.`;
+        } else { consoleOutput.innerHTML += `<br>[ERR] Comando desconocido.`; }
         consoleOutput.scrollTop = consoleOutput.scrollHeight;
       }
     });
 
-    // SISTEMA PRINCIPAL Y SESIÓN
+    // ===== AUTH =====
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         usuarioActualUid = user.uid; 
         await cargarDatosUsuario(user.uid);
-        
-        // Mostrar pantalla de carga SOLO si es auto-login (primera carga)
-        if (isAutoLogin && primeraCarga) {
-          mostrarPantallaCarga(user);
-        }
-        
+        if (isAutoLogin && primeraCarga) mostrarPantallaCarga();
         escucharHistorialUsuario(user.uid); 
         escucharTablonGlobal(); 
         escucharNotificacionesGlobales();
         mostrarApp();
-        
-        // Después del primer onAuthStateChanged, ya no es auto-login
         primeraCarga = false;
       } else {
         usuarioActualUid = null; 
@@ -1585,73 +1376,104 @@
         document.getElementById('btnMenuAmigos').classList.add('hidden'); 
         document.getElementById('btnNotificaciones').classList.add('hidden'); 
         document.getElementById('lemaLogin').classList.remove('hidden');
-        
-        // Resetear flags cuando no hay usuario
         isAutoLogin = true;
         primeraCarga = true;
       }
     });
 
     async function cargarDatosUsuario(uid) {
-      const docRef = doc(db, "usuarios", uid); const docSnap = await getDoc(docRef);
+      const docRef = doc(db, "usuarios", uid); 
+      const docSnap = await getDoc(docRef);
       if (docSnap.exists()) { 
         usuario = docSnap.data(); 
         if(!usuario.amigos) usuario.amigos = []; 
         if(!usuario.diaActual) usuario.diaActual = 1; 
         if(usuario.penalizado === undefined) usuario.penalizado = false;
+        if(!usuario.historial) usuario.historial = [];
       }
     }
     
-    async function guardarDatosUsuario() { if (!usuarioActualUid) return; await setDoc(doc(db, "usuarios", usuarioActualUid), usuario); }
+    async function guardarDatosUsuario() { 
+      if (!usuarioActualUid) return; 
+      await setDoc(doc(db, "usuarios", usuarioActualUid), usuario); 
+    }
 
     function escucharHistorialUsuario(uid) {
       if (unsubscribeUserFeed) unsubscribeUserFeed();
       const q = query(collection(db, "usuarios", uid, "historial"), orderBy("id", "desc"));
       unsubscribeUserFeed = onSnapshot(q, (querySnapshot) => {
-        usuario.historial = []; querySnapshot.forEach((docSnap) => { usuario.historial.push({ firebaseId: docSnap.id, ...docSnap.data() }); });
-        renderizarPerfil(); renderizarFeed();
+        usuario.historial = []; 
+        querySnapshot.forEach((docSnap) => { usuario.historial.push({ firebaseId: docSnap.id, ...docSnap.data() }); });
+        renderizarPerfil(); 
+        renderizarFeed();
       });
     }
 
-    const btnAction = document.getElementById('btnAction'); const toggleLink = document.getElementById('toggleLink'); const message = document.getElementById('message');
-    function showMessage(text, isError = true) { message.textContent = text; message.style.color = isError ? '#E74C3C' : '#2ECC71'; message.style.display = 'block'; setTimeout(() => { message.style.display = 'none'; }, 4000); }
+    const btnAction = document.getElementById('btnAction'); 
+    const toggleLink = document.getElementById('toggleLink'); 
+    const message = document.getElementById('message');
+    
+    function showMessage(text, isError = true) { 
+      message.textContent = text; 
+      message.style.color = isError ? '#E74C3C' : '#2ECC71'; 
+      message.style.display = 'block'; 
+      setTimeout(() => { message.style.display = 'none'; }, 4000); 
+    }
 
     toggleLink.addEventListener('click', (e) => {
-      e.preventDefault(); isLogin = !isLogin; btnAction.textContent = isLogin ? 'Iniciar sesión' : 'Comenzar aventura'; 
+      e.preventDefault(); 
+      isLogin = !isLogin; 
+      btnAction.textContent = isLogin ? 'Iniciar sesión' : 'Comenzar aventura'; 
       toggleLink.textContent = isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión';
-      document.getElementById('regFields').classList.toggle('hidden', isLogin); document.getElementById('resetLink')?.classList.toggle('hidden', !isLogin); message.style.display = 'none';
+      document.getElementById('regFields').classList.toggle('hidden', isLogin); 
+      document.getElementById('resetLink')?.classList.toggle('hidden', !isLogin); 
+      message.style.display = 'none';
     });
 
     btnAction.addEventListener('click', async function(e) {
-      e.preventDefault(); const email = document.getElementById('email').value.trim(); const password = document.getElementById('password').value.trim();
+      e.preventDefault(); 
+      const email = document.getElementById('email').value.trim(); 
+      const password = document.getElementById('password').value.trim();
       if (isLogin) {
         if (!email || !password) { showMessage('Completa todos los campos.'); return; }
         try { 
-          // Marcar como login manual (NO mostrar pantalla de carga)
           isAutoLogin = false;
           primeraCarga = false;
-          
           await signInWithEmailAndPassword(auth, email, password); 
           showMessage('✅ Acceso concedido.', false); 
-        } catch (err) { showMessage('❌ Error: Credenciales incorrectas o usuario no existe.'); }
+        } catch (err) { showMessage('❌ Credenciales incorrectas.'); }
       } else {
-        const nombre = document.getElementById('regNombre').value.trim(); const edad = parseInt(document.getElementById('regEdad').value); const peso = parseFloat(document.getElementById('regPeso').value); const altura = parseFloat(document.getElementById('regAltura').value);
-        if (!email || !password || !nombre || isNaN(edad) || isNaN(peso) || isNaN(altura)) { showMessage('Faltan campos principales.'); return; }
+        const nombre = document.getElementById('regNombre').value.trim(); 
+        const edad = parseInt(document.getElementById('regEdad').value); 
+        const peso = parseFloat(document.getElementById('regPeso').value); 
+        const altura = parseFloat(document.getElementById('regAltura').value);
+        if (!email || !password || !nombre || isNaN(edad) || isNaN(peso) || isNaN(altura)) { showMessage('Faltan campos.'); return; }
         try {
-          // Marcar como registro manual (NO mostrar pantalla de carga)
           isAutoLogin = false;
           primeraCarga = false;
-          
           const cred = await createUserWithEmailAndPassword(auth, email, password);
-          usuario.nombre = nombre; usuario.edad = edad; usuario.peso = peso; usuario.altura = altura; usuario.genero = document.getElementById('regGenero').value;
-          const grasa = document.getElementById('regGrasa').value; usuario.grasaCorporal = grasa ? parseFloat(grasa) : null;
+          usuario.nombre = nombre; 
+          usuario.edad = edad; 
+          usuario.peso = peso; 
+          usuario.altura = altura; 
+          usuario.genero = document.getElementById('regGenero').value;
+          const grasa = document.getElementById('regGrasa').value; 
+          usuario.grasaCorporal = grasa ? parseFloat(grasa) : null;
           usuario.nivelActividad = parseFloat(document.getElementById('regActividad').value);
-          usuario.kilos = 0; usuario.actividad = 0; 
-          usuario.suenoPruebas = 0; usuario.suenoRegistros = 0; usuario.suenoHorasTotal = 0;
-          usuario.avatarUrl = null; usuario.diaActual = 1; usuario.puntos = 0; usuario.historial = []; usuario.amigos = []; usuario.penalizado = false;
+          usuario.kilos = 0; 
+          usuario.actividad = 0; 
+          usuario.suenoPruebas = 0; 
+          usuario.suenoRegistros = 0; 
+          usuario.suenoHorasTotal = 0;
+          usuario.avatarUrl = null; 
+          usuario.diaActual = 1; 
+          usuario.puntos = 0; 
+          usuario.historial = []; 
+          usuario.amigos = []; 
+          usuario.penalizado = false;
           await setDoc(doc(db, "usuarios", cred.user.uid), usuario); 
-          showMessage('✅ Cuenta creada con éxito.', false);
-        } catch (err) { showMessage('❌ Error al registrarse: ' + err.message); }
+          showMessage('✅ Cuenta creada.', false);
+        } catch (err) { showMessage('❌ Error: ' + err.message); }
       }
     });
 
@@ -1661,12 +1483,12 @@
       document.getElementById('btnMenuAmigos').classList.remove('hidden'); 
       document.getElementById('btnNotificaciones').classList.remove('hidden'); 
       document.getElementById('loggedInContainer').classList.remove('hidden'); 
-      renderizarPerfil(); renderizarFeed(); 
+      renderizarPerfil(); 
+      renderizarFeed(); 
     }
 
     document.getElementById('btnLogout').addEventListener('click', async () => { 
-      if(confirm('¿Seguro que deseas salir?')) { 
-        // Resetear flags antes de logout
+      if(confirm('¿Cerrar sesión?')) { 
         isAutoLogin = true;
         primeraCarga = true;
         await signOut(auth); 
@@ -1674,9 +1496,7 @@
       } 
     });
 
-    // ==========================================
-    // SISTEMA DE LIGAS ELO
-    // ==========================================
+    // ===== LIGAS =====
     function obtenerRango(pts) {
       if (pts < 100) return { nombre: 'Cobre', icono: '<img src="https://i.ibb.co/81P7sWq/1000051409-removebg-preview.png" />', color: '#B87333', clase: 'cobre', next: 100 };
       if (pts < 250) return { nombre: 'Bronce', icono: '<img src="https://i.ibb.co/93wHrSDV/1000051434-removebg-preview.png" />', color: '#CD7F32', clase: 'bronce', next: 250 };
@@ -1698,286 +1518,49 @@
     
     function renderizarPerfil() {
       recalcularPuntos(); 
-      document.getElementById('nombre').textContent = usuario.nombre; 
-      document.getElementById('edad').textContent = usuario.edad; 
-      document.getElementById('peso').textContent = usuario.peso; 
-      document.getElementById('altura').textContent = usuario.altura; 
-      
+      document.getElementById('nombre').textContent = usuario.nombre || ''; 
+      document.getElementById('edad').textContent = usuario.edad || 0; 
+      document.getElementById('peso').textContent = usuario.peso || 0; 
+      document.getElementById('altura').textContent = usuario.altura || 0; 
       let miImc = calcularIMC(usuario.peso, usuario.altura);
       document.getElementById('imcValor').textContent = miImc > 0 ? miImc.toFixed(1) : '-';
-      
       let pDisplay = Number.isInteger(usuario.puntos) ? usuario.puntos : usuario.puntos.toFixed(1);
       document.getElementById('puntos').textContent = pDisplay; 
-      document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : usuario.kilos; document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
-      
-      // Banner de Penalización
-      if (usuario.penalizado) {
-        document.getElementById('bannerPenalizadoPropio').classList.remove('hidden');
-      } else {
-        document.getElementById('bannerPenalizadoPropio').classList.add('hidden');
-      }
-
+      document.getElementById('kilosValor').textContent = usuario.kilos > 0 ? `+${usuario.kilos}` : (usuario.kilos || 0); 
+      document.getElementById('tagDiaActual').textContent = `Día de Expedición: ${usuario.diaActual || 1}`;
+      if (usuario.penalizado) document.getElementById('bannerPenalizadoPropio').classList.remove('hidden');
+      else document.getElementById('bannerPenalizadoPropio').classList.add('hidden');
       const rango = obtenerRango(usuario.puntos);
-      // Inyectamos la medalla y abajo el nombre
       document.getElementById('rangoBadge').innerHTML = `${rango.icono} <div>${rango.nombre}</div>`; 
-      document.getElementById('rangoBadge').style.color = rango.color; 
       document.getElementById('rangoContainer').className = 'rango-container rango-' + rango.clase;
-      
-      if(rango.next !== 'Max') {
-        document.getElementById('progresoLiga').textContent = `Faltan ${rango.next - usuario.puntos} pts para la siguiente Liga`;
-      } else {
-        document.getElementById('progresoLiga').textContent = `¡Rango Máximo Alcanzado!`;
-      }
-
+      if(rango.next !== 'Max') document.getElementById('progresoLiga').textContent = `Faltan ${rango.next - usuario.puntos} pts`;
+      else document.getElementById('progresoLiga').textContent = `Rango Máximo`;
       const avatarEl = document.getElementById('avatar'); 
       avatarEl.className = `avatar ${rango.clase}`;
-      if (usuario.avatarUrl) { avatarEl.innerHTML = `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />`; } else { avatarEl.innerHTML = `<span>${usuario.nombre ? usuario.nombre.charAt(0).toUpperCase() : '?'}</span>`; }
-      
+      if (usuario.avatarUrl) { avatarEl.innerHTML = `<img src="${usuario.avatarUrl}" style="width:100%;height:100%;object-fit:cover;" />`; } 
+      else { avatarEl.innerHTML = `<span>${usuario.nombre ? usuario.nombre.charAt(0).toUpperCase() : '?'}</span>`; }
       let pAct = usuario.actividad || 0;
       document.getElementById('actividadValor').textContent = `${pAct} / 30`; 
       let pctAct = (pAct / 30) * 100; if (pctAct > 100) pctAct = 100; 
-
       let pSueno = usuario.suenoPruebas || 0;
       let pSuenoHoras = usuario.suenoHorasTotal || 0;
       let pSuenoReg = usuario.suenoRegistros || 0;
       let prom = pSuenoReg > 0 ? (pSuenoHoras / pSuenoReg).toFixed(1) : "0.0";
-      
       document.getElementById('suenoValor').textContent = `${pSueno} / 30`;
       document.getElementById('suenoPromedio').textContent = `Promedio: ${prom}h`;
       let pctSueno = (pSueno / 30) * 100; if(pctSueno > 100) pctSueno = 100; 
-      
       setTimeout(() => { 
         document.getElementById('actividadBarra').style.width = pctAct + '%'; 
         document.getElementById('suenoBarra').style.width = pctSueno + '%';
       }, 100);
     }
 
-    // OPTIMIZACIÓN: Inyección masiva sin Reflow
-    function renderizarFeed() {
-      const feedCont = document.getElementById('feedContainer');
-      const esAdmin = auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-      
-      let filtrados = usuario.historial;
-      if(filtroFeedPersonal !== 'todos') {
-          filtrados = usuario.historial.filter(p => p.tipo === filtroFeedPersonal);
-      }
-
-      if (filtrados.length === 0) { 
-        feedCont.innerHTML = `<div class="empty-feed"><span class="icon">👻</span>Aún no hay actividad de este tipo.</div>`; 
-        return; 
-      }
-      
-      const avatarContent = usuario.avatarUrl ? `<img src="${usuario.avatarUrl}" style="width:100%; height:100%; object-fit:cover;" />` : `<span>${usuario.nombre.charAt(0).toUpperCase()}</span>`;
-      const rango = obtenerRango(usuario.puntos);
-
-      let htmlArmado = '';
-      filtrados.forEach(post => {
-        let feedIcon = post.tipo === 'ejercicio' ? '💪' : (post.tipo === 'sueno' ? '🌙' : '⚖️');
-        let tagText = '';
-        if (post.tipo === 'ejercicio') tagText = categoriasNombre[post.categoria] || 'Actividad Física';
-        else if (post.tipo === 'sueno') tagText = 'Descanso: ' + post.horas + ' horas';
-        else tagText = 'Registro de Peso: ' + post.valorPeso + ' kg';
-
-        const tagHTML = `<div class="feed-tag">${tagText}</div>`; 
-        
-        let fotosArray = post.fotos || (post.foto ? [post.foto] : []);
-        let galleryHTML = '';
-        if (fotosArray.length > 0) {
-          const imgCls = fotosArray.length === 1 ? 'single' : 'multi';
-          const imgTags = fotosArray.map(u => `<img src="${u}" class="feed-img ${imgCls}" onclick="window.abrirFotoCompleta('${u}')" title="Toca para ver en grande">`).join('');
-          galleryHTML = `<div class="feed-gallery">${imgTags}</div>`;
-        }
-        
-        const comentarioHTML = post.comentario ? `<div class="feed-body">${post.comentario}</div>` : '';
-        
-        let votingHTML = '';
-        if (post.estado === 'aprobado') { votingHTML = `<div class="vote-status approved">✅ Validado por la Alianza</div>`; } 
-        else if (post.estado === 'rechazado') { votingHTML = `<div class="vote-status rejected">❌ Evidencia Rechazada</div>`; } 
-        else { 
-            if (esAdmin) {
-                let btnAdmin = `<button onclick="window.aprobarAdminPropio('${post.firebaseId}')" class="btn-vote admin-god" title="Aprobación Divina">🛡️</button>`;
-                votingHTML = `
-                  <div class="vote-actions">
-                    <button onclick="window.votarPostPropio('${post.firebaseId}', true)" class="btn-vote up">👍</button>
-                    <span class="vote-count">${post.votosPositivos || 0}/3</span>
-                    <button onclick="window.votarPostPropio('${post.firebaseId}', false)" class="btn-vote down">👎</button>
-                    ${btnAdmin}
-                  </div>
-                  <div class="vote-status pending">⏳ Pendiente</div>`; 
-            } else {
-                votingHTML = `
-                  <div class="vote-actions" style="justify-content: center; width: 100%;">
-                    <span class="vote-count">👍 Votos recibidos: ${post.votosPositivos || 0}/3</span>
-                  </div>
-                  <div class="vote-status pending">⏳ Esperando votos de la Alianza</div>`; 
-            }
-        }
-        
-        htmlArmado += `<div class="feed-item"><div class="feed-header-item"><div class="feed-avatar ${rango.clase}">${avatarContent}</div><div class="feed-meta"><div class="feed-name">${usuario.nombre}</div><div class="feed-time"><span class="feed-icon">${feedIcon}</span> ${post.fecha}</div></div><div class="feed-post-actions"><button onclick="window.borrarPost('${post.firebaseId}')" title="Borrar" class="btn-delete">🗑</button></div></div>${comentarioHTML}${galleryHTML}${tagHTML}<div class="feed-voting">${votingHTML}</div></div>`;
-      });
-      feedCont.innerHTML = htmlArmado;
-    }
-
-    // ==========================================
-    // VOTACIONES NORMALES (PROPIAS - RESTRINGIDO)
-    // ==========================================
-    window.votarPostPropio = async function(firebaseId, esPositivo) {
-      const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
-      
-      const esAdmin = auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-      if (!esAdmin) {
-          alert('🛡️ Regla de la Alianza: No puedes votar por tus propias evidencias. Espera a que el gremio te califique.');
-          return;
-      }
-
-      if (!post.usuariosVotaron) post.usuariosVotaron = [];
-      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
-
-      if(esPositivo) { 
-        post.votosPositivos = (post.votosPositivos || 0) + 1; 
-        
-        if(post.votosPositivos >= 3) { 
-          post.estado = 'aprobado'; 
-          if (post.tipo === 'ejercicio') usuario.actividad = (usuario.actividad || 0) + 1;
-          else if (post.tipo === 'sueno') {
-             usuario.suenoRegistros = (usuario.suenoRegistros || 0) + 1;
-             usuario.suenoHorasTotal = (usuario.suenoHorasTotal || 0) + post.horas;
-             if(post.horas >= 7) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 1;
-             else if(post.horas === 6) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 0.5;
-          }
-        } 
-      } 
-      else { 
-        post.votosNegativos = (post.votosNegativos || 0) + 1; 
-        if(post.votosNegativos >= 3) post.estado = 'rechazado'; 
-      }
-      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { votosPositivos: post.votosPositivos, votosNegativos: post.votosNegativos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
-      await guardarDatosUsuario(); 
-    };
-
-    // ==========================================
-    // VOTO DE DIOS ADMIN (PROPIAS)
-    // ==========================================
-    window.aprobarAdminPropio = async function(firebaseId) {
-      if(!confirm('🛡️ ¿Usar el Poder del Guild Master para APROBAR esto inmediatamente?')) return;
-      const post = usuario.historial.find(p => p.firebaseId === firebaseId); if(!post || post.estado !== 'pendiente') return;
-      
-      post.votosPositivos = 3; 
-      post.estado = 'aprobado'; 
-      if (!post.usuariosVotaron) post.usuariosVotaron = [];
-      if (!post.usuariosVotaron.includes(usuarioActualUid)) post.usuariosVotaron.push(usuarioActualUid);
-
-      if (post.tipo === 'ejercicio') usuario.actividad = (usuario.actividad || 0) + 1;
-      else if (post.tipo === 'sueno') {
-         usuario.suenoRegistros = (usuario.suenoRegistros || 0) + 1;
-         usuario.suenoHorasTotal = (usuario.suenoHorasTotal || 0) + post.horas;
-         if(post.horas >= 7) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 1;
-         else if(post.horas === 6) usuario.suenoPruebas = (usuario.suenoPruebas || 0) + 0.5;
-      }
-      
-      await updateDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId), { votosPositivos: post.votosPositivos, estado: post.estado, usuariosVotaron: post.usuariosVotaron }); 
-      await guardarDatosUsuario(); 
-    };
-
-    window.borrarPost = async function(firebaseId) {
-      if(confirm('¿Eliminar este registro?')) {
-        const index = usuario.historial.findIndex(p => p.firebaseId === firebaseId);
-        if(index > -1) { 
-          const post = usuario.historial[index]; 
-          await deleteDoc(doc(db, "usuarios", usuarioActualUid, "historial", firebaseId)); 
-          if(post.estado === 'aprobado') { 
-             if (post.tipo === 'ejercicio' && usuario.actividad > 0) {
-                 usuario.actividad--; 
-             } else if (post.tipo === 'sueno') {
-                 usuario.suenoRegistros = Math.max(0, (usuario.suenoRegistros || 0) - 1);
-                 usuario.suenoHorasTotal = Math.max(0, (usuario.suenoHorasTotal || 0) - post.horas);
-                 if (post.horas >= 7) usuario.suenoPruebas = Math.max(0, (usuario.suenoPruebas || 0) - 1);
-                 else if (post.horas === 6) usuario.suenoPruebas = Math.max(0, (usuario.suenoPruebas || 0) - 0.5);
-             }
-             await guardarDatosUsuario(); 
-          } 
-        }
-      }
-    };
-
-    document.getElementById('btnInfoVital').addEventListener('click', () => {
-      const p = usuario.peso, a = usuario.altura, e = usuario.edad, g = usuario.genero || 'M', f = parseFloat(usuario.nivelActividad) || 1.2, grasa = parseFloat(usuario.grasaCorporal);
-      const aCm = a * 100;
-      let bmr = grasa > 0 ? 370 + (21.6 * (p * (1 - (grasa / 100)))) : (g === 'M' ? (10 * p) + (6.25 * aCm) - (5 * e) + 5 : (10 * p) + (6.25 * aCm) - (5 * e) - 161);
-      const tdee = bmr * f;
-      
-      const imc = calcularIMC(p, a); 
-      let textoConsejo = "";
-      let recomendacionAdicional = "";
-
-      if (imc < 18.5) {
-          textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Déficit crítico. Superávit de +300kcal requerido.";
-          let pesoIdealMin = 18.5 * (a * a);
-          let kilosASubir = pesoIdealMin - p;
-          recomendacionAdicional = `<br><br><span style="color:#F39C12;">🎯 Meta de Salud: Subir aprox. <strong>${kilosASubir.toFixed(1)} kg</strong> de masa muscular para un IMC óptimo.</span>`;
-      } else if (imc <= 24.9) {
-          textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Óptimo. Mantén tus calorías de TDEE Diario.";
-          recomendacionAdicional = `<br><br><span style="color:#2ECC71;">🎯 Meta de Salud: ¡Estás en tu peso ideal! Enfócate en mantenimiento.</span>`;
-      } else if (imc <= 29.9) {
-          textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga leve. Aplica déficit de -300kcal.";
-          let pesoIdealMax = 24.9 * (a * a);
-          let kilosABajar = p - pesoIdealMax;
-          let rate = f >= 1.55 ? 0.8 : 0.5; 
-          let semanas = Math.ceil(kilosABajar / rate);
-          recomendacionAdicional = `<br><br><span style="color:#5DADE2;">🎯 Meta de Salud: Bajar aprox. <strong>${kilosABajar.toFixed(1)} kg</strong>.<br>⏱️ Tiempo est. de purificación: <strong>${semanas} semanas</strong> entrenando a tu ritmo actual.</span>`;
-      } else {
-          textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga crítica. Déficit moderado (-500kcal) recomendado.";
-          let pesoIdealMax = 24.9 * (a * a);
-          let kilosABajar = p - pesoIdealMax;
-          let rate = f >= 1.55 ? 0.8 : 0.5; 
-          let semanas = Math.ceil(kilosABajar / rate);
-          recomendacionAdicional = `<br><br><span style="color:#5DADE2;">🎯 Meta de Salud: Bajar aprox. <strong>${kilosABajar.toFixed(1)} kg</strong>.<br>⏱️ Tiempo est. de purificación: <strong>${semanas} semanas</strong> entrenando a tu ritmo actual.</span>`;
-      }
-
-      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span>kcal</span>`; 
-      document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span>kcal</span>`; 
-      document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span>kcal</span>`; 
-      document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(24.9 * (a * a))} <span>kg</span>`; 
-      
-      document.getElementById('statConsejo').innerHTML = textoConsejo + recomendacionAdicional;
-      document.getElementById('modalStats').classList.remove('hidden');
-    });
-    document.getElementById('btnCerrarStats').addEventListener('click', () => document.getElementById('modalStats').classList.add('hidden'));
-
-    document.getElementById('editarPerfil').addEventListener('click', () => {
-      document.getElementById('editNombre').value = usuario.nombre; document.getElementById('editEdad').value = usuario.edad; document.getElementById('editPeso').value = usuario.peso; document.getElementById('editAltura').value = usuario.altura; document.getElementById('editKilos').value = usuario.kilos; document.getElementById('editGenero').value = usuario.genero || 'M'; document.getElementById('editGrasa').value = usuario.grasaCorporal || ''; document.getElementById('editActividad').value = usuario.nivelActividad || 1.2; document.getElementById('editAvatarFile').value = ''; 
-      document.getElementById('modalEditar').classList.remove('hidden');
-    });
-    document.getElementById('cancelarEditar').addEventListener('click', () => document.getElementById('modalEditar').classList.add('hidden'));
-    document.getElementById('guardarEditar').addEventListener('click', async () => {
-      const btnGuardarEditar = document.getElementById('guardarEditar'); const fileInputAvatar = document.getElementById('editAvatarFile'); const fileAvatar = fileInputAvatar.files[0];
-      btnGuardarEditar.textContent = 'Guardando...'; btnGuardarEditar.disabled = true; let nuevaAvatarUrl = usuario.avatarUrl || null;
-      if (fileAvatar) {
-        const formData = new FormData(); formData.append('image', fileAvatar);
-        try { const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData }); const data = await res.json(); if (data.success) nuevaAvatarUrl = data.data.url; else { alert('Error al subir la imagen.'); btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false; return; } } catch (error) { alert('Hubo un error de red.'); btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false; return; }
-      }
-      usuario.avatarUrl = nuevaAvatarUrl; usuario.nombre = document.getElementById('editNombre').value.trim() || usuario.nombre; usuario.edad = parseInt(document.getElementById('editEdad').value) || usuario.edad; usuario.peso = parseFloat(document.getElementById('editPeso').value) || usuario.peso; usuario.altura = parseFloat(document.getElementById('editAltura').value) || usuario.altura; usuario.kilos = parseFloat(document.getElementById('editKilos').value) || usuario.kilos; usuario.genero = document.getElementById('editGenero').value; const gr = document.getElementById('editGrasa').value; usuario.grasaCorporal = gr ? parseFloat(gr) : null; usuario.nivelActividad = parseFloat(document.getElementById('editActividad').value);
-      await guardarDatosUsuario(); renderizarPerfil(); document.getElementById('modalEditar').classList.add('hidden'); btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false;
-    });
-
-    document.getElementById('tipoRegistro').addEventListener('change', (e) => { 
-        const val = e.target.value;
-        document.getElementById('grupoCategoria').classList.add('hidden'); 
-        document.getElementById('grupoSueno').classList.add('hidden'); 
-        document.getElementById('grupoPeso').classList.add('hidden');
-
-        if (val === 'ejercicio') document.getElementById('grupoCategoria').classList.remove('hidden'); 
-        else if (val === 'sueno') document.getElementById('grupoSueno').classList.remove('hidden'); 
-        else if (val === 'peso') document.getElementById('grupoPeso').classList.remove('hidden'); 
-    });
-
+    // ===== REGISTRO DE ACTIVIDAD =====
     const abrirModalReg = () => { 
         document.getElementById('tituloModalActividad').textContent = '✦ Registro Diario'; 
         document.getElementById('guardarActividad').textContent = 'Someter a Votación'; 
-        
         document.getElementById('tipoRegistro').value = 'ejercicio';
         document.getElementById('tipoRegistro').dispatchEvent(new Event('change'));
-        
         document.getElementById('catEjercicio').value = '';
         document.getElementById('horasSueno').value = '';
         document.getElementById('valorPesoActividad').value = '';
@@ -1990,6 +1573,16 @@
     document.getElementById('btnAbrirActividadFeed').addEventListener('click', abrirModalReg); 
     document.getElementById('cancelarActividad').addEventListener('click', () => document.getElementById('modalActividad').classList.add('hidden'));
 
+    document.getElementById('tipoRegistro').addEventListener('change', (e) => { 
+        const val = e.target.value;
+        document.getElementById('grupoCategoria').classList.add('hidden'); 
+        document.getElementById('grupoSueno').classList.add('hidden'); 
+        document.getElementById('grupoPeso').classList.add('hidden');
+        if (val === 'ejercicio') document.getElementById('grupoCategoria').classList.remove('hidden'); 
+        else if (val === 'sueno') document.getElementById('grupoSueno').classList.remove('hidden'); 
+        else if (val === 'peso') document.getElementById('grupoPeso').classList.remove('hidden'); 
+    });
+
     document.getElementById('guardarActividad').addEventListener('click', async () => {
       const tipo = document.getElementById('tipoRegistro').value; 
       const categoria = document.getElementById('catEjercicio').value; 
@@ -2000,74 +1593,137 @@
       const files = Array.from(fileInput.files);
       const btnGuardar = document.getElementById('guardarActividad');
       
-      if (tipo === 'ejercicio' && !categoria) { alert("Selecciona categoría de ejercicio."); return; }
-      if (tipo === 'sueno' && !horas) { alert("Selecciona las horas de sueño."); return; }
-      if (tipo === 'peso' && !valPeso) { alert("Ingresa tu peso actual."); return; }
-      
-      if (files.length > 3) {
-        alert("Máximo 3 fotos permitidas por registro.");
-        return;
-      }
+      if (tipo === 'ejercicio' && !categoria) { alert("Selecciona categoría."); return; }
+      if (tipo === 'sueno' && !horas) { alert("Selecciona horas."); return; }
+      if (tipo === 'peso' && !valPeso) { alert("Ingresa tu peso."); return; }
+      if (files.length > 3) { alert("Máximo 3 fotos."); return; }
 
-      btnGuardar.textContent = 'Subiendo evidencias...'; 
-      btnGuardar.disabled = true; 
+      btnGuardar.textContent = '...'; btnGuardar.disabled = true; 
       
       let fotosUrls = [];
       if (files.length > 0) {
         for (let i = 0; i < files.length; i++) {
           const f = files[i];
-          btnGuardar.textContent = `Subiendo foto ${i + 1}/${files.length}...`;
-          const formData = new FormData(); 
-          formData.append('image', f);
+          const formData = new FormData(); formData.append('image', f);
           try { 
             const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData }); 
             const data = await res.json(); 
-            if (data.success) {
-              fotosUrls.push(data.data.url);
-            } else { 
-              alert('Error al subir una de las imágenes.'); 
-              btnGuardar.textContent = 'Someter a Votación'; 
-              btnGuardar.disabled = false; 
-              return; 
-            } 
-          } catch (error) { 
-            alert('Error de conexión al subir imágenes.'); 
-            btnGuardar.textContent = 'Someter a Votación'; 
-            btnGuardar.disabled = false; 
-            return; 
-          }
+            if (data.success) fotosUrls.push(data.data.url);
+            else { alert('Error al subir imagen.'); btnGuardar.textContent = 'Someter a Votación'; btnGuardar.disabled = false; return; } 
+          } catch (error) { alert('Error de conexión.'); btnGuardar.textContent = 'Someter a Votación'; btnGuardar.disabled = false; return; }
         }
       }
       
       const nuevoPost = { 
-          id: Date.now(), 
-          tipo: tipo, 
+          id: Date.now(), tipo: tipo, 
           categoria: tipo === 'ejercicio' ? categoria : null, 
           horas: tipo === 'sueno' ? parseInt(horas) : null,
           valorPeso: tipo === 'peso' ? parseFloat(valPeso) : null,
           comentario: comentario, 
           fecha: new Date().toLocaleDateString('es-MX', { hour: '2-digit', minute: '2-digit' }), 
           fotos: fotosUrls,
-          foto: fotosUrls.length > 0 ? fotosUrls[0] : null, // Retrocompatibilidad
-          votosPositivos: 0, 
-          votosNegativos: 0, 
-          usuariosVotaron: [], 
-          estado: 'pendiente' 
+          foto: fotosUrls.length > 0 ? fotosUrls[0] : null,
+          votosPositivos: 0, votosNegativos: 0, usuariosVotaron: [], estado: 'pendiente',
+          comentarios: []
       };
       
       try { 
           await addDoc(collection(db, "usuarios", usuarioActualUid, "historial"), nuevoPost); 
-          
-          await addDoc(collection(db, "notificaciones"), {
-            id: Date.now(), para: 'global', creadorNombre: usuario.nombre,
-            mensaje: `📸 Tu amigo ${usuario.nombre} acaba de subir una nueva prueba.`
-          });
-
+          await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: 'global', creadorNombre: usuario.nombre, mensaje: `${usuario.nombre} subió una nueva prueba.` });
           document.getElementById('modalActividad').classList.add('hidden'); 
           document.getElementById('btnTabFeed').click(); 
       } catch (err) { alert('Error al guardar.'); }
       
       btnGuardar.textContent = 'Someter a Votación'; btnGuardar.disabled = false;
+    });
+
+    // ===== EDITAR PERFIL =====
+    document.getElementById('editarPerfil').addEventListener('click', () => {
+      document.getElementById('editNombre').value = usuario.nombre || ''; 
+      document.getElementById('editEdad').value = usuario.edad || ''; 
+      document.getElementById('editPeso').value = usuario.peso || ''; 
+      document.getElementById('editAltura').value = usuario.altura || ''; 
+      document.getElementById('editKilos').value = usuario.kilos || 0; 
+      document.getElementById('editGenero').value = usuario.genero || 'M'; 
+      document.getElementById('editGrasa').value = usuario.grasaCorporal || ''; 
+      document.getElementById('editActividad').value = usuario.nivelActividad || 1.2; 
+      document.getElementById('editAvatarFile').value = ''; 
+      document.getElementById('modalEditar').classList.remove('hidden');
+    });
+    document.getElementById('cancelarEditar').addEventListener('click', () => document.getElementById('modalEditar').classList.add('hidden'));
+    document.getElementById('guardarEditar').addEventListener('click', async () => {
+      const btnGuardarEditar = document.getElementById('guardarEditar'); 
+      const fileInputAvatar = document.getElementById('editAvatarFile'); 
+      const fileAvatar = fileInputAvatar.files[0];
+      btnGuardarEditar.textContent = '...'; btnGuardarEditar.disabled = true; 
+      let nuevaAvatarUrl = usuario.avatarUrl || null;
+      if (fileAvatar) {
+        const formData = new FormData(); formData.append('image', fileAvatar);
+        try { 
+          const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData }); 
+          const data = await res.json(); 
+          if (data.success) nuevaAvatarUrl = data.data.url; 
+          else { alert('Error al subir.'); btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false; return; } 
+        } catch (error) { alert('Error de red.'); btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false; return; }
+      }
+      usuario.avatarUrl = nuevaAvatarUrl; 
+      usuario.nombre = document.getElementById('editNombre').value.trim() || usuario.nombre; 
+      usuario.edad = parseInt(document.getElementById('editEdad').value) || usuario.edad; 
+      usuario.peso = parseFloat(document.getElementById('editPeso').value) || usuario.peso; 
+      usuario.altura = parseFloat(document.getElementById('editAltura').value) || usuario.altura; 
+      usuario.kilos = parseFloat(document.getElementById('editKilos').value) || usuario.kilos; 
+      usuario.genero = document.getElementById('editGenero').value; 
+      const gr = document.getElementById('editGrasa').value; 
+      usuario.grasaCorporal = gr ? parseFloat(gr) : null; 
+      usuario.nivelActividad = parseFloat(document.getElementById('editActividad').value);
+      await guardarDatosUsuario(); 
+      renderizarPerfil(); 
+      document.getElementById('modalEditar').classList.add('hidden'); 
+      btnGuardarEditar.textContent = 'Guardar'; btnGuardarEditar.disabled = false;
+    });
+
+    // ===== ESTADÍSTICAS =====
+    document.getElementById('btnInfoVital').addEventListener('click', () => {
+      const p = usuario.peso || 0, a = usuario.altura || 0, e = usuario.edad || 0, g = usuario.genero || 'M', f = parseFloat(usuario.nivelActividad) || 1.2, grasa = parseFloat(usuario.grasaCorporal);
+      const aCm = a * 100;
+      let bmr = grasa > 0 ? 370 + (21.6 * (p * (1 - (grasa / 100)))) : (g === 'M' ? (10 * p) + (6.25 * aCm) - (5 * e) + 5 : (10 * p) + (6.25 * aCm) - (5 * e) - 161);
+      const tdee = bmr * f;
+      const imc = calcularIMC(p, a); 
+      let textoConsejo = "";
+      if (imc < 18.5) textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Déficit crítico. Superávit de +300kcal.";
+      else if (imc <= 24.9) textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Óptimo. Mantén tus calorías.";
+      else if (imc <= 29.9) textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga leve. Déficit de -300kcal.";
+      else textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga crítica. Déficit de -500kcal.";
+      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span style="font-size:12px;">kcal</span>`; 
+      document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span style="font-size:12px;">kcal</span>`; 
+      document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span style="font-size:12px;">kcal</span>`; 
+      document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(24.9 * (a * a))} <span style="font-size:12px;">kg</span>`; 
+      document.getElementById('statConsejo').innerHTML = textoConsejo;
+      document.getElementById('modalStats').classList.remove('hidden');
+    });
+    document.getElementById('btnCerrarStats').addEventListener('click', () => document.getElementById('modalStats').classList.add('hidden'));
+
+    // ===== GUARDAR ADMIN =====
+    document.getElementById('btnGuardarAdmin').addEventListener('click', async () => {
+      if(!currentAmigoView) return;
+      const nuevoAct = parseInt(document.getElementById('adminInputAct').value) || 0;
+      const nuevoSueno = parseFloat(document.getElementById('adminInputSueno').value) || 0;
+      const nuevoKilos = parseFloat(document.getElementById('adminInputKilos').value) || 0;
+      const nuevaPenalizacion = document.getElementById('adminTogglePenalizacion').checked;
+      const penalizacionPrevia = currentAmigoView.data.penalizado || false;
+      const amigoRef = doc(db, "usuarios", currentAmigoView.uid);
+      await updateDoc(amigoRef, { actividad: nuevoAct, suenoPruebas: nuevoSueno, kilos: nuevoKilos, penalizado: nuevaPenalizacion });
+      if(nuevaPenalizacion && !penalizacionPrevia){
+          await addDoc(collection(db, "notificaciones"), { id: Date.now(), para: 'global', creadorNombre: currentAmigoView.data.nombre, mensaje: `⚠️ ${currentAmigoView.data.nombre} ha sido penalizado.` });
+      }
+      alert('Parámetros ajustados.');
+      document.getElementById('btnVolverMiPerfil').click();
+    });
+
+    document.getElementById('btnVolverMiPerfil').addEventListener('click', () => { 
+      if (unsubscribeAmigoFeed) unsubscribeAmigoFeed();
+      document.getElementById('friendContainer').classList.add('hidden'); 
+      document.getElementById('loggedInContainer').classList.remove('hidden'); 
     });
 
   </script>
