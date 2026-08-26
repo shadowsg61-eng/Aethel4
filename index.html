@@ -33,6 +33,82 @@
       transition: background 0.5s ease;
     }
 
+    /* ===== PANTALLA DE CARGA ===== */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #000000;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      opacity: 1;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+      will-change: opacity;
+    }
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .loading-logo {
+      width: 220px;
+      height: auto;
+      object-fit: contain;
+      animation: logoEntrance 1s ease-out;
+      will-change: transform, opacity;
+    }
+    @keyframes logoEntrance {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .loading-welcome {
+      color: #FFFFFF;
+      font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      text-align: center;
+      animation: fadeInUp 0.6s ease-out 0.4s both;
+    }
+    .loading-connecting {
+      color: #8A8F9A;
+      font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      animation: fadeInUp 0.6s ease-out 0.6s both;
+    }
+    .loading-dots {
+      display: inline-flex;
+      margin-left: 4px;
+      min-width: 30px;
+      font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+    }
+    .loading-dot {
+      opacity: 0;
+      animation: dotPulse 1.5s infinite;
+      will-change: opacity;
+    }
+    .loading-dot:nth-child(1) { animation-delay: 0s; }
+    .loading-dot:nth-child(2) { animation-delay: 0.4s; }
+    .loading-dot:nth-child(3) { animation-delay: 0.8s; }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+    @keyframes fadeInUp {
+      from { transform: translateY(15px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
     .container { width: 100%; max-width: 480px; position: relative; z-index: 1; margin: auto; padding-bottom: 20px;}
 
     .card {
@@ -378,6 +454,9 @@
     @media (max-width: 520px) {
       .card { padding: 24px 16px 16px; }
       .logo-principal { max-width: 150px; }
+      .loading-logo { width: 160px; }
+      .loading-welcome { font-size: 18px; }
+      .loading-connecting { font-size: 13px; }
       .rango-container { flex-direction: column; text-align: center; gap: 20px; padding: 16px; }
       .rango-info { align-items: center; }
       .rango-badge { font-size: 20px; justify-content: center; text-align: center; }
@@ -389,6 +468,15 @@
 
 </head>
 <body>
+
+  <!-- ===== PANTALLA DE CARGA (SOLO AUTO-LOGIN) ===== -->
+  <div id="loadingScreen" class="loading-screen hidden">
+    <img src="https://i.postimg.cc/XYz5y3pH/1000051537-removebg-preview.png" alt="Aethel 4 Logo" class="loading-logo" />
+    <div class="loading-welcome" id="loadingWelcome">Welcome</div>
+    <div class="loading-connecting">
+      Connecting<span class="loading-dots"><span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></span>
+    </div>
+  </div>
 
   <div class="container">
     <div class="card">
@@ -820,6 +908,8 @@
     
     const categoriasNombre = { pesas: "💪 Pesas", caminadora: "🏃‍♀️ Cinta", correr_exterior: "🌲 Running", caminar: "🚶 Senderismo", ciclismo: "🚴 Ciclismo", natacion: "🏊 Natación", yoga: "🧘 Yoga", crossfit: "🏋️ CrossFit", calistenia: "🤸 Calistenia", otro: "✨ Entrenamiento" };
     let isLogin = true;
+    let isAutoLogin = true; // Por defecto asume auto-login
+    let primeraCarga = true; // Para detectar primer onAuthStateChanged
 
     // SISTEMA DE THEME TOGGLE
     const btnThemeToggle = document.getElementById('btnThemeToggle');
@@ -834,6 +924,26 @@
         localStorage.setItem('theme', 'blue');
       }
     });
+
+    // Función para mostrar pantalla de carga
+    function mostrarPantallaCarga(user) {
+      const loadingScreen = document.getElementById('loadingScreen');
+      const loadingWelcome = document.getElementById('loadingWelcome');
+      
+      // Actualizar el nombre del usuario
+      loadingWelcome.textContent = `Welcome ${usuario.nombre}`;
+      
+      // Mostrar pantalla de carga
+      loadingScreen.classList.remove('hidden');
+      
+      // Ocultar después de 2.5 segundos
+      setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+      }, 2500);
+      
+      // Marcar que ya se mostró
+      isAutoLogin = false;
+    }
 
     // TABS Y NAVEGACIÓN
     const btnTabPerfil = document.getElementById('btnTabPerfil');
@@ -1448,14 +1558,37 @@
     // SISTEMA PRINCIPAL Y SESIÓN
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        usuarioActualUid = user.uid; await cargarDatosUsuario(user.uid);
-        escucharHistorialUsuario(user.uid); escucharTablonGlobal(); escucharNotificacionesGlobales();
+        usuarioActualUid = user.uid; 
+        await cargarDatosUsuario(user.uid);
+        
+        // Mostrar pantalla de carga SOLO si es auto-login (primera carga)
+        if (isAutoLogin && primeraCarga) {
+          mostrarPantallaCarga(user);
+        }
+        
+        escucharHistorialUsuario(user.uid); 
+        escucharTablonGlobal(); 
+        escucharNotificacionesGlobales();
         mostrarApp();
+        
+        // Después del primer onAuthStateChanged, ya no es auto-login
+        primeraCarga = false;
       } else {
         usuarioActualUid = null; 
-        if (unsubscribeUserFeed) unsubscribeUserFeed(); if (unsubscribeAmigoFeed) unsubscribeAmigoFeed(); if (unsubscribeTablon) unsubscribeTablon(); if (unsubscribeNotifs) unsubscribeNotifs();
-        document.getElementById('loginSection').classList.remove('hidden'); document.getElementById('loggedInContainer').classList.add('hidden'); document.getElementById('friendContainer').classList.add('hidden');
-        document.getElementById('btnMenuAmigos').classList.add('hidden'); document.getElementById('btnNotificaciones').classList.add('hidden'); document.getElementById('lemaLogin').classList.remove('hidden');
+        if (unsubscribeUserFeed) unsubscribeUserFeed(); 
+        if (unsubscribeAmigoFeed) unsubscribeAmigoFeed(); 
+        if (unsubscribeTablon) unsubscribeTablon(); 
+        if (unsubscribeNotifs) unsubscribeNotifs();
+        document.getElementById('loginSection').classList.remove('hidden'); 
+        document.getElementById('loggedInContainer').classList.add('hidden'); 
+        document.getElementById('friendContainer').classList.add('hidden');
+        document.getElementById('btnMenuAmigos').classList.add('hidden'); 
+        document.getElementById('btnNotificaciones').classList.add('hidden'); 
+        document.getElementById('lemaLogin').classList.remove('hidden');
+        
+        // Resetear flags cuando no hay usuario
+        isAutoLogin = true;
+        primeraCarga = true;
       }
     });
 
@@ -1493,11 +1626,22 @@
       e.preventDefault(); const email = document.getElementById('email').value.trim(); const password = document.getElementById('password').value.trim();
       if (isLogin) {
         if (!email || !password) { showMessage('Completa todos los campos.'); return; }
-        try { await signInWithEmailAndPassword(auth, email, password); showMessage('✅ Acceso concedido.', false); } catch (err) { showMessage('❌ Error: Credenciales incorrectas o usuario no existe.'); }
+        try { 
+          // Marcar como login manual (NO mostrar pantalla de carga)
+          isAutoLogin = false;
+          primeraCarga = false;
+          
+          await signInWithEmailAndPassword(auth, email, password); 
+          showMessage('✅ Acceso concedido.', false); 
+        } catch (err) { showMessage('❌ Error: Credenciales incorrectas o usuario no existe.'); }
       } else {
         const nombre = document.getElementById('regNombre').value.trim(); const edad = parseInt(document.getElementById('regEdad').value); const peso = parseFloat(document.getElementById('regPeso').value); const altura = parseFloat(document.getElementById('regAltura').value);
         if (!email || !password || !nombre || isNaN(edad) || isNaN(peso) || isNaN(altura)) { showMessage('Faltan campos principales.'); return; }
         try {
+          // Marcar como registro manual (NO mostrar pantalla de carga)
+          isAutoLogin = false;
+          primeraCarga = false;
+          
           const cred = await createUserWithEmailAndPassword(auth, email, password);
           usuario.nombre = nombre; usuario.edad = edad; usuario.peso = peso; usuario.altura = altura; usuario.genero = document.getElementById('regGenero').value;
           const grasa = document.getElementById('regGrasa').value; usuario.grasaCorporal = grasa ? parseFloat(grasa) : null;
@@ -1505,7 +1649,8 @@
           usuario.kilos = 0; usuario.actividad = 0; 
           usuario.suenoPruebas = 0; usuario.suenoRegistros = 0; usuario.suenoHorasTotal = 0;
           usuario.avatarUrl = null; usuario.diaActual = 1; usuario.puntos = 0; usuario.historial = []; usuario.amigos = []; usuario.penalizado = false;
-          await setDoc(doc(db, "usuarios", cred.user.uid), usuario); showMessage('✅ Cuenta creada con éxito.', false);
+          await setDoc(doc(db, "usuarios", cred.user.uid), usuario); 
+          showMessage('✅ Cuenta creada con éxito.', false);
         } catch (err) { showMessage('❌ Error al registrarse: ' + err.message); }
       }
     });
@@ -1519,7 +1664,15 @@
       renderizarPerfil(); renderizarFeed(); 
     }
 
-    document.getElementById('btnLogout').addEventListener('click', async () => { if(confirm('¿Seguro que deseas salir?')) { await signOut(auth); toggleDrawer(); } });
+    document.getElementById('btnLogout').addEventListener('click', async () => { 
+      if(confirm('¿Seguro que deseas salir?')) { 
+        // Resetear flags antes de logout
+        isAutoLogin = true;
+        primeraCarga = true;
+        await signOut(auth); 
+        toggleDrawer(); 
+      } 
+    });
 
     // ==========================================
     // SISTEMA DE LIGAS ELO
