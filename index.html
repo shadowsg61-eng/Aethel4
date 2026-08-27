@@ -131,8 +131,22 @@
     .rango-container { background: rgba(0, 0, 0, 0.3); border-radius: 16px; padding: 24px 20px; margin-bottom: 28px; border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
     .rango-info .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #8A8F9A; }
     .rango-info .imc { font-size: 13px; color: #E8E6E3; margin-top: 6px; }
-    .rango-badge { font-size: 26px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-    .rango-badge img { width: 150px; height: 150px; object-fit: contain; }
+    .rango-badge { font-size: 26px; font-weight: 700; line-height: 1; display: flex; flex-direction: column; align-items: center; gap: 12px; color: #E8E6E3; }
+    .rango-badge div { color: #E8E6E3 !important; }
+    .rango-badge img { 
+      width: 150px; 
+      height: 150px; 
+      object-fit: contain; 
+      filter: drop-shadow(0 0 25px currentColor); 
+      margin: 0; 
+      animation: floatMedal 3s ease-in-out infinite; 
+      transform: translateZ(0) scale(1.6); 
+      will-change: transform, filter; 
+    }
+    @keyframes floatMedal { 
+      0%, 100% { transform: translateZ(0) translateY(0) scale(1.6); } 
+      50% { transform: translateZ(0) translateY(-8px) scale(1.6); } 
+    }
 
     .criterios { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
     .criterio { display: grid; grid-template-columns: 100px 1fr 50px; align-items: center; gap: 12px; }
@@ -246,6 +260,12 @@
     .modal-consola { background: #000; border: 1px solid #E74C3C; }
     .consola-output { font-family: monospace; color: #2ECC71; font-size: 12px; height: 120px; overflow-y: auto; margin-bottom: 12px; padding: 8px; }
     .consola-input { font-family: monospace; background: transparent; border: none; border-bottom: 1px solid #E74C3C; color: #E74C3C; width: 100%; padding: 8px; outline: none; }
+
+    /* ===== ESTADÍSTICAS (OJO DE INFORMACIÓN) ===== */
+    .stat-box .title { font-size: 11px; color: #5DADE2; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; transition: color 0.3s; }
+    .stat-box .val { font-size: 20px; color: #5DADE2; font-weight: 300; transition: color 0.3s; }
+    #statConsejo { color: #E8E6E3; font-size: 14px; line-height: 1.5; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; }
+    #statConsejo strong { color: #5DADE2; font-weight: 600; transition: color 0.3s; }
 
     @media (max-width: 520px) {
       .card { padding: 24px 16px 16px; }
@@ -447,12 +467,12 @@
     <div class="modal">
       <h2>✦ Ventana de Estado</h2>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
-        <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:#8A8F9A;">TDEE Diario</div><div id="statTdeeDiario" style="font-size:20px; color:#E8E6E3;">0 <span style="font-size:12px;">kcal</span></div></div>
-        <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:#8A8F9A;">TDEE Semanal</div><div id="statTdeeSemanal" style="font-size:20px; color:#E8E6E3;">0 <span style="font-size:12px;">kcal</span></div></div>
-        <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:#8A8F9A;">BMR</div><div id="statBmr" style="font-size:20px; color:#E8E6E3;">0 <span style="font-size:12px;">kcal</span></div></div>
-        <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:#8A8F9A;">Peso Ideal</div><div id="statPesoIdeal" style="font-size:20px; color:#E8E6E3;">0 <span style="font-size:12px;">kg</span></div></div>
+        <div class="stat-box" style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div class="title">TDEE Diario</div><div class="val" id="statTdeeDiario">0 <span style="font-size:12px; color:#8A8F9A;">kcal</span></div></div>
+        <div class="stat-box" style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div class="title">TDEE Semanal</div><div class="val" id="statTdeeSemanal">0 <span style="font-size:12px; color:#8A8F9A;">kcal</span></div></div>
+        <div class="stat-box" style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div class="title">BMR</div><div class="val" id="statBmr">0 <span style="font-size:12px; color:#8A8F9A;">kcal</span></div></div>
+        <div class="stat-box" style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; text-align:center;"><div class="title">Peso Ideal</div><div class="val" id="statPesoIdeal">0 <span style="font-size:12px; color:#8A8F9A;">kg</span></div></div>
       </div>
-      <div id="statConsejo" style="color:#E8E6E3; font-size:14px; line-height:1.5; background:rgba(0,0,0,0.2); padding:14px; border-radius:12px;">Calculando...</div>
+      <div id="statConsejo">Calculando...</div>
       <div class="acciones-modal"><button class="cancelar" id="btnCerrarStats" style="width: 100%;">Cerrar</button></div>
     </div>
   </div>
@@ -1694,10 +1714,10 @@
       else if (imc <= 24.9) textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Óptimo. Mantén tus calorías.";
       else if (imc <= 29.9) textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga leve. Déficit de -300kcal.";
       else textoConsejo = "<strong>[IMC: " + imc.toFixed(1) + "]</strong> Sobrecarga crítica. Déficit de -500kcal.";
-      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span style="font-size:12px;">kcal</span>`; 
-      document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span style="font-size:12px;">kcal</span>`; 
-      document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span style="font-size:12px;">kcal</span>`; 
-      document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(24.9 * (a * a))} <span style="font-size:12px;">kg</span>`; 
+      document.getElementById('statBmr').innerHTML = `${Math.round(bmr)} <span style="font-size:12px; color:#8A8F9A;">kcal</span>`; 
+      document.getElementById('statTdeeDiario').innerHTML = `${Math.round(tdee)} <span style="font-size:12px; color:#8A8F9A;">kcal</span>`; 
+      document.getElementById('statTdeeSemanal').innerHTML = `${Math.round(tdee * 7)} <span style="font-size:12px; color:#8A8F9A;">kcal</span>`; 
+      document.getElementById('statPesoIdeal').innerHTML = `~${Math.round(24.9 * (a * a))} <span style="font-size:12px; color:#8A8F9A;">kg</span>`; 
       document.getElementById('statConsejo').innerHTML = textoConsejo;
       document.getElementById('modalStats').classList.remove('hidden');
     });
