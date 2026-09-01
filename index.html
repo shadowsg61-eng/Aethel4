@@ -57,6 +57,73 @@
     @keyframes dotPulse { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
     @keyframes fadeInUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
+    /* ===== ANIMACIÓN X2 (GLITCH + MÁQUINA DE ESCRIBIR) ===== */
+    .x2-screen {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      background: #000000; z-index: 9998; display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .x2-screen.active { opacity: 1; visibility: visible; pointer-events: auto; }
+    .x2-screen.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
+    
+    .x2-glitch-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: #000; overflow: hidden; z-index: 1;
+    }
+    .x2-glitch-line {
+      position: absolute; left: 0; width: 100%; height: 2px;
+      background: rgba(255,255,255,0.08); animation: glitchLineMove 0.15s infinite linear;
+    }
+    @keyframes glitchLineMove {
+      0% { transform: translateY(-10px); opacity: 0.3; }
+      50% { transform: translateY(10px); opacity: 0.7; }
+      100% { transform: translateY(-10px); opacity: 0.3; }
+    }
+    .x2-glitch-text {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-family: 'Courier New', monospace; font-size: 14px; color: #A1A1AA;
+      letter-spacing: 3px; text-transform: uppercase; animation: glitchTextFlicker 0.1s infinite;
+    }
+    @keyframes glitchTextFlicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    
+    .x2-content {
+      position: relative; z-index: 2; text-align: center; padding: 20px;
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+      opacity: 0; transition: opacity 0.5s ease;
+    }
+    .x2-content.visible { opacity: 1; }
+    
+    .x2-logo { width: 180px; height: auto; object-fit: contain; }
+    
+    .x2-typewriter {
+      font-family: 'Courier New', monospace; font-size: 14px; color: #E8E6E3;
+      text-align: center; line-height: 1.8; min-height: 80px; letter-spacing: 1px;
+    }
+    .x2-cursor {
+      display: inline-block; width: 8px; height: 14px; background: #A1A1AA;
+      animation: cursorBlink 0.8s infinite; vertical-align: middle; margin-left: 2px;
+    }
+    @keyframes cursorBlink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+    
+    .x2-reward {
+      font-family: 'Courier New', monospace; font-size: 18px; color: #E8E6E3;
+      letter-spacing: 3px; text-transform: uppercase; animation: rewardPulse 2s infinite;
+    }
+    @keyframes rewardPulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+    
+    .x2-btn-continue {
+      background: transparent; border: 1px solid #3f3f46; color: #E8E6E3;
+      font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 3px;
+      text-transform: uppercase; padding: 10px 30px; cursor: pointer;
+      transition: all 0.3s ease; border-radius: 2px; margin-top: 10px;
+    }
+    .x2-btn-continue:hover { background: #1a1a1e; border-color: #A1A1AA; }
+
     .container { width: 100%; max-width: 480px; position: relative; z-index: 1; margin: auto; padding-bottom: 20px; }
     .card {
       background: rgba(19, 32, 58, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -134,19 +201,12 @@
     .rango-badge { font-size: 26px; font-weight: 700; line-height: 1; display: flex; flex-direction: column; align-items: center; gap: 12px; color: #E8E6E3; }
     .rango-badge div { color: #E8E6E3 !important; }
     .rango-badge img { 
-      width: 150px; 
-      height: 150px; 
-      object-fit: contain; 
-      filter: drop-shadow(0 0 25px currentColor); 
-      margin: 0; 
+      width: 150px; height: 150px; object-fit: contain; 
+      filter: drop-shadow(0 0 25px currentColor); margin: 0; 
       animation: floatMedal 3s ease-in-out infinite; 
-      transform: translateZ(0) scale(1.6); 
-      will-change: transform, filter; 
+      transform: translateZ(0) scale(1.6); will-change: transform, filter; 
     }
-    @keyframes floatMedal { 
-      0%, 100% { transform: translateZ(0) translateY(0) scale(1.6); } 
-      50% { transform: translateZ(0) translateY(-8px) scale(1.6); } 
-    }
+    @keyframes floatMedal { 0%, 100% { transform: translateZ(0) translateY(0) scale(1.6); } 50% { transform: translateZ(0) translateY(-8px) scale(1.6); } }
 
     .criterios { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
     .criterio { display: grid; grid-template-columns: 100px 1fr 50px; align-items: center; gap: 12px; }
@@ -261,7 +321,6 @@
     .consola-output { font-family: monospace; color: #2ECC71; font-size: 12px; height: 120px; overflow-y: auto; margin-bottom: 12px; padding: 8px; }
     .consola-input { font-family: monospace; background: transparent; border: none; border-bottom: 1px solid #E74C3C; color: #E74C3C; width: 100%; padding: 8px; outline: none; }
 
-    /* ===== ESTADÍSTICAS (OJO DE INFORMACIÓN) ===== */
     .stat-box .title { font-size: 11px; color: #5DADE2; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; transition: color 0.3s; }
     .stat-box .val { font-size: 20px; color: #5DADE2; font-weight: 300; transition: color 0.3s; }
     #statConsejo { color: #E8E6E3; font-size: 14px; line-height: 1.5; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; }
@@ -276,15 +335,35 @@
       .rango-badge img { width: 140px; height: 140px; }
       .puntos-valor { font-size: 36px; }
       .drawer { width: 85%; }
+      .x2-logo { width: 140px; }
+      .x2-typewriter { font-size: 12px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- PANTALLA DE CARGA -->
   <div id="loadingScreen" class="loading-screen hidden">
     <img src="https://i.postimg.cc/XYz5y3pH/1000051537-removebg-preview.png" alt="Aethel 4 Logo" class="loading-logo" />
     <div class="loading-welcome" id="loadingWelcome">Welcome</div>
     <div class="loading-connecting">Connecting<span class="loading-dots"><span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></span></div>
+  </div>
+
+  <!-- PANTALLA X2 (GLITCH + MÁQUINA DE ESCRIBIR) -->
+  <div id="x2Screen" class="x2-screen">
+    <div class="x2-glitch-overlay" id="x2GlitchOverlay">
+      <div class="x2-glitch-line" style="top: 15%;"></div>
+      <div class="x2-glitch-line" style="top: 35%; animation-delay: 0.05s;"></div>
+      <div class="x2-glitch-line" style="top: 55%; animation-delay: 0.1s;"></div>
+      <div class="x2-glitch-line" style="top: 75%; animation-delay: 0.15s;"></div>
+      <div class="x2-glitch-text" id="x2GlitchText">ESTABLECIENDO CONEXIÓN...</div>
+    </div>
+    <div class="x2-content" id="x2Content">
+      <img src="https://i.postimg.cc/XYz5y3pH/1000051537-removebg-preview.png" alt="Aethel 4 Logo" class="x2-logo" id="x2Logo" />
+      <div class="x2-typewriter" id="x2Typewriter"></div>
+      <div class="x2-reward hidden" id="x2Reward">[ X2 ACTIVADO ]</div>
+      <button class="x2-btn-continue hidden" id="x2BtnContinue">[ CONTINUAR ]</button>
+    </div>
   </div>
 
   <div class="container">
@@ -606,7 +685,7 @@
     let usuario = { 
         nombre: '', edad: 0, peso: 0, altura: 0, genero: 'M', grasaCorporal: null, nivelActividad: 1.2, 
         puntos: 0, kilos: 0, actividad: 0, suenoPruebas: 0, suenoHorasTotal: 0, suenoRegistros: 0, 
-        avatarUrl: null, diaActual: 1, historial: [], amigos: [], penalizado: false
+        avatarUrl: null, diaActual: 1, historial: [], amigos: [], penalizado: false, vioAnimacionX2: false
     };
     
     let currentAmigoView = null;
@@ -625,11 +704,104 @@
     let filtroFeedAmigo = 'todos';
     let currentAmigoHistorial = [];
     let postEditandoId = null;
+    let eventoX2 = { activo: false };
+    let x2Texto = '> Evaluación inicial completada.\n> Rendimiento del grupo: aceptable.\n> Recompensa desbloqueada: X2 global.';
     
     const categoriasNombre = { pesas: "💪 Pesas", caminadora: "🏃‍♀️ Cinta", correr_exterior: "🌲 Running", caminar: "🚶 Senderismo", ciclismo: "🚴 Ciclismo", natacion: "🏊 Natación", yoga: "🧘 Yoga", crossfit: "🏋️ CrossFit", calistenia: "🤸 Calistenia", otro: "✨ Entrenamiento" };
     let isLogin = true;
     let isAutoLogin = true;
     let primeraCarga = true;
+
+    // ===== FUNCIONES X2 =====
+    async function cargarEstadoX2() {
+      try {
+        const docRef = doc(db, "eventos", "x2_global");
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          eventoX2 = docSnap.data();
+        }
+      } catch(e) { console.log('X2 no disponible'); }
+    }
+    
+    async function escucharEstadoX2() {
+      try {
+        const docRef = doc(db, "eventos", "x2_global");
+        onSnapshot(docRef, (docSnap) => {
+          if (docSnap.exists()) {
+            eventoX2 = docSnap.data();
+            renderizarPerfil();
+          }
+        });
+      } catch(e) { console.log('X2 listener no disponible'); }
+    }
+    
+    function mostrarAnimacionX2() {
+      const x2Screen = document.getElementById('x2Screen');
+      const x2GlitchOverlay = document.getElementById('x2GlitchOverlay');
+      const x2Content = document.getElementById('x2Content');
+      const x2Typewriter = document.getElementById('x2Typewriter');
+      const x2Reward = document.getElementById('x2Reward');
+      const x2BtnContinue = document.getElementById('x2BtnContinue');
+      
+      x2Screen.classList.add('active');
+      x2Screen.classList.remove('fade-out');
+      x2Content.classList.remove('visible');
+      x2Reward.classList.add('hidden');
+      x2BtnContinue.classList.add('hidden');
+      x2Typewriter.innerHTML = '';
+      
+      // Fase 1: Glitch (2 segundos)
+      x2GlitchOverlay.style.display = 'block';
+      setTimeout(() => {
+        x2GlitchOverlay.style.display = 'none';
+        x2Content.classList.add('visible');
+        
+        // Fase 2: Máquina de escribir
+        const lineas = x2Texto.split('\n');
+        let lineaActual = 0;
+        let charActual = 0;
+        let htmlActual = '';
+        
+        function escribirSiguienteChar() {
+          if (lineaActual < lineas.length) {
+            if (charActual < lineas[lineaActual].length) {
+              htmlActual += lineas[lineaActual][charActual];
+              x2Typewriter.innerHTML = htmlActual + '<span class="x2-cursor"></span>';
+              charActual++;
+              setTimeout(escribirSiguienteChar, 40);
+            } else {
+              htmlActual += '<br>';
+              lineaActual++;
+              charActual = 0;
+              setTimeout(escribirSiguienteChar, 150);
+            }
+          } else {
+            // Texto completo
+            x2Typewriter.innerHTML = htmlActual;
+            setTimeout(() => {
+              x2Reward.classList.remove('hidden');
+              setTimeout(() => {
+                x2BtnContinue.classList.remove('hidden');
+              }, 500);
+            }, 400);
+          }
+        }
+        
+        setTimeout(escribirSiguienteChar, 300);
+      }, 2000);
+    }
+    
+    document.getElementById('x2BtnContinue').addEventListener('click', async () => {
+      const x2Screen = document.getElementById('x2Screen');
+      x2Screen.classList.add('fade-out');
+      x2Screen.classList.remove('active');
+      
+      // Marcar que el usuario ya vio la animación
+      if (usuarioActualUid) {
+        usuario.vioAnimacionX2 = true;
+        await guardarDatosUsuario();
+      }
+    });
 
     function mostrarPantallaCarga() {
       const loadingScreen = document.getElementById('loadingScreen');
@@ -1368,6 +1540,21 @@
           const usersSnap = await getDocs(collection(db, "usuarios"));
           for (const uDoc of usersSnap.docs) await updateDoc(doc(db, "usuarios", uDoc.id), { diaActual: nuevoDiaGlobal });
           usuario.diaActual = nuevoDiaGlobal; renderizarPerfil(); consoleOutput.innerHTML += `<br>[OK] Día ${nuevoDiaGlobal}.`;
+        } else if (cmd === '/x2on') {
+          await setDoc(doc(db, "eventos", "x2_global"), { activo: true, fechaActivacion: Date.now() });
+          eventoX2.activo = true;
+          consoleOutput.innerHTML += `<br>[OK] X2 activado globalmente.`;
+        } else if (cmd === '/x2off') {
+          await setDoc(doc(db, "eventos", "x2_global"), { activo: false });
+          eventoX2.activo = false;
+          consoleOutput.innerHTML += `<br>[OK] X2 desactivado.`;
+        } else if (cmd === '/x2reset') {
+          const usersSnap = await getDocs(collection(db, "usuarios"));
+          for (const uDoc of usersSnap.docs) await updateDoc(doc(db, "usuarios", uDoc.id), { vioAnimacionX2: false });
+          consoleOutput.innerHTML += `<br>[OK] Animación X2 reseteada para todos.`;
+        } else if (cmd === '/x2status') {
+          const estado = eventoX2.activo ? 'ACTIVO' : 'INACTIVO';
+          consoleOutput.innerHTML += `<br>[STATUS] X2: ${estado}`;
         } else { consoleOutput.innerHTML += `<br>[ERR] Comando desconocido.`; }
         consoleOutput.scrollTop = consoleOutput.scrollHeight;
       }
@@ -1378,7 +1565,18 @@
       if (user) {
         usuarioActualUid = user.uid; 
         await cargarDatosUsuario(user.uid);
-        if (isAutoLogin && primeraCarga) mostrarPantallaCarga();
+        await cargarEstadoX2();
+        escucharEstadoX2();
+        
+        // Verificar si debe mostrar animación X2
+        if (isAutoLogin && primeraCarga) {
+          if (eventoX2.activo && usuario.vioAnimacionX2 === false) {
+            mostrarAnimacionX2();
+          } else {
+            mostrarPantallaCarga();
+          }
+        }
+        
         escucharHistorialUsuario(user.uid); 
         escucharTablonGlobal(); 
         escucharNotificacionesGlobales();
@@ -1410,6 +1608,7 @@
         if(!usuario.diaActual) usuario.diaActual = 1; 
         if(usuario.penalizado === undefined) usuario.penalizado = false;
         if(!usuario.historial) usuario.historial = [];
+        if(usuario.vioAnimacionX2 === undefined) usuario.vioAnimacionX2 = false;
       }
     }
     
@@ -1491,6 +1690,7 @@
           usuario.historial = []; 
           usuario.amigos = []; 
           usuario.penalizado = false;
+          usuario.vioAnimacionX2 = false;
           await setDoc(doc(db, "usuarios", cred.user.uid), usuario); 
           showMessage('✅ Cuenta creada.', false);
         } catch (err) { showMessage('❌ Error: ' + err.message); }
@@ -1527,9 +1727,10 @@
     }
 
     function recalcularPuntos() { 
-      let ptsActividad = (usuario.actividad || 0) * 10; 
-      let ptsSueno = (usuario.suenoPruebas || 0) * 5;
-      let ptsKilos = Math.abs(usuario.kilos || 0) * 50; 
+      const multiplicador = eventoX2.activo ? 2 : 1;
+      let ptsActividad = (usuario.actividad || 0) * 10 * multiplicador; 
+      let ptsSueno = (usuario.suenoPruebas || 0) * 5 * multiplicador;
+      let ptsKilos = Math.abs(usuario.kilos || 0) * 50 * multiplicador; 
       let pen = usuario.penalizado ? 0.5 : 0;
       usuario.puntos = ptsActividad + ptsSueno + ptsKilos - pen; 
     }
